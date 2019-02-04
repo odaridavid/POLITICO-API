@@ -7,3 +7,5 @@ def create_app(config):
     app = Flask(__name__, instance_relative_config=True)
     # Setup configuration
     app.config.from_object(app_config[config])
+    # Return application context
+    return app
