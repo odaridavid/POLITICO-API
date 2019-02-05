@@ -7,12 +7,7 @@ class OfficeEndpointsTestCase(BaseTestCase):
     def test_create_office(self):
         """Tests POST Http method request on /offices endpoint"""
         # Post, uses office specification model
-        response = self.client.post('/offices',
-                                    json={
-                                        'id': 1234567890,
-                                        'type': 'Senior',
-                                        'name': 'Permanent Secretary'
-                                    })
+        response = self.client.post('/offices', json=self.office)
         # Data section returned as per response specification
         expected_response_data = {
             'data': [{
@@ -42,18 +37,13 @@ class OfficeEndpointsTestCase(BaseTestCase):
     def test_view_all_offices(self):
         """Tests GET Http method request on /offices endpoint"""
         # Post, create an office first
-        office = {
-            'id': 1234567890,
-            'type': 'Senior',
-            'name': 'Permanent Secretary'
-        }
-        self.client.post('/offices', json=office)
+        self.client.post('/offices', json=self.office)
         # Retrieve the office
         response = self.client.get('/offices')
         # Assert - (expected,actual)
         self.assertEqual(200, response.status, "Should Return a 200 HTTP Status Code Response:Success")
         # Converts to string
-        self.assertIn(json.dumps({'data': [office]}), str(response.data))
+        self.assertIn(json.dumps({'data': [self.office]}), str(response.data))
 
     def test_view_all_offices_bad_request(self):
         """Tests malformed GET Http method request on /office endpoint"""
@@ -65,19 +55,12 @@ class OfficeEndpointsTestCase(BaseTestCase):
     def test_view_specific_office(self):
         """Tests GET Http method request on /office/{:id} endpoint"""
         # Post, add an office
-        office = {
-            'id': 1234567890,
-            'type': 'Senior',
-            'name': 'Permanent Secretary'
-        }
-        self.client.post('/offices',
-                         json=office)
-
+        self.client.post('/offices', json=self.office)
         # Get data for specific office
-        response = self.client.get('/offices/{0}'.format(office['id']))
+        response = self.client.get('/offices/{0}'.format(self.office['id']))
         self.assertEqual(200, response.status, "Should Return a 200 HTTP Status Code:Success")
         # Returns Dict as string and compares if its in response
-        self.assertIn(json.dumps({'data': [office]}), str(response.data))
+        self.assertIn(json.dumps({'data': [self.office]}), str(response.data))
 
     def test_view_specific_office_not_found(self):
         """Tests malformed GET Http method request on /office/{:id} endpoint"""
