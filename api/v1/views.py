@@ -18,7 +18,7 @@ def api_parties():
         # Checks keys exist in given dict
         if {'name', 'hqAddress', 'logoUrl'} <= set(party):
             # Create Party Model instance and add Party to list
-            gen_id = PartiesModel().create_political_party(party)
+            gen_id = PartiesModel(party).create_political_party()
             if gen_id:
                 # successful response
                 response_body = {
@@ -28,6 +28,7 @@ def api_parties():
                         "name": party['name']
                     }]
                 }
+                # Successful
                 return make_response(jsonify(response_body), 201)
         else:
             # Missing data bad request response
@@ -36,6 +37,7 @@ def api_parties():
                 "status": 400,
                 "error": "400 ERROR:BAD REQUEST,Missing Key value"
             }
+            # Fail
             return make_response(jsonify(response_body), 400)
     elif request.method == 'GET':
         """Handles Get request"""
@@ -46,46 +48,60 @@ def api_parties():
                 "status": 200,
                 "data": parties
             }
+            # Successful
             return make_response(jsonify(response_body), 200)
         else:
             response_body = {
                 "status": 404,
                 "error": "404 ERROR:DATA NOT FOUND"
             }
+            # Unsuccessful
             return make_response(jsonify(response_body), 404)
 
 
-@version_1.route("/offices", methods=['POST'])
+@version_1.route("/offices", methods=['GET', 'POST'])
 def api_create_office():
-    """
-    Creates an office on  endpoint with POST response
-    :return: response depending on post request data
-    """
-    # get the office as json and save it in the model
-    office = request.get_json(force=True)
-    # Checks keys exist in given dict as sets
-    if {'type', 'name'} <= set(office):
-        # Create Office Model instance and add Party to list
-        gen_id = OfficesModel(office).create_government_office()
-        if gen_id:
-            # successful response
+    if request.method == 'POST':
+        """
+        Creates an office on /offices  endpoint with POST response
+        :return: response depending on post request data
+        """
+        # get the office as json and save it in the model
+        office = request.get_json(force=True)
+        # Checks keys exist in given dict as sets
+        if {'type', 'name'} <= set(office):
+            # Create Office Model instance and add Party to list
+            gen_id = OfficesModel(office).create_government_office()
+            if gen_id:
+                # successful response
+                response_body = {
+                    "status": 201,
+                    "data": [{
+                        "id": gen_id,
+                        "type": office['type'],
+                        "name": office['name']
+                    }]
+                }
+                # Successful
+                return make_response(jsonify(response_body), 201)
+        else:
+            # Missing data bad request response
+            # Fail response
             response_body = {
-                "status": 201,
-                "data": [{
-                    "id": gen_id,
-                    "type": office['type'],
-                    "name": office['name']
-                }]
+                "status": 400,
+                "error": "400 ERROR:BAD REQUEST,Missing Key value"
             }
-            return make_response(jsonify(response_body), 201)
-    else:
-        # Missing data bad request response
-        # Fail response
-        response_body = {
-            "status": 400,
-            "error": "400 ERROR:BAD REQUEST,Missing Key value"
-        }
-        return make_response(jsonify(response_body), 400)
+            # Unsuccessful
+            return make_response(jsonify(response_body), 400)
+    elif request.method == 'GET':
+        offices = OfficesModel().get_all_government_offices()
+        if len(offices) >= 0:
+            # If parties list has no items or does
+            response_body = {
+                "status": 200,
+                "data": offices
+            }
+            # Successful
+            return make_response(jsonify(response_body), 200)
 
-
-
+        return make_response(jsonify({"status": 404, "error": "404 ERROR:DATA NOT FOUND"}), 404)

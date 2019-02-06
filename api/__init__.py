@@ -11,7 +11,7 @@ def page_not_found(e):
         "error": "404 ERROR:PAGE NOT FOUND",
         "status": 404
     }
-    return make_response(jsonify(error_response))
+    return make_response(jsonify(error_response), 404)
 
 
 # configure app prerequisites
