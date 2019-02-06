@@ -4,17 +4,18 @@ offices = []
 
 
 class PartiesModel:
-    def __init__(self, party):
+    def __init__(self):
         # Initialise DT inside model
         self.parties = parties
-        self.party = party
+        self.party = None
 
-    def create_political_party(self):
+    def create_political_party(self, party):
         """A function that facilitates creation of a political party and appending to a data structure
            @:return the created party name with success message
         """
         # Extract data from party dict
         # Created Party as dict
+        self.party = party
         created_party = {
             # Id increments on length of list
             "id": len(parties) + 1,
@@ -26,6 +27,9 @@ class PartiesModel:
         parties.append(created_party)
         # Return assigned id response when party successfully created
         return created_party['id']
+
+    def get_all_political_parties(self):
+        return self.parties
 
 
 class OfficesModel:
