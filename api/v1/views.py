@@ -28,7 +28,7 @@ def api_parties():
                         "name": party['name']
                     }]
                 }
-                return make_response(jsonify(response_body), 400)
+                return make_response(jsonify(response_body), 201)
         else:
             # Missing data bad request response
             # Fail response
@@ -77,7 +77,7 @@ def api_create_office():
                     "name": office['name']
                 }]
             }
-            return make_response(jsonify(response_body), 400)
+            return make_response(jsonify(response_body), 201)
     else:
         # Missing data bad request response
         # Fail response
