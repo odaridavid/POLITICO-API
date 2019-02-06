@@ -1,0 +1,7 @@
+language: python
+python:
+  #  Python Version to be used
+  - "3.6"
+install:
+  #  Use Requirements.txt to install dependencies in virtual env
+  pip install --user -r requirements.txt
