@@ -5,5 +5,7 @@ python:
 install:
   #  Use Requirements.txt to install dependencies in virtual env
   - pip install -r requirements.txt
+  # Setup testing library in virtual env
+  - pip install pytest
 script:
   - pytest
