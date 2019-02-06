@@ -91,7 +91,6 @@ class PartiesEndpointsTestCase(BaseTestCase):
     def test_view_all_political_parties(self):
         """Tests GET Http method request on /parties/ endpoint"""
         # Post, create a political party
-        yield self.client
         self.client.post('api/v1/parties', data=json.dumps(self.party))
         # Retrieve the office
         response = self.client.get('api/v1/parties')

@@ -7,7 +7,6 @@ class OfficeEndpointsTestCase(BaseTestCase):
     def test_create_office(self):
         """Tests POST Http method request on /offices endpoint"""
         # Post, uses office specification model
-        yield self.client
         response = self.client.post('api/v1/offices', data=json.dumps(self.office))
         # Data section returned as per response specification
         expected_response_json = {
