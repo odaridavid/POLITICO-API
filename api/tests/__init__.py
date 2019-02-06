@@ -24,11 +24,7 @@ class BaseTestCase(unittest.TestCase):
     def tearDown(self):
         # Reset Data Structs
         parties_resp = self.client.get('api/v1/parties')
-        if len(parties_resp.json['data']) > 0:
-            parties_resp.json['data'] = []
-        offices_resp = self.client.get('api/v1/offices')
-        if len(offices_resp.json['data']) > 0:
-            offices_resp.json['data'] = []
+        parties_resp.json['data'].clear()
 
 
 if __name__ == '__main__':
