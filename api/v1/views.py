@@ -21,38 +21,38 @@ def api_parties():
             gen_id = PartiesModel().create_political_party(party)
             if gen_id:
                 # successful response
-                data = {
+                response_body = {
                     "status": 201,
                     "data": [{
                         "id": gen_id,
                         "name": party['name']
                     }]
                 }
-                return make_response(jsonify(data), 400)
+                return make_response(jsonify(response_body), 400)
         else:
             # Missing data bad request response
             # Fail response
-            data = {
+            response_body = {
                 "status": 400,
                 "error": "400 ERROR:BAD REQUEST,Missing Key value"
             }
-            return make_response(jsonify(data), 400)
+            return make_response(jsonify(response_body), 400)
     elif request.method == 'GET':
         """Handles Get request"""
         parties = PartiesModel().get_all_political_parties()
         if len(parties) >= 0:
             # If parties list has no items or does
-            data = {
+            response_body = {
                 "status": 200,
                 "data": parties
             }
-            return make_response(jsonify(data), 200)
+            return make_response(jsonify(response_body), 200)
         else:
-            data = {
+            response_body = {
                 "status": 404,
                 "error": "404 ERROR:DATA NOT FOUND"
             }
-            return make_response(jsonify(data), 404)
+            return make_response(jsonify(response_body), 404)
 
 
 @version_1.route("/offices", methods=['POST'])
@@ -69,7 +69,7 @@ def api_create_office():
         gen_id = OfficesModel(office).create_government_office()
         if gen_id:
             # successful response
-            data = {
+            response_body = {
                 "status": 201,
                 "data": [{
                     "id": gen_id,
@@ -77,12 +77,12 @@ def api_create_office():
                     "name": office['name']
                 }]
             }
-            return make_response(jsonify(data), 400)
+            return make_response(jsonify(response_body), 400)
     else:
         # Missing data bad request response
         # Fail response
-        data = {
+        response_body = {
             "status": 400,
             "error": "400 ERROR:BAD REQUEST,Missing Key value"
         }
-        return make_response(jsonify(data), 400)
+        return make_response(jsonify(response_body), 400)
