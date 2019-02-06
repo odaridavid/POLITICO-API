@@ -118,3 +118,14 @@ class PartiesEndpointsTestCase(BaseTestCase):
         }
         # Should return error message
         assert expected_response_json == response.json, "Should return [] empty list"
+
+    def test_view_all_political_parties_wrong_path(self):
+        """Tests malformed GET Http method request on /parties/ endpoint"""
+        response = self.client.get('api/v1/partis')
+        assert response.status_code == 404, "Should Return a 404 HTTP Status Code Response:Resource Not Found"
+        expected_json_resp = {
+            "error": "404 ERROR:PAGE NOT FOUND",
+            "status": 404
+        }
+        # Should return error message
+        assert expected_json_resp == response.json, "Should return not found Response"

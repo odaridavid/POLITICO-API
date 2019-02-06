@@ -23,7 +23,7 @@ class BaseTestCase(unittest.TestCase):
         }
 
     def tearDown(self):
-        # Reset Data Structs
+        # Reset Data Structs after tests back to empty lists
         models.offices = []
         models.parties = []
 
