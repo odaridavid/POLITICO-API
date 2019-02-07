@@ -105,3 +105,20 @@ def api_create_office():
             return make_response(jsonify(response_body), 200)
 
         return make_response(jsonify({"status": 404, "error": "404 ERROR:DATA NOT FOUND"}), 404)
+
+
+@version_1.route("/parties/<party_id>/name", methods=['PATCH'])
+def api_update(party_id):
+    model_result = PartiesModel().get_specific_political_party(int(party_id))
+    if 'Doesnt Exist' in model_result:
+        return make_response(jsonify({"status": 404, "error": "Political Party Not Found"}), 404)
+    else:
+        # Get Json Request Data
+        party = request.get_json(force=True)
+        # Change Name
+        model_result = party['name']
+        response_body = {
+            "status": 200,
+            "data": [{"id": party_id, "name": model_result}]
+        }
+        return make_response(jsonify(response_body), 200)

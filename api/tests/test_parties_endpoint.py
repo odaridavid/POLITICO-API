@@ -7,7 +7,6 @@ class PartiesEndpointsTestCase(BaseTestCase):
         """Tests POST Http method request on /parties endpoint"""
         # Post, uses party specification model
         response = self.client.post(path='/api/v1/parties', data=json.dumps(self.party))
-        # Assert - (expected,actual)
         expected_data_json = {
             'data': [{
                 'id': 1,
@@ -25,31 +24,29 @@ class PartiesEndpointsTestCase(BaseTestCase):
                                         # Missing hq address and logo url
                                         'name': 'Pinnacle Party'
                                     })
-        assert 400 == response.status_code, "Should Return a 400 HTTP Status Code Response:Bad Request"
+        assert response.status_code == 400, "Should Return a 400 HTTP Status Code Response:Bad Request"
         # Should return error message
         assert "BAD REQUEST" in str(response.json), "Should return bad request response"
 
     def test_edit_political_party(self):
         """Tests PATCH Http method request on /parties/{:id}/name endpoint"""
         # Save Post First
-        # self.client.post('/parties', json=self.party)
-        # # Update Name
-        # response = self.client.patch('/parties/{0}/name'.format(self.party['id']),
-        #                              json={
-        #                                  'id': 1,
-        #                                  'name': 'Dynamo Party',
-        #                              })
-        # assert 200 == response.status, "Should Return a 200 HTTP Status Code Response:Updated"
-        # assert "Dynamo Party" in str(response.data)
-        pass
+        self.client.post('api/v1/parties', data=json.dumps(self.party))
+        edit_request_json = {
+            "name": "Dynamo Party"
+        }
+        # Update Name
+        response = self.client.patch('api/v1/parties/{}/name'.format(1),
+                                     data=json.dumps(edit_request_json), content_type='application/json')
+        assert response.status_code == 200, "Should Return a 200 HTTP Status Code Response:Updated"
+        assert "Dynamo Party" == response.json['data'][0]['name']
 
-    def test_edit_political_party_bad_request(self):
+    def test_edit_political_party_not_found(self):
         """Tests malformed PATCH Http method request on /parties/{:id}/name endpoint"""
-        # response = self.client.patch('/parties/{0}/name'.format(999999))
-        # assert 400 == response.status, "Should Return a 400 HTTP Status Code Response:Bad Request"
-        # # Should return error message
-        # assert "Bad Request" in str(response.error), "Should return bad request response"
-        pass
+        response = self.client.patch('/parties/{}/name'.format(1))
+        assert response.status_code == 404, "Should Return a 404 HTTP Status Code Response:Not Found"
+        # Should return error message
+        assert "404 ERROR" in response.json['error'], "Should return not found response"
 
     def test_delete_political_party(self):
         """Tests DELETE Http method request on /parties/{:id} endpoint"""
