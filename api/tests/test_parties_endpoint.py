@@ -3,6 +3,7 @@ import json
 
 
 class PartiesEndpointsTestCase(BaseTestCase):
+
     def test_create_political_party(self):
         """Tests POST Http method request on /parties endpoint"""
         # Post, uses party specification model
@@ -37,13 +38,13 @@ class PartiesEndpointsTestCase(BaseTestCase):
         }
         # Update Name
         response = self.client.patch('api/v1/parties/{}/name'.format(1),
-                                     data=json.dumps(edit_request_json), content_type='application/json')
+                                     data=json.dumps(edit_request_json))
         assert response.status_code == 200, "Should Return a 200 HTTP Status Code Response:Updated"
-        assert "Dynamo Party" == response.json['data'][0]['name']
+        assert edit_request_json.get('name') == response.json[0]['data'][0]['name']
 
     def test_edit_political_party_not_found(self):
         """Tests malformed PATCH Http method request on /parties/{:id}/name endpoint"""
-        response = self.client.patch('/parties/{}/name'.format(1))
+        response = self.client.patch('/parties/{}/name'.format(0))
         assert response.status_code == 404, "Should Return a 404 HTTP Status Code Response:Not Found"
         # Should return error message
         assert self.error_not_found == response.json, "Should return not found response"

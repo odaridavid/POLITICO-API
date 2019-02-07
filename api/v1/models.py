@@ -17,8 +17,7 @@ class Model:
                 self.item = self.list_of_items[self.item_id - 1]
                 if self.item is not None:
                     return self.item
-                else:
-                    return 'Doesnt Exist'
+                return 'Doesnt Exist'
             except IndexError:
                 return "Index Error"
         return 'Invalid Id'
@@ -53,10 +52,14 @@ class PartiesModel(Model):
 
     def get_specific_political_party_name(self):
         # Get party by passed in id and return party otherwise default to message response
-        if self.item_id is not None:
-            for party in self.list_of_items:
-                if party['id'] == self.item_id:
-                    return party
+        if self.item_id >= 1:
+            try:
+                self.item = self.list_of_items[self.item_id - 1]
+                if self.item is not None:
+                    return self.item['name']
+                return 'Doesnt Exist'
+            except IndexError:
+                return "Index Error"
         return 'Doesnt Exist In Model'
 
 
