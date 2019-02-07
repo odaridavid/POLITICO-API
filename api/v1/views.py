@@ -15,7 +15,7 @@ def api_parties():
         :return: response depending on post request data
         """
         # get the party as json and save it in the model
-        party = request.get_json(force=True)  # Ignore the mimetype and always try to parse JSON.
+        party = request.get_json(force=True)
         # Checks keys exist in given dict
         if {'name', 'hqAddress', 'logoUrl'} <= set(party):
             # Create Party Model instance and add Party to list
@@ -42,7 +42,7 @@ def api_parties():
             return make_response(jsonify(response_body), 400)
     elif request.method == 'GET':
         """Handles Get request"""
-        parties = PartiesModel().get_all_political_parties()
+        parties = PartiesModel().get_all_items_in_list()
         if len(parties) >= 0:
             # If parties list has no items or does
             response_body = {
@@ -95,7 +95,7 @@ def api_office():
             # Unsuccessful
             return make_response(jsonify(response_body), 400)
     elif request.method == 'GET':
-        offices = OfficesModel().get_all_government_offices()
+        offices = OfficesModel().get_all_items_in_list()
         if len(offices) >= 0:
             # If parties list has no items or does
             response_body = {
@@ -127,11 +127,11 @@ def api_edit_party(party_id):
 
 @version_1.route("/offices/<office_id>", methods=['GET'])
 def api_specific_office(office_id):
-    model_result = OfficesModel(office_id=int(office_id)).get_specific_office()
+    model_result = OfficesModel(office_id=int(office_id)).get_specific_item()
     return Responses(model_result).generate_response()
 
 
 @version_1.route("/parties/<party_id>", methods=['GET'])
 def api_specific_party(party_id):
-    model_result = PartiesModel(party_id=int(party_id)).get_specific_party()
+    model_result = PartiesModel(party_id=int(party_id)).get_specific_item()
     return Responses(model_result).generate_response()
