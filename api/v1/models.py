@@ -13,9 +13,14 @@ class Model:
     def get_specific_item(self):
         # Return specific item based on class that was called
         if self.item_id >= 1:
-            for item in self.list_of_items:
-                if item['id'] == self.item_id:
-                    return item
+            try:
+                self.item = self.list_of_items[self.item_id - 1]
+                if self.item is not None:
+                    return self.item
+                else:
+                    return 'Doesnt Exist'
+            except IndexError:
+                return "Index Error"
         return 'Invalid Id'
 
     def get_all_items_in_list(self):
