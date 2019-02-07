@@ -4,10 +4,11 @@ offices = []
 
 
 class PartiesModel:
-    def __init__(self, party=None):
+    def __init__(self, party=None, party_id=None):
         # Initialise DT inside model
         self.parties = parties
         self.party = party
+        self.party_id = party_id
 
     def create_political_party(self):
         """A function that facilitates creation of a political party and appending to a data structure
@@ -27,7 +28,16 @@ class PartiesModel:
         return created_party['id']
 
     def get_all_political_parties(self):
+        # Get List Of Parties
         return self.parties
+
+    def get_specific_political_party(self, party_id):
+        # Get party by passed in id and return party otherwise default to message response
+        if party_id is not None:
+            for party in parties:
+                if party['id'] == party_id:
+                    return party['name']
+        return 'Doesnt Exist In Model'
 
 
 class OfficesModel:
