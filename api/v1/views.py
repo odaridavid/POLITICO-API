@@ -85,13 +85,24 @@ def api_edit_party(party_id):
 @version_1.route("/offices/<office_id>", methods=['GET'])
 def api_specific_office(office_id):
     model_result = OfficesModel(office_id=int(office_id)).get_specific_item()
+    if {'id', 'type', 'name'} <= set(model_result):
+        return make_response(jsonify({"status": 200, "data": [model_result]}), 200)
     return generate_response(model_result)
 
 
-@version_1.route("/parties/<party_id>", methods=['GET'])
+@version_1.route("/parties/<party_id>", methods=['GET', 'DELETE'])
 def api_specific_party(party_id):
-    model_result = PartiesModel(party_id=int(party_id)).get_specific_item()
-    return generate_response(model_result)
+    if request.method == 'GET':
+        model_result = PartiesModel(party_id=int(party_id)).get_specific_item()
+        if {'id', 'name', 'hqAddress', 'logoUrl'} <= set(model_result):
+            return make_response(jsonify({"status": 200, "data": [model_result]}), 200)
+        return generate_response(model_result)
+    elif request.method == 'DELETE':
+        model_result = PartiesModel(party_id=int(party_id)).remove_item()
+        if model_result is None:
+            return make_response(
+                jsonify({"status": 200, "message": "Deleted Successfully"}), 200)
+        return generate_response(model_result)
 
 
 def generate_response(model_result):
@@ -101,4 +112,3 @@ def generate_response(model_result):
         return make_response(jsonify({"status": 404, "error": "Invalid Id Not Found"}), 404)
     elif "Index Error" in model_result:
         return make_response(jsonify({"status": 400, "error": "Bad Request :Check Index"}), 400)
-    return make_response(jsonify({"status": 200, "data": [model_result]}), 200)

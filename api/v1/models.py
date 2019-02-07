@@ -26,6 +26,20 @@ class Model:
         # Returns list of items for class that was called
         return self.list_of_items
 
+    def remove_item(self):
+        if self.item_id >= 1 and len(self.list_of_items) >= 1:
+            try:
+                # Remove if id matches
+                del_item = [item for item in self.list_of_items if item['id'] == self.item_id]
+                if len(del_item) == 0:
+                    return 'Doesnt Exist'
+                # Return empty list
+                return self.list_of_items.remove(del_item[0])
+            except IndexError:
+                return 'Index Error'
+        # Incorrect id such as -1
+        return 'Invalid Id'
+
 
 class PartiesModel(Model):
     def __init__(self, party=None, party_id=0):
@@ -38,9 +52,13 @@ class PartiesModel(Model):
         """
         # TODO Validate Party Data
         # Extract data from party dict
+        if len(parties) > 0:
+            party_id = parties[-1]['id'] + 1
+        else:
+            party_id = len(parties) + 1
         created_party = {
-            # Id increments on length of list
-            "id": len(self.list_of_items) + 1,
+            # Id increments on id of last element in list
+            "id": party_id,
             "name": self.item['name'],
             "hqAddress": self.item['hqAddress'],
             "logoUrl": self.item['logoUrl']
