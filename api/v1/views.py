@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify, make_response
 from .models import PartiesModel
 from .models import OfficesModel
-from .responses import Responses
 
 # flask blueprint is a way for you to organize your flask application into smaller and re-usable application
 version_1 = Blueprint('apiv1', __name__, url_prefix="/api/v1")
@@ -79,7 +78,7 @@ def api_edit_party(party_id):
     else:
         # Get Json Request Data
         party = request.get_json(force=True)
-        # Change Name
+          # Change Name
         model_result['name'] = party['name']
         response_body = {
             "status": 200,
@@ -91,10 +90,21 @@ def api_edit_party(party_id):
 @version_1.route("/offices/<office_id>", methods=['GET'])
 def api_specific_office(office_id):
     model_result = OfficesModel(office_id=int(office_id)).get_specific_item()
-    return Responses(model_result).generate_response()
+    return generate_response(model_result)
 
 
 @version_1.route("/parties/<party_id>", methods=['GET'])
 def api_specific_party(party_id):
     model_result = PartiesModel(party_id=int(party_id)).get_specific_item()
-    return Responses(model_result).generate_response()
+    return generate_response(model_result)
+
+
+def generate_response(model_result):
+    if 'Doesnt Exist' in model_result:
+        return make_response(jsonify({"status": 404, "error": "Data Not Found"}), 404)
+    elif 'Invalid Id' in model_result:
+        return make_response(jsonify({"status": 404, "error": "Invalid Id Not Found"}), 404)
+    elif "Index Error" in model_result:
+        return make_response(jsonify({"status": 400, "error": "Bad Request :Check Index"}), 400)
+    else:
+        return make_response(jsonify({"status": 200, "data": [model_result]}), 200)
