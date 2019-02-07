@@ -52,25 +52,24 @@ class PartiesEndpointsTestCase(BaseTestCase):
     def test_delete_political_party(self):
         """Tests DELETE Http method request on /parties/{:id} endpoint"""
         # Save Post First
-        # self.client.post('/parties', json=self.party)
-        # # Delete Post
-        # response = self.client.delete('/parties/{0}'.format(self.party['id']))
-        # assert 204 == response.status, "Should Return a 204 HTTP Status Code Response:Deleted"
-        # assert "Deleted" in str(response.data)
-        pass
+        self.client.post('api/v1/parties', data=json.dumps(self.party))
+        # Delete Party
+        response = self.client.delete('api/v1/parties/{0}'.format(1))
+        assert response.status_code == 200, "Should Return a 204 HTTP Status Code Response:Deleted"
+        assert "Deleted Successfully" == response.json['message']
 
     def test_delete_political_party_not_found(self):
         """"Tests malformed DELETE Http method request on /parties/{:id} endpoint"""
-        # response = self.client.delete('/parties/0')
-        # assert 404 == response.status, "Should Return a 404 HTTP Status Code Response:Not Found"
-        # # Should return error message
-        # assert "Not Found" in str(response.error), "Should return resource not found response"
-        pass
+        # Save Post First
+        response = self.client.delete('api/v1/parties/{0}'.format(99))
+        assert response.status_code == 404, "Should Return a 404 HTTP Status Code Response:Not Found"
+        # Should return error message
+        assert 'Invalid Id Not Found' == response.json['error'], "Should return resource not found response"
 
     def test_view_political_party(self):
         """Tests GET Http method request on /parties/{:id} endpoint"""
         # Create Party First
-        self.client.post('api/v1/parties', data=json.dumps(self.party))
+        self.client.post('api/v1/parties', data=json.dumps(self.party), content_type="application/json")
         # Get data for specific party
         response = self.client.get('api/v1/parties/{0}'.format(1))
         expected_response = {
@@ -134,3 +133,13 @@ class PartiesEndpointsTestCase(BaseTestCase):
         assert response.status_code == 404, "Should Return a 404 HTTP Status Code Response:Resource Not Found"
         # Should return error message
         assert self.error_not_found == response.json, "Should return not found Response"
+
+    def test_correct_non_duplicate_id_generation_after_delete(self):
+        self.client.post('api/v1/parties', data=json.dumps(self.party))
+        self.client.post('api/v1/parties', data=json.dumps(self.party))
+        self.client.post('api/v1/parties', data=json.dumps(self.party))
+        # Delete Post
+        self.client.delete('api/v1/parties/{0}'.format(1))
+        response = self.client.post('api/v1/parties', data=json.dumps(self.party))
+        assert response.status_code == 201
+        assert 4 == response.json['data'][0]['id']
