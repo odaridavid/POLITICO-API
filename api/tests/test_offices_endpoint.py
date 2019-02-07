@@ -54,11 +54,7 @@ class OfficeEndpointsTestCase(BaseTestCase):
         response = self.client.get('api/v1/ofices')
         assert response.status_code == 404, "Should Return a 404 HTTP Status Code Response:Resource Not Found"
         # Should return error message
-        expected_json_resp = {
-            "error": "404 ERROR:PAGE NOT FOUND",
-            "status": 404
-        }
-        assert expected_json_resp == response.json
+        assert self.error_not_found == response.json
 
     def test_view_specific_office(self):
         """Tests GET Http method request on /office/{:id} endpoint"""
@@ -90,9 +86,5 @@ class OfficeEndpointsTestCase(BaseTestCase):
         """Tests malformed GET Http method request on /office/{:id} endpoint"""
         response = self.client.get('api/v1/offies/{}'.format(0))
         assert 404 == response.status_code, "Should Return a 404 HTTP Status Code Response:Not Found"
-        expected_response = {
-            "status": 404,
-            "error": "404 ERROR:REQUESTED DATA NOT FOUND"
-        }
         # Should return error message
-        assert expected_response == response.json, "Should return resource not found response"
+        assert self.error_not_found == response.json, "Should return resource not found response"

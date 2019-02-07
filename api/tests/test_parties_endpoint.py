@@ -46,7 +46,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
         response = self.client.patch('/parties/{}/name'.format(1))
         assert response.status_code == 404, "Should Return a 404 HTTP Status Code Response:Not Found"
         # Should return error message
-        assert "404 ERROR" in response.json['error'], "Should return not found response"
+        assert self.error_not_found == response.json, "Should return not found response"
 
     def test_delete_political_party(self):
         """Tests DELETE Http method request on /parties/{:id} endpoint"""
@@ -120,9 +120,5 @@ class PartiesEndpointsTestCase(BaseTestCase):
         """Tests malformed GET Http method request on /parties/ endpoint"""
         response = self.client.get('api/v1/partis')
         assert response.status_code == 404, "Should Return a 404 HTTP Status Code Response:Resource Not Found"
-        expected_json_resp = {
-            "error": "404 ERROR:PAGE NOT FOUND",
-            "status": 404
-        }
         # Should return error message
-        assert expected_json_resp == response.json, "Should return not found Response"
+        assert self.error_not_found == response.json, "Should return not found Response"
