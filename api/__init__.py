@@ -8,7 +8,7 @@ from .v1.views import version_1
 # Error Handler Method
 def page_not_found(e):
     error_response = {
-        "error": "404 ERROR:PAGE NOT FOUND",
+        "error": "404 ERROR:REQUESTED DATA NOT FOUND",
         "status": 404
     }
     return make_response(jsonify(error_response), 404)
