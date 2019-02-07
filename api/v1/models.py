@@ -4,7 +4,7 @@ offices = []
 
 
 class PartiesModel:
-    def __init__(self, party=None, party_id=None):
+    def __init__(self, party=None, party_id=0):
         # Initialise DT inside model
         self.parties = parties
         self.party = party
@@ -31,26 +31,21 @@ class PartiesModel:
         # Get List Of Parties
         return self.parties
 
-    def get_specific_political_party_name(self, party_id):
+    def get_specific_political_party_name(self):
         # Get party by passed in id and return party otherwise default to message response
-        if party_id is not None:
+        if self.party_id is not None:
             for party in parties:
-                if party['id'] == party_id:
-                    return party['name']
+                if party['id'] == self.party_id:
+                    return party
         return 'Doesnt Exist In Model'
 
-    def get_specific_party(self, party_id):
+    def get_specific_party(self):
         # Gets Office after series of checks
-        if party_id >= 1:
-            for party in parties:
-                if party['id'] == party_id:
-                    return party
-                return 'Doesnt Exist'
-        return 'Invalid Id'
+        return SpecificGeneric(self.party_id, parties).get_specific_item()
 
 
 class OfficesModel:
-    def __init__(self, office=None, office_id=None):
+    def __init__(self, office=None, office_id=0):
         self.offices = offices
         self.office = office
         self.office_id = office_id
@@ -77,11 +72,19 @@ class OfficesModel:
         # Gets List Of Government offices
         return self.offices
 
-    def get_specific_office(self, office_id):
+    def get_specific_office(self):
         # Gets Office after series of checks
-        if office_id >= 1:
-            for office in offices:
-                if office['id'] == office_id:
-                    return office
-                return 'Doesnt Exist'
+        return SpecificGeneric(self.office_id, offices).get_specific_item()
+
+
+class SpecificGeneric:
+    def __init__(self, item_id, list_of_items):
+        self.id = item_id
+        self.list_of_items = list_of_items
+
+    def get_specific_item(self):
+        if self.id >= 1:
+            for item in self.list_of_items:
+                if item['id'] == self.id:
+                    return item
         return 'Invalid Id'
