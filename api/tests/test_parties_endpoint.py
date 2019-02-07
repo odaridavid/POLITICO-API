@@ -69,21 +69,32 @@ class PartiesEndpointsTestCase(BaseTestCase):
     def test_view_political_party(self):
         """Tests GET Http method request on /parties/{:id} endpoint"""
         # Create Party First
-        # resp = self.client.post('api/v1/parties', json=self.party, content_type='application/json')
-        # print(resp.json['data'][''])
-        # # Get data for specific office
-        # response = self.client.get('/offices/{0}'.format(self.party['id']))
-        # assert 200 == response.status, "Should Return a 200 HTTP Status Code:Success"
-        # # Returns Dict as string and compares if its in response
-        # assert json.dumps({'data': [self.party]}) in str(response.data)
-        pass
+        self.client.post('api/v1/parties', data=json.dumps(self.party))
+        # Get data for specific party
+        response = self.client.get('api/v1/parties/{0}'.format(1))
+        expected_response = {
+            "id": 1,
+            "name": "Pinnacle Party",
+            "hqAddress": "Nairobi,Kenya 00100",
+            "logoUrl": "https://www.some.url.co.ke"
+        }
+        assert response.status_code == 200, "Should Return a 200 HTTP Status Code:Success"
+        # Returns Dict as string and compares if its in response
+        assert expected_response == response.json['data'][0]
 
-    def test_view_political_party_not_found(self):
+    def test_view_political_party_invalid_id(self):
         """Tests malformed GET Http method request on /parties/{:id} endpoint"""
-        # response = self.client.get('/parties/45789')
-        # assert 404 == response.status, "Should Return a 404 HTTP Status Code Response:Not Found"
-        # # Should return error message
-        # assert "Not Found" in str(response.error), "Should return resource not found response"
+        response = self.client.get('api/v1/parties/{}'.format(0))
+        assert response.status_code == 404, "Should Return a 404 HTTP Status Code Response:Not Found"
+        # Should return error message
+        assert self.invalid_id_json == response.json, "Should return resource not found response"
+
+    def test_view_specific_office_not_found(self):
+        """Tests malformed GET Http method request on /office/{:id} endpoint"""
+        response = self.client.get('api/v1/partiess/{}'.format(0))
+        assert 404 == response.status_code, "Should Return a 404 HTTP Status Code Response:Not Found"
+        # Should return error message
+        assert self.error_not_found == response.json, "Should return resource not found response"
 
     def test_view_all_political_parties(self):
         """Tests GET Http method request on /parties/ endpoint"""

@@ -39,6 +39,15 @@ class PartiesModel:
                     return party['name']
         return 'Doesnt Exist In Model'
 
+    def get_specific_party(self, party_id):
+        # Gets Office after series of checks
+        if party_id >= 1:
+            for party in parties:
+                if party['id'] == party_id:
+                    return party
+                return 'Doesnt Exist'
+        return 'Invalid Id'
+
 
 class OfficesModel:
     def __init__(self, office=None, office_id=None):
