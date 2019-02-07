@@ -25,6 +25,10 @@ class BaseTestCase(unittest.TestCase):
             "error": "404 ERROR:REQUESTED DATA NOT FOUND",
             "status": 404
         }
+        self.invalid_id_json = {
+            "status": 404,
+            "error": "Invalid Id Not Found"
+        }
 
     def tearDown(self):
         # Reset Data Structs after tests back to empty lists

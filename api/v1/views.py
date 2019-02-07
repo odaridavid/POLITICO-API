@@ -60,7 +60,7 @@ def api_parties():
 
 
 @version_1.route("/offices", methods=['GET', 'POST'])
-def api_create_office():
+def api_office():
     if request.method == 'POST':
         """
         Creates an office on /offices  endpoint with POST response
@@ -127,7 +127,21 @@ def api_edit_party(party_id):
 @version_1.route("/offices/<office_id>", methods=['GET'])
 def api_specific_office(office_id):
     model_result = OfficesModel().get_specific_office(int(office_id))
-    # Get Specific office data from model
+    if 'Doesnt Exist' in model_result:
+        return make_response(jsonify({"status": 404, "error": "Data Not Found"}), 404)
+    elif 'Invalid Id' in model_result:
+        return make_response(jsonify({"status": 404, "error": "Invalid Id Not Found"}), 404)
+    else:
+        response_body = {
+            "status": 200,
+            "data": [model_result]
+        }
+    return make_response(jsonify(response_body), 200)
+
+
+@version_1.route("/parties/<parties_id>", methods=['GET'])
+def api_specific_party(parties_id):
+    model_result = PartiesModel().get_specific_party(int(parties_id))
     if 'Doesnt Exist' in model_result:
         return make_response(jsonify({"status": 404, "error": "Data Not Found"}), 404)
     elif 'Invalid Id' in model_result:
