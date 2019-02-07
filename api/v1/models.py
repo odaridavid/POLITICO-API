@@ -31,7 +31,7 @@ class PartiesModel:
         # Get List Of Parties
         return self.parties
 
-    def get_specific_political_party(self, party_id):
+    def get_specific_political_party_name(self, party_id):
         # Get party by passed in id and return party otherwise default to message response
         if party_id is not None:
             for party in parties:
@@ -41,9 +41,10 @@ class PartiesModel:
 
 
 class OfficesModel:
-    def __init__(self, office=None):
+    def __init__(self, office=None, office_id=None):
         self.offices = offices
         self.office = office
+        self.office_id = office_id
 
     def create_government_office(self):
         """A function that facilitates creation of a government office and appending to a data structure
@@ -64,4 +65,14 @@ class OfficesModel:
         return created_office['id']
 
     def get_all_government_offices(self):
+        # Gets List Of Government offices
         return self.offices
+
+    def get_specific_office(self, office_id):
+        # Gets Office after series of checks
+        if office_id >= 1:
+            for office in offices:
+                if office['id'] == office_id:
+                    return office
+                return 'Doesnt Exist'
+        return 'Invalid Id'
