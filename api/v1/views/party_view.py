@@ -14,10 +14,9 @@ def api_parties():
         if {'name', 'hqAddress', 'logoUrl'} <= set(party):
             # Create Party Model instance and add Party to list
             gen_id = PartiesModel(party).create_political_party()
-            if gen_id:
-                response_body = {"status": 201, "data": [{"id": gen_id, "name": party['name']}]}
-                # Successful
-                return make_response(jsonify(response_body), 201)
+            response_body = {"status": 201, "data": [{"id": gen_id, "name": party['name']}]}
+            # Successful
+            return make_response(jsonify(response_body), 201)
         return make_response(jsonify({"status": 400, "error": "Bad Request: Missing Data Values"}), 400)
 
     elif request.method == 'GET':

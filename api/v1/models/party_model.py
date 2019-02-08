@@ -15,10 +15,7 @@ class PartiesModel(Model):
         """
         # TODO Validate Party Data
         # Extract data from party dict
-        if len(parties) > 0:
-            party_id = parties[-1]['id'] + 1
-        else:
-            party_id = len(parties) + 1
+        party_id = Model(list_of_items=parties).generate_id()
         created_party = {
             # Id increments on id of last element in list
             "id": party_id,
