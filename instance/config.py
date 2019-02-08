@@ -9,7 +9,14 @@ class TestingConfig(Config):
     DEBUG = True
 
 
+class ProductionConfig(Config):
+    """Configurations for Production."""
+    DEBUG = False
+    TESTING = False
+
+
 # Dictionary with <K,V> mapping to available configurations
 app_config = {
-    'testing': TestingConfig
+    'testing': TestingConfig,
+    'production': ProductionConfig
 }
