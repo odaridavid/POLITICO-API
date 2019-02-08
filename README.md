@@ -46,5 +46,26 @@ App Link Hosted On Heroku
 
 [POLITICO-API on Heroku](https://blackpolitico-api-heroku.herokuapp.com/)
 
+1. Append Endpoints to the the above link and try out Get methods
+
 ##### Local Machine
-##### Postman or Similar API Testing Service
+
+1. From your terminal clone The Repository on your machine \
+   `git clone repo link `
+2. Checkout to `Develop Branch`
+3. Start virtual env if is installed or check out [documentation]() to set it up\
+  Since Project was built on python 3
+  `. venv/bin/activate`  
+4. Run Flask App
+   - First run the following commands to set up the environment and config
+      - export FLASK_APP=run.py
+      - export FLASK_ENV=development
+      - export FLASK_DEBUG=1 ,This will reduce need to restart server in case you make changes
+
+5. On Your Browser You can try out a GET Method route like offices by appending the endpoint to
+base localhost url such that it becomes
+`127.0.0.1/api/v1/offices` and a json response will show
+_`api/v1`_ comes from the defined blueprint      
+6. For More Fine Grain Control Use Postman or Similar API Testing Service to use `POST`,`DELETE` AND `PATCH`
+7. For unit tests navigate to the tests folder and run `pytest` command in terminal
+   If not installed check out the [documentation]()
