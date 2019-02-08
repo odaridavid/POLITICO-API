@@ -39,5 +39,3 @@ class UserModel(Model):
             return created_user['firstname']
         return 'Invalid Data Check The Fields'
 
-    def user_sign_in(self):
-        pass

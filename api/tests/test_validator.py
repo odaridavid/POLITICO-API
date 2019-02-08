@@ -22,6 +22,9 @@ class UserValidatorTest(BaseTestCase):
             "passportUrl": "",
             "password": "12w"
         }
+        self.user_email_no_dot = {
+            "email": "as@as"
+        }
 
         self.validator_invalid = UserValidator(self.user_invalid)
 
@@ -63,4 +66,8 @@ class UserValidatorTest(BaseTestCase):
 
     def test_check_email_invalid(self):
         validator = UserValidator(self.user_invalid)
+        assert validator.check_email() == "Invalid"
+
+    def test_check_email_invalid_dot(self):
+        validator = UserValidator(self.user_email_no_dot)
         assert validator.check_email() == "Invalid"
