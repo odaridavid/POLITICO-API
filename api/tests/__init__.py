@@ -35,7 +35,3 @@ class BaseTestCase(unittest.TestCase):
         # Reset Data Structs after tests back to empty lists
         party_model.parties = []
         office_model.offices = []
-
-
-if __name__ == '__main__':
-    unittest.main()

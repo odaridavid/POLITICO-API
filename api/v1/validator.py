@@ -18,24 +18,24 @@ class UserValidator:
         return 'Invalid'
 
     def check_phone_number_value(self):
-        if 10 >= len(self.user['phoneNumber']) <= 15:
+        if 10 <= len(self.user['phoneNumber']) <= 13:
             return self.user['phoneNumber']
         return 'Invalid'
 
     def check_passport_url_value(self):
-        if len(self.user['passportUrl']) is not "":
+        if len(self.user['passportUrl']) > 0:
             return self.user['passportUrl']
         return 'Invalid'
 
-    def check_for_password(self):
+    def check_password(self):
         if not len(self.user['password']) >= 8:
             return 'Invalid'
-        return 'Valid'
+        return self.user['password']
 
-    def check_for_email(self):
+    def check_email(self):
         if any(val == "@" for val in self.user['email']):
             if any(val == "." for val in self.user['email']):
-                return 'Valid'
+                return self.user['email']
             return 'Invalid'
         return 'Invalid'
 
@@ -45,8 +45,8 @@ class UserValidator:
         validated_o_name = self.check_other_name_value()
         validated_pass_url = self.check_passport_url_value()
         validated_phone_no = self.check_phone_number_value()
-        validated_email = self.check_for_email()
-        validated_password = self.check_for_password()
+        validated_email = self.check_email()
+        validated_password = self.check_password()
         if 'Invalid' not in [validated_f_name, validated_l_name, validated_o_name,
                              validated_pass_url, validated_email, validated_phone_no,
                              validated_password]:
