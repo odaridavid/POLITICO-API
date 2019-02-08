@@ -3,6 +3,7 @@ import unittest
 from run import app
 from api.v1.models import party_model
 from api.v1.models import office_model
+from api.v1.models import user_model
 
 
 class BaseTestCase(unittest.TestCase):
@@ -35,3 +36,4 @@ class BaseTestCase(unittest.TestCase):
         # Reset Data Structs after tests back to empty lists
         party_model.parties = []
         office_model.offices = []
+        user_model.users = []

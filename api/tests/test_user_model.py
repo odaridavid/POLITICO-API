@@ -29,6 +29,11 @@ class PartyModelTest(BaseTestCase):
         user_name = self.user.user_sign_up()
         assert user_name == "David"
 
+    def test_user_sign_up_exists(self):
+        self.user.user_sign_up()
+        user_name = self.user.user_sign_up()
+        assert user_name == "User Exists"
+
     def test_user_sign_up_incorrect_value(self):
         user_name = self.user_invalid.user_sign_up()
         assert user_name == "Invalid Data Check The Fields"
