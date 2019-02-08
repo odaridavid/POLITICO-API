@@ -9,10 +9,10 @@ class Model:
     def get_specific_item(self):
         # Return specific item based on class that was called
         if self.item_id >= 1 and len(self.list_of_items) >= 1:
-                list_item = [item for item in self.list_of_items if item['id'] == self.item_id]
-                if len(list_item) > 0:
-                    return list_item[0]
-                return 'Doesnt Exist'
+            list_item = [item for item in self.list_of_items if item['id'] == self.item_id]
+            if len(list_item) > 0:
+                return list_item[0]
+            return 'Doesnt Exist'
         return 'Invalid Id'
 
     def get_all_items_in_list(self):
@@ -29,3 +29,11 @@ class Model:
             return self.list_of_items.remove(del_item[0])
         # Incorrect id such as -1
         return 'Invalid Id'
+
+    def generate_id(self):
+        # id unique
+        if not len(self.list_of_items) > 0:
+            user_id = len(self.list_of_items) + 1
+            return user_id
+        user_id = self.list_of_items[-1]['id'] + 1
+        return user_id

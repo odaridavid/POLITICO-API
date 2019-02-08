@@ -15,17 +15,16 @@ def api_office():
         if {'type', 'name'} <= set(office):
             # Create Office Model instance and add Party to list
             gen_id = OfficesModel(office).create_government_office()
-            if gen_id:
-                response_body = {
-                    "status": 201,
-                    "data": [{
-                        "id": gen_id,
-                        "type": office['type'],
-                        "name": office['name']
-                    }]
-                }
-                # Successful
-                return make_response(jsonify(response_body), 201)
+            response_body = {
+                "status": 201,
+                "data": [{
+                    "id": gen_id,
+                    "type": office['type'],
+                    "name": office['name']
+                }]
+            }
+            # Successful
+            return make_response(jsonify(response_body), 201)
         return make_response(jsonify({"status": 400, "error": "400 ERROR:BAD REQUEST,Missing Key value"}), 400)
 
     elif request.method == 'GET':

@@ -15,10 +15,7 @@ class PartiesModel(Model):
         """
         # TODO Validate Party Data
         # Extract data from party dict
-        if len(parties) > 0:
-            party_id = parties[-1]['id'] + 1
-        else:
-            party_id = len(parties) + 1
+        party_id = Model(list_of_items=parties).generate_id()
         created_party = {
             # Id increments on id of last element in list
             "id": party_id,
@@ -34,11 +31,8 @@ class PartiesModel(Model):
     def get_specific_political_party_name(self):
         # Get party by passed in id and return party otherwise default to message response
         if self.item_id >= 1:
-            try:
-                item = [item for item in self.list_of_items if item['id'] == self.item_id]
-                if len(item) > 0:
-                    return item[0]['name']
-                return 'Doesnt Exist'
-            except IndexError:
-                return "Index Error"
+            item = [item for item in self.list_of_items if item['id'] == self.item_id]
+            if len(item) > 0:
+                return item[0]['name']
+            return 'Doesnt Exist'
         return 'Doesnt Exist In Model'

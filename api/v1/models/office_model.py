@@ -15,9 +15,10 @@ class OfficesModel(Model):
         """
         # Extract data from party dict
         # Created Office as dict
+        office_id = Model(list_of_items=offices).generate_id()
         created_office = {
             # Id increments on length of list
-            "id": len(self.list_of_items) + 1,
+            "id": office_id,
             "type": self.item['type'],
             "name": self.item['name'],
 
