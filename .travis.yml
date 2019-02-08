@@ -7,5 +7,9 @@ install:
   - pip install -r requirements.txt
   # Setup testing library in virtual env
   - pip install pytest
+  - pip install python-coveralls
+  - pip install pytest-cov
 script:
-  - pytest
+  - pytest --pep8 coveralls -v --cov coveralls --cov-report --cov=api/
+after_success:
+  - coveralls
