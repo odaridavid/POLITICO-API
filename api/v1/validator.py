@@ -60,3 +60,11 @@ class UserValidator:
                 "password": validated_password
             }
         return 'Invalid'
+
+
+class OfficeValidator:
+    pass
+
+
+class PartyValidator:
+    pass
