@@ -20,6 +20,9 @@ class UserModel(Model):
         validated_user = self.validated_user.all_checks()
         if type(validated_user) == dict:
             # Extracts data from passed dict
+            for user in users:
+                if user['email'] == validated_user['email']:
+                    return 'User Exists'
             created_user = {
                 "id": user_id,
                 "firstname": validated_user['firstname'],
@@ -31,10 +34,10 @@ class UserModel(Model):
                 "password": validated_user['password'],
                 "isAdmin": self.isAdmin
             }
+
             users.append(created_user)
             return created_user['firstname']
         return 'Invalid Data Check The Fields'
 
-
-def user_sign_in(self):
-    pass
+    def user_sign_in(self):
+        pass
