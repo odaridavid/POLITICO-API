@@ -55,7 +55,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
         self.client.post('api/v1/parties', data=json.dumps(self.party))
         # Delete Party
         response = self.client.delete('api/v1/parties/{0}'.format(1))
-        assert response.status_code == 200, "Should Return a 204 HTTP Status Code Response:Deleted"
+        assert response.status_code == 200, "Should Return a 200 HTTP Status Code Response:Deleted"
         assert "Deleted Successfully" == response.json['message']
 
     def test_delete_political_party_not_found(self):
