@@ -1,7 +1,8 @@
 import unittest
 # Imports create app function to set testing config
 from run import app
-from api import models
+from api.v1.models import party_model
+from api.v1.models import office_model
 
 
 class BaseTestCase(unittest.TestCase):
@@ -32,8 +33,8 @@ class BaseTestCase(unittest.TestCase):
 
     def tearDown(self):
         # Reset Data Structs after tests back to empty lists
-        models.offices = []
-        models.parties = []
+        party_model.parties = []
+        office_model.offices = []
 
 
 if __name__ == '__main__':
