@@ -2,21 +2,6 @@ class UserValidator:
     def __init__(self, user):
         self.user = user
 
-    def check_first_name_value(self):
-        if len(self.user['firstname']) >= 3 and type(self.user['firstname']) == str:
-            return self.user['firstname']
-        return 'Invalid'
-
-    def check_last_name_value(self):
-        if len(self.user['lastname']) >= 3 and type(self.user['firstname']) == str:
-            return self.user['lastname']
-        return 'Invalid'
-
-    def check_other_name_value(self):
-        if len(self.user['othername']) >= 3 and type(self.user['firstname']) == str:
-            return self.user['othername']
-        return 'Invalid'
-
     def check_phone_number_value(self):
         if 10 <= len(self.user['phoneNumber']) <= 13:
             return self.user['phoneNumber']
@@ -40,9 +25,9 @@ class UserValidator:
         return 'Invalid'
 
     def all_checks(self):
-        validated_f_name = self.check_first_name_value()
-        validated_l_name = self.check_last_name_value()
-        validated_o_name = self.check_other_name_value()
+        validated_f_name = CheckStrings(self.user['firstname']).check_string()
+        validated_l_name = CheckStrings(self.user['lastname']).check_string()
+        validated_o_name = CheckStrings(self.user['othername']).check_string()
         validated_pass_url = self.check_passport_url_value()
         validated_phone_no = self.check_phone_number_value()
         validated_email = self.check_email()
@@ -59,6 +44,16 @@ class UserValidator:
                 "passportUrl": validated_pass_url,
                 "password": validated_password
             }
+        return 'Invalid'
+
+
+class CheckStrings:
+    def __init__(self, item):
+        self.item = item
+
+    def check_string(self):
+        if len(self.item) >= 3 and type(self.item) == str:
+            return self.item
         return 'Invalid'
 
 

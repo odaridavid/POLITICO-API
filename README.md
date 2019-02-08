@@ -53,7 +53,7 @@ App Link Hosted On Heroku
 1. From your terminal clone The Repository on your machine \
    `git clone repo link `
 2. Checkout to `Develop Branch`
-3. Start virtual env if is installed or check out [documentation]() to set it up\
+3. Start virtual env if is installed or check out [documentation](http://flask.pocoo.org/docs/1.0/installation/#virtual-environments) to set it up\
   Since Project was built on python 3
   `. venv/bin/activate`  
 4. Run Flask App
@@ -68,4 +68,4 @@ base localhost url such that it becomes
 _`api/v1`_ comes from the defined blueprint      
 6. For More Fine Grain Control Use Postman or Similar API Testing Service to use `POST`,`DELETE` AND `PATCH`
 7. For unit tests navigate to the tests folder and run `pytest` command in terminal
-   If not installed check out the [documentation]()
+   If not installed check out the [documentation](https://docs.pytest.org/en/latest/getting-started.html)

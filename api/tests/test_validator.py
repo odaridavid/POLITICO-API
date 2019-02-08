@@ -1,5 +1,5 @@
 from . import BaseTestCase
-from api.v1.validator import UserValidator
+from api.v1.validator import UserValidator, CheckStrings
 
 
 class UserValidatorTest(BaseTestCase):
@@ -25,17 +25,9 @@ class UserValidatorTest(BaseTestCase):
 
         self.validator_invalid = UserValidator(self.user_invalid)
 
-    def test_check_first_name(self):
-        validator = UserValidator(self.user)
-        assert validator.check_first_name_value() == "David"
-
-    def test_check_last_name(self):
-        validator = UserValidator(self.user)
-        assert validator.check_last_name_value() == "Odari"
-
-    def test_check_other_name(self):
-        validator = UserValidator(self.user)
-        assert validator.check_other_name_value() == "Kiribwa"
+    def test_check_name(self):
+        validator = CheckStrings(self.user['firstname'])
+        assert validator.check_string() == "David"
 
     def test_check_phone_number(self):
         validator = UserValidator(self.user)
@@ -53,17 +45,9 @@ class UserValidatorTest(BaseTestCase):
         validator = UserValidator(self.user)
         assert validator.check_email() == "odari@mail.com"
 
-    def test_check_first_name_invalid(self):
-        validator = UserValidator(self.user_invalid)
-        assert validator.check_first_name_value() == "Invalid"
-
-    def test_check_last_name_invalid(self):
-        validator = UserValidator(self.user_invalid)
-        assert validator.check_last_name_value() == "Invalid"
-
-    def test_check_other_name_invalid(self):
-        validator = UserValidator(self.user_invalid)
-        assert validator.check_other_name_value() == "Invalid"
+    def test_check_name_invalid(self):
+        validator = CheckStrings(self.user_invalid['firstname'])
+        assert validator.check_string() == "Invalid"
 
     def test_check_phone_number_invalid(self):
         validator = UserValidator(self.user_invalid)

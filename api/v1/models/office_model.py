@@ -4,6 +4,8 @@ from . import Model
 offices = []
 
 
+# TODO Validation
+
 class OfficesModel(Model):
     def __init__(self, office=None, office_id=0):
         # Initialise Office Values
