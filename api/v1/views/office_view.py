@@ -8,7 +8,7 @@ office_api = Blueprint('office_v1', __name__, url_prefix="/api/v1")
 
 @office_api.route("/offices", methods=['GET', 'POST'])
 def api_office():
-    if request.method == 'POST':
+    if not request.method == 'GET':
         # get the office as json
         office = request.get_json(force=True)
         # Checks keys exist in given dict as sets
@@ -27,17 +27,17 @@ def api_office():
             return make_response(jsonify(response_body), 201)
         return make_response(jsonify({"status": 400, "error": "400 ERROR:BAD REQUEST,Missing Key value"}), 400)
 
-    elif request.method == 'GET':
-        offices = OfficesModel().get_all_items_in_list()
-        if len(offices) >= 0:
-            # If parties list has no items or does  Successful
-            return make_response(jsonify({"status": 200, "data": offices}), 200)
-        return make_response(jsonify({"status": 404, "error": "404 ERROR:DATA NOT FOUND"}), 404)
+    offices = OfficesModel().get_all_items_in_list()
+    if len(offices) >= 0:
+        # If parties list has no items or does  Successful
+        return make_response(jsonify({"status": 200, "data": offices}), 200)
+    return make_response(jsonify({"status": 404, "error": "404 ERROR:DATA NOT FOUND"}), 404)
 
 
 @office_api.route("/offices/<office_id>", methods=['GET'])
 def api_specific_office(office_id):
     model_result = OfficesModel(office_id=int(office_id)).get_specific_item()
+    # Checks Keys
     if {'id', 'type', 'name'} <= set(model_result):
         return make_response(jsonify({"status": 200, "data": [model_result]}), 200)
     return generate_response(model_result)
