@@ -27,7 +27,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
                                     })
         assert response.status_code == 400, "Should Return a 400 HTTP Status Code Response:Bad Request"
         # Should return error message
-        assert "BAD REQUEST" in str(response.json), "Should return bad request response"
+        assert "Bad Request" in str(response.json), "Should return bad request missing data response"
 
     def test_edit_political_party(self):
         """Tests PATCH Http method request on /parties/{:id}/name endpoint"""

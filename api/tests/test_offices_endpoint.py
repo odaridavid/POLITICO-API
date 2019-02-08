@@ -74,9 +74,9 @@ class OfficeEndpointsTestCase(BaseTestCase):
     def test_view_specific_office_invalid_id(self):
         """Tests malformed GET Http method request on /office/{:id} endpoint"""
         response = self.client.get('api/v1/offices/{}'.format(4578))
-        assert 400 == response.status_code, "Should Return a 400 HTTP Status Code Response:Bad Request"
+        assert 404 == response.status_code, "Should Return a 400 HTTP Status Code Response:Bad Request"
         # Should return error message
-        assert "Bad Request :Check Index" == response.json['error'], "Should return resource not found response"
+        assert "Invalid Id Not Found" == response.json['error'], "Should return resource not found response"
 
     def test_view_specific_office_not_found(self):
         """Tests malformed GET Http method request on /office/{:id} endpoint"""

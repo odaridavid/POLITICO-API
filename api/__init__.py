@@ -2,7 +2,8 @@ from flask import Flask, make_response, jsonify
 # Setup Models
 from .v1 import models
 # Import blueprint - contain routes handling interaction between view and models
-from .v1.views import version_1
+from .v1.views.office_view import office_api
+from .v1.views.party_view import party_api
 
 
 # Error Handler Method
@@ -19,7 +20,8 @@ def create_app():
     # create and configure the app
     app = Flask(__name__)
     #  Register  blueprints in app instance creation
-    app.register_blueprint(version_1)
+    app.register_blueprint(office_api)
+    app.register_blueprint(party_api)
     # Error Handler for error message 404
     app.register_error_handler(404, page_not_found)
     # Return application context
