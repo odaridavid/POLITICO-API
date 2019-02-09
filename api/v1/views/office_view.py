@@ -40,4 +40,4 @@ def api_specific_office(office_id):
     # Checks Keys
     if {'id', 'type', 'name'} <= set(model_result):
         return make_response(jsonify({"status": 200, "data": [model_result]}), 200)
-    return generate_response(model_result)
+    return make_response(jsonify({"status": 404, "error": "Invalid Id Not Found"}), 404)

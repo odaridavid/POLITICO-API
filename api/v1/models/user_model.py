@@ -7,7 +7,9 @@ users = []
 class UserModel(Model):
     def __init__(self, user=None, is_admin=0):
         super().__init__(item=user, list_of_items=users)
+        # Remains 0 if is admin
         self.isAdmin = is_admin
+        # Pass in
         self.validated_user = UserValidator(self.item)
 
     def user_sign_up(self):
@@ -16,7 +18,7 @@ class UserModel(Model):
             self.isAdmin = True
         else:
             self.isAdmin = False
-        user_id = Model(list_of_items=users).generate_id()
+        user_id = super().generate_id()
         validated_user = self.validated_user.all_checks()
         if type(validated_user) == dict:
             # Extracts data from passed dict
@@ -38,4 +40,3 @@ class UserModel(Model):
             users.append(created_user)
             return created_user['firstname']
         return 'Invalid Data Check The Fields'
-
