@@ -13,26 +13,26 @@ class OfficeModelTest(BaseTestCase):
     def test_creating_government_office(self):
         # Tests Creation Of Office with id
         gen_id = self.new_office.create_government_office()
-        assert gen_id == 1
+        self.assertEqual(gen_id, 1, "Should Generate Valid Id")
 
     def test_gets_specific_office(self):
         # Tests Office is returned
         self.new_office.create_government_office()
         office = self.specific_office.get_specific_item()
-        assert office['name'] == "Test Office"
-        assert office['type'] == "Permanent Secretary"
+        self.assertEqual(office['name'], "Test Office", "Should Return Same Office Name as saved")
+        self.assertEqual(office['type'], "Permanent Secretary")
 
     def test_gets_specific_party_invalid(self):
         msg = self.specific_office_invalid.get_specific_item()
-        assert 'Invalid Id' == msg
+        self.assertIn(msg, 'Invalid Id')
 
     def test_gets_specific_party_not_exist(self):
         self.new_office.create_government_office()
         msg = self.specific_office_not_exist.get_specific_item()
-        assert 'Doesnt Exist' == msg
+        self.assertIn(msg, 'Doesnt Exist')
 
     def test_gets_all_offices_in_list(self):
         self.new_office.create_government_office()
         self.new_office.create_government_office()
         current_list = self.new_office.get_all_items_in_list()
-        assert len(current_list) == 2
+        self.assertTrue(len(current_list) == 2, "Problem with list")
