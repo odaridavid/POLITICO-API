@@ -30,7 +30,7 @@ class UserValidatorTest(BaseTestCase):
 
     def test_check_name(self):
         validator = CheckStrings(self.user['firstname'])
-        self.assertEqual(validator.check_string(), "David")
+        self.assertEqual(validator.check_strings(), "David")
 
     def test_check_phone_number(self):
         validator = UserValidator(self.user)
@@ -50,7 +50,7 @@ class UserValidatorTest(BaseTestCase):
 
     def test_check_name_invalid(self):
         validator = CheckStrings(self.user_invalid['firstname'])
-        self.assertEqual(validator.check_string(), "Invalid")
+        self.assertEqual(validator.check_strings(), "Invalid")
 
     def test_check_phone_number_invalid(self):
         validator = UserValidator(self.user_invalid)

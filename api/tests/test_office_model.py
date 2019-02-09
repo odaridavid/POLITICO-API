@@ -6,6 +6,7 @@ class OfficeModelTest(BaseTestCase):
 
     def setUp(self):
         self.new_office = OfficesModel(office={"name": "Test Office", "type": "Permanent Secretary"})
+        self.new_office_invalid = OfficesModel(office={"name": "T", "type": "P"})
         self.specific_office = OfficesModel(office_id=1)
         self.specific_office_invalid = OfficesModel(office_id=0)
         self.specific_office_not_exist = OfficesModel(office_id=67)
@@ -14,6 +15,10 @@ class OfficeModelTest(BaseTestCase):
         # Tests Creation Of Office with id
         gen_id = self.new_office.create_government_office()
         self.assertEqual(gen_id, 1, "Should Generate Valid Id")
+
+    def test_creating_government_office_invalid_entries(self):
+        gen_msg = self.new_office_invalid.create_government_office()
+        self.assertEqual(gen_msg, 'Check Input Data', "Should not add invalid data to list")
 
     def test_gets_specific_office(self):
         # Tests Office is returned

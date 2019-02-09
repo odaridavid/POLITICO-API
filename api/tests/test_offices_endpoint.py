@@ -5,7 +5,7 @@ import json
 class OfficeEndpointsTestCase(BaseTestCase):
 
     def test_create_office(self):
-        """Tests POST Http method request on /offices endpoint"""
+        """Tests valid data POST Http method request on /offices endpoint"""
         # Post, uses office specification model
         response = self.client.post('api/v1/offices', data=json.dumps(self.office))
         # Data section returned as per response specification
@@ -20,6 +20,17 @@ class OfficeEndpointsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 201, "Should Return a 201 HTTP Status Code Response:Created")
         self.assertEqual(expected_response_json, response.json)
 
+    def test_create_office_invalid_forbidden(self):
+        """Tests invalid data on POST method request on /offices endpoint"""
+        response = self.client.post('api/v1/offices',
+                                    json={
+                                        'type': 'n',
+                                        'name': 'p'
+                                    })
+        self.assertEqual(response.status_code, 403, "Should Return a 400 HTTP Status Code Response:Bad Request")
+        # Should return error message
+        self.assertIn("Check Input Values", response.json['error'])
+
     def test_create_office_bad_request(self):
         """Tests malformed POST Http method request on /offices endpoint"""
         response = self.client.post('api/v1/offices',
@@ -29,7 +40,7 @@ class OfficeEndpointsTestCase(BaseTestCase):
                                     })
         self.assertEqual(response.status_code, 400, "Should Return a 400 HTTP Status Code Response:Bad Request")
         # Should return error message
-        self.assertIn("BAD REQUEST", response.json['error'], "Should return bad request response")
+        self.assertIn("Missing Key value", response.json['error'])
 
     def test_view_all_offices(self):
         """Tests GET Http method request on /offices endpoint"""
@@ -76,7 +87,7 @@ class OfficeEndpointsTestCase(BaseTestCase):
         response = self.client.get('api/v1/offices/{}'.format(4578))
         self.assertEqual(response.status_code, 404, "Should Return a 404 HTTP Status Code Response:Bad Request")
         # Should return error message
-        self.assertEqual(response.json['error'], "Invalid Id Not Found", "Should return resource not found response")
+        self.assertEqual(response.json['error'], "Office Does Not Exist", "Should return resource not found response")
 
     def test_view_specific_office_not_found(self):
         """Tests malformed GET Http method request on /office/{:id} endpoint"""

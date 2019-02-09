@@ -1,6 +1,7 @@
 class UserValidator:
     def __init__(self, user):
         self.user = user
+        self.email = self.user['email']
 
     def check_phone_number_value(self):
         if 10 <= len(self.user['phoneNumber']) <= 13:
@@ -25,9 +26,9 @@ class UserValidator:
         return 'Invalid'
 
     def all_checks(self):
-        validated_f_name = CheckStrings(self.user['firstname']).check_string()
-        validated_l_name = CheckStrings(self.user['lastname']).check_string()
-        validated_o_name = CheckStrings(self.user['othername']).check_string()
+        validated_f_name = CheckStrings(self.user['firstname']).check_strings()
+        validated_l_name = CheckStrings(self.user['lastname']).check_strings()
+        validated_o_name = CheckStrings(self.user['othername']).check_strings()
         validated_pass_url = self.check_passport_url_value()
         validated_phone_no = self.check_phone_number_value()
         validated_email = self.check_email()
@@ -51,14 +52,26 @@ class CheckStrings:
     def __init__(self, item):
         self.item = item
 
-    def check_string(self):
+    def check_strings(self):
+        """Validated User names"""
         if len(self.item) >= 3 and type(self.item) == str:
             return self.item
         return 'Invalid'
 
 
 class OfficeValidator:
-    pass
+    def __init__(self, office):
+        self.office = office
+
+    def all_checks(self):
+        validated_office_type = CheckStrings(self.office['type']).check_strings()
+        validated_office_name = CheckStrings(self.office['name']).check_strings()
+        if 'Invalid' not in [validated_office_type, validated_office_name]:
+            return {
+                "type": validated_office_type,
+                "name": validated_office_name
+            }
+        return 'Invalid'
 
 
 class PartyValidator:
