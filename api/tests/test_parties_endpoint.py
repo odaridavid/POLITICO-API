@@ -5,7 +5,7 @@ import json
 class PartiesEndpointsTestCase(BaseTestCase):
 
     def test_create_political_party(self):
-        """Tests POST Http method request on /parties endpoint"""
+        """Tests valid data on  POST  request on /parties endpoint"""
         # Post, uses party specification model
         response = self.client.post(path='/api/v1/parties', data=json.dumps(self.party))
         expected_data_json = {
@@ -17,6 +17,18 @@ class PartiesEndpointsTestCase(BaseTestCase):
         }
         self.assertEqual(response.status_code, 201, "Should Return a 201 HTTP Status Code Response")
         self.assertEqual(expected_data_json, response.json)
+
+    def test_create_office_invalid_forbidden(self):
+        """Tests invalid data on POST method request on /parties endpoint"""
+        response = self.client.post('api/v1/parties',
+                                    json={
+                                        'name': 'p',
+                                        'hqAddress': 'n',
+                                        'logoUrl': 'n'
+                                    })
+        self.assertEqual(response.status_code, 403, "Should Return a 400 HTTP Status Code Response:Bad Request")
+        # Should return error message
+        self.assertIn("Check Input Values", response.json['error'])
 
     def test_create_political_party_bad_request(self):
         """Tests malformed POST Http method request on /parties endpoint"""

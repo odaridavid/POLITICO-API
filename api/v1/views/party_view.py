@@ -45,12 +45,14 @@ def api_specific_party(party_id):
 
 
 def req_worker_post():
-    # get the party data as json
     party = request.get_json(force=True)
     # Checks keys exist in given dict
     if {'name', 'hqAddress', 'logoUrl'} <= set(party):
         # Create Party Model instance and add Party to list
         gen_id = PartiesModel(party).create_political_party()
+        if not type(gen_id) == int:
+            # Invalid Data
+            return make_response(jsonify({"status": 403, "error": "Check Input Values"}), 403)
         response_body = {"status": 201, "data": [{"id": gen_id, "name": party['name']}]}
         # Successful
         return make_response(jsonify(response_body), 201)

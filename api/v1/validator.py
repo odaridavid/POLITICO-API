@@ -75,4 +75,17 @@ class OfficeValidator:
 
 
 class PartyValidator:
-    pass
+    def __init__(self, party):
+        self.party = party
+
+    def all_checks(self):
+        validated_party_name = CheckStrings(self.party['name']).check_strings()
+        validated_party_address = CheckStrings(self.party['hqAddress']).check_strings()
+        validated_party_url = CheckStrings(self.party['name']).check_strings()
+        if 'Invalid' not in [validated_party_name, validated_party_address, validated_party_url]:
+            return {
+                "name": validated_party_name,
+                "hqAddress": validated_party_address,
+                "logoUrl": validated_party_url
+            }
+        return 'Invalid'
