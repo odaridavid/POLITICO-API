@@ -32,9 +32,8 @@ def api_office():
         return make_response(jsonify({"status": 400, "error": "Missing Key value"}), 400)
 
     offices = OfficesModel().get_all_items_in_list()
-    if len(offices) >= 0:
-        # If parties list has no items or does  Successful
-        return make_response(jsonify({"status": 200, "data": offices}), 200)
+    # If parties list has no items or does  Successful
+    return make_response(jsonify({"status": 200, "data": offices}), 200)
 
 
 @office_api.route("/offices/<office_id>", methods=['GET'])
