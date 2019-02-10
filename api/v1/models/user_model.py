@@ -9,8 +9,6 @@ class UserModel(Model):
         super().__init__(item=user, list_of_items=users)
         # Remains 0 for default user
         self.isAdmin = is_admin
-        # Pass in user to be validated
-        self.user_validator = UserValidator(self.item)
 
     def user_is_admin(self):
         if not self.isAdmin == 0:
@@ -19,10 +17,12 @@ class UserModel(Model):
 
     def user_sign_up(self):
         admin_status = self.user_is_admin()
+        # Pass in user to be validated
+        user_validator = UserValidator(self.item)
         # Generate Unique Id
         user_id = super().generate_id()
         # Returns Validated User Dict
-        validated_user = self.user_validator.all_checks()
+        validated_user = user_validator.all_checks()
         if type(validated_user) == dict:
             # Checks If User is in list
             for user in users:

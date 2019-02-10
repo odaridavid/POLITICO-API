@@ -46,3 +46,13 @@ class PartyModelTest(BaseTestCase):
         """
         user_name = self.user_invalid.user_sign_up()
         self.assertEqual(user_name, "Invalid Data Check The Fields")
+
+    def test_user_is_admin(self):
+        self.user_admin = UserModel(user=self.user, is_admin=1)
+        resp_admin_user = self.user_admin.user_is_admin()
+        self.assertTrue(resp_admin_user, "User should be admin")
+
+    def test_user_is_not_admin(self):
+        self.user_not_admin = UserModel(user=self.user, is_admin=0)
+        resp_normal_user = self.user_not_admin.user_is_admin()
+        self.assertFalse(resp_normal_user, "User should not be admin")
