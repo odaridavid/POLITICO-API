@@ -9,29 +9,18 @@ petitioning,voting and user login and sign up to be consumed by front end framew
 [![Coverage Status](https://coveralls.io/repos/github/Davidodari/POLITICO-API/badge.svg?branch=ch-refactor-tests-163807952)](https://coveralls.io/github/Davidodari/POLITICO-API?branch=ch-refactor-tests-163807952)
 
 ### Endpoints
-|   ENDPOINT  | METHOD | STATUS | POSTMAN|
-|:---:|:---:|:---:|:---:|
-| /offices                |  GET     |  200  |[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/c1cdd9f5a74998056b51)|
-|                         |          |  404  ||
-| /offices                |  POST    |  201  |[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/2ac0bb118e1d7cda4264)|
-|                         |          |  400  ||
-| /parties                |  GET     |  200  |[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/4bff94d92ad731bbf87c)|
-|                         |          |  404  ||
-| /parties                |  POST    |  201  |[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/2ac0bb118e1d7cda4264)|
-|                         |          |  400  ||
-| /parties/<party_id>     |  GET     |  200  |[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/78ea3551331d5a20f310)|
-|                         |          |  404  ||
-| /parties/<party_id>/name|  PATCH   |  200  |[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/3d2814ea17c66dcd659f)|
-|                         |          |  404  ||
-|                         |          |  400  ||
-| /parties/<party_id>     |  DELETE  |  200  |[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/60e135da05c9be452f2f)|
-|                         |          |  404  ||
-| /offices/<offices_id>   |  GET     |  200  |[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/da9a9724b313dd7e81e8)|
-|                         |          |  404  ||
-| /users                  |  POST    |  201  |[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/abcfef2fc563fc7f41c3)|
-|                         |          |  400  ||
-|                         |          |  403  ||
-|                         |          |  409  ||
+
+|   ENDPOINT  | METHOD | STATUS |
+|:---:|:---:|:---:|
+| /offices                |  GET     |  Gets List of offices |
+| /offices                |  POST    |  Adds an office to List of offices  |
+| /parties                |  GET     |  Gets List of Parties  |
+| /parties                |  POST    |  Adds a party to list of parties  |
+| /parties/<party_id>     |  GET     |  Gets a specific party  |
+| /parties/<party_id>/name|  PATCH   |  Updates Name value of a party  |
+| /parties/<party_id>     |  DELETE  |  Deletes Specified Party |
+| /offices/<offices_id>   |  GET     |  Gets a specific office |
+| /users                  |  POST    |  Adds User to List Of Users  |
 
 
 ## Author
@@ -67,5 +56,7 @@ base localhost url such that it becomes
 `127.0.0.1/api/v1/offices` and a json response will show
 _`api/v1`_ comes from the defined blueprint      
 6. For More Fine Grain Control Use Postman or Similar API Testing Service to use `POST`,`DELETE` AND `PATCH`
+   using the below set of API endpoints collection \
+   [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/945b3aaed258679b7a07)
 7. For unit tests navigate to the tests folder and run `pytest` command in terminal
    If not installed check out the [documentation](https://docs.pytest.org/en/latest/getting-started.html)
