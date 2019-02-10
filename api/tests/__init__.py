@@ -23,7 +23,7 @@ class BaseTestCase(unittest.TestCase):
             "hqAddress": "Nairobi,Kenya 00100",
             "logoUrl": "https://www.some.url.co.ke"
         }
-        self.error_not_found = {
+        self.error_default_not_found = {
             "error": "404 ERROR:REQUESTED DATA NOT FOUND",
             "status": 404
         }
@@ -34,6 +34,6 @@ class BaseTestCase(unittest.TestCase):
 
     def tearDown(self):
         # Reset Data Structs after tests back to empty lists
-        party_model.parties = []
-        office_model.offices = []
-        user_model.users = []
+        party_model.parties.clear()
+        office_model.offices.clear()
+        user_model.users.clear()

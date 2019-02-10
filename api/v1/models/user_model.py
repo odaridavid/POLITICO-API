@@ -7,19 +7,24 @@ users = []
 class UserModel(Model):
     def __init__(self, user=None, is_admin=0):
         super().__init__(item=user, list_of_items=users)
+        # Remains 0 for default user
         self.isAdmin = is_admin
-        self.validated_user = UserValidator(self.item)
+
+    def user_is_admin(self):
+        if not self.isAdmin == 0:
+            return True
+        return False
 
     def user_sign_up(self):
-        # 0 for user 1 for admin
-        if self.isAdmin is not 0:
-            self.isAdmin = True
-        else:
-            self.isAdmin = False
-        user_id = Model(list_of_items=users).generate_id()
-        validated_user = self.validated_user.all_checks()
-        if type(validated_user) == dict:
-            # Extracts data from passed dict
+        admin_status = self.user_is_admin()
+        # Pass in user to be validated
+        user_validator = UserValidator(self.item)
+        # Generate Unique Id
+        user_id = super().generate_id()
+        # Returns Validated User Dict
+        validated_user = user_validator.all_checks()
+        if isinstance(validated_user, dict):
+            # Checks If User is in list
             for user in users:
                 if user['email'] == validated_user['email']:
                     return 'User Exists'
@@ -32,10 +37,9 @@ class UserModel(Model):
                 "phoneNumber": validated_user['phoneNumber'],
                 "passportUrl": validated_user['passportUrl'],
                 "password": validated_user['password'],
-                "isAdmin": self.isAdmin
+                "isAdmin": admin_status
             }
-
+            # Add User To List
             users.append(created_user)
             return created_user['firstname']
         return 'Invalid Data Check The Fields'
-

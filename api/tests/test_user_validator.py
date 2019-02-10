@@ -30,44 +30,44 @@ class UserValidatorTest(BaseTestCase):
 
     def test_check_name(self):
         validator = CheckStrings(self.user['firstname'])
-        assert validator.check_string() == "David"
+        self.assertEqual(validator.check_strings(), "David")
 
     def test_check_phone_number(self):
         validator = UserValidator(self.user)
-        assert validator.check_phone_number_value() == "0717455945"
+        self.assertEqual(validator.check_phone_number_value(), "0717455945")
 
     def test_check_passport_url(self):
         validator = UserValidator(self.user)
-        assert validator.check_passport_url_value() == "www.googledrive.com/pics?v=jejfek"
+        self.assertEqual(validator.check_passport_url_value(), "www.googledrive.com/pics?v=jejfek")
 
     def test_check_password(self):
         validator = UserValidator(self.user)
-        assert validator.check_password() == "12we3e4r"
+        self.assertEqual(validator.check_password(), "12we3e4r")
 
     def test_check_email(self):
         validator = UserValidator(self.user)
-        assert validator.check_email() == "odari@mail.com"
+        self.assertEqual(validator.check_email(), "odari@mail.com")
 
     def test_check_name_invalid(self):
         validator = CheckStrings(self.user_invalid['firstname'])
-        assert validator.check_string() == "Invalid"
+        self.assertEqual(validator.check_strings(), "Invalid")
 
     def test_check_phone_number_invalid(self):
         validator = UserValidator(self.user_invalid)
-        assert validator.check_phone_number_value() == "Invalid"
+        self.assertEqual(validator.check_phone_number_value(), "Invalid")
 
     def test_check_passport_url_invalid(self):
         validator = UserValidator(self.user_invalid)
-        assert validator.check_passport_url_value() == "Invalid"
+        self.assertEqual(validator.check_passport_url_value(), "Invalid")
 
     def test_check_password_invalid(self):
         validator = UserValidator(self.user_invalid)
-        assert validator.check_password() == "Invalid"
+        self.assertEqual(validator.check_password(), "Invalid")
 
     def test_check_email_invalid(self):
         validator = UserValidator(self.user_invalid)
-        assert validator.check_email() == "Invalid"
+        self.assertEqual(validator.check_email(), "Invalid")
 
     def test_check_email_invalid_dot(self):
         validator = UserValidator(self.user_email_no_dot)
-        assert validator.check_email() == "Invalid"
+        self.assertEqual(validator.check_email(), "Invalid")

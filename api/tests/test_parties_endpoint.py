@@ -5,7 +5,7 @@ import json
 class PartiesEndpointsTestCase(BaseTestCase):
 
     def test_create_political_party(self):
-        """Tests POST Http method request on /parties endpoint"""
+        """Tests valid data on  POST  request on /parties endpoint"""
         # Post, uses party specification model
         response = self.client.post(path='/api/v1/parties', data=json.dumps(self.party))
         expected_data_json = {
@@ -15,8 +15,20 @@ class PartiesEndpointsTestCase(BaseTestCase):
             }],
             "status": 201
         }
-        assert response.status_code == 201, "Should Return a 201 HTTP Status Code Response"
-        assert expected_data_json == response.json
+        self.assertEqual(response.status_code, 201, "Should Return a 201 HTTP Status Code Response")
+        self.assertEqual(expected_data_json, response.json)
+
+    def test_create_office_invalid_forbidden(self):
+        """Tests invalid data on POST method request on /parties endpoint"""
+        response = self.client.post('api/v1/parties',
+                                    json={
+                                        'name': 'p',
+                                        'hqAddress': 'n',
+                                        'logoUrl': 'n'
+                                    })
+        self.assertEqual(response.status_code, 403, "Should Return a 400 HTTP Status Code Response:Bad Request")
+        # Should return error message
+        self.assertIn("Check Input Values", response.json['error'])
 
     def test_create_political_party_bad_request(self):
         """Tests malformed POST Http method request on /parties endpoint"""
@@ -25,9 +37,9 @@ class PartiesEndpointsTestCase(BaseTestCase):
                                         # Missing hq address and logo url
                                         'name': 'Pinnacle Party'
                                     })
-        assert response.status_code == 400, "Should Return a 400 HTTP Status Code Response:Bad Request"
+        self.assertEqual(response.status_code, 400, "Should Return a 400 HTTP Status Code Response:Bad Request")
         # Should return error message
-        assert "Bad Request" in str(response.json), "Should return bad request missing data response"
+        self.assertIn("Bad Request", response.json['error'], "Should return bad request missing data response")
 
     def test_edit_political_party(self):
         """Tests PATCH Http method request on /parties/{:id}/name endpoint"""
@@ -39,15 +51,54 @@ class PartiesEndpointsTestCase(BaseTestCase):
         # Update Name
         response = self.client.patch('api/v1/parties/{}/name'.format(1),
                                      data=json.dumps(edit_request_json))
-        assert response.status_code == 200, "Should Return a 200 HTTP Status Code Response:Updated"
-        assert edit_request_json.get('name') == response.json[0]['data'][0]['name']
+        self.assertEqual(response.status_code, 200, "Should Return a 200 HTTP Status Code Response:Updated")
+        self.assertEqual(edit_request_json.get('name'), response.json[0]['data'][0]['name'])
+
+    def test_edit_political_party_invalid_id(self):
+        """Tests invalid id on PATCH request on /parties/{:id}/name endpoint"""
+        edit_request_json = {
+            "name": "Dynamo Party"
+        }
+        response = self.client.patch('api/v1/parties/0/name', data=json.dumps(edit_request_json))
+        self.assertEqual(response.status_code, 404, "Should Return a 404 HTTP Status Code Response:Not Found")
+        # Should return error message
+        self.assertEqual(response.json['error'], 'Invalid Political Party ,Id Not Found',
+                         'Should return invalid id response')
 
     def test_edit_political_party_not_found(self):
-        """Tests malformed PATCH Http method request on /parties/{:id}/name endpoint"""
-        response = self.client.patch('/parties/{}/name'.format(0))
-        assert response.status_code == 404, "Should Return a 404 HTTP Status Code Response:Not Found"
+        """Tests valid but non existent id on PATCH request on /parties/{:id}/name endpoint"""
+        edit_request_json = {
+            "name": "Dynamo Party"
+        }
+        response = self.client.patch('api/v1/parties/3/name', data=json.dumps(edit_request_json))
+        self.assertEqual(response.status_code, 404, "Should Return a 404 HTTP Status Code Response:Not Found")
         # Should return error message
-        assert self.error_not_found == response.json, "Should return not found response"
+        self.assertEqual(response.json['error'], 'Political Party Not Found',
+                         'Should return not found response')
+
+    def test_edit_political_party_invalid_data(self):
+        """Tests valid request but invalid data on PATCH request on /parties/{:id}/name endpoint"""
+        self.client.post('api/v1/parties', data=json.dumps(self.party))
+        edit_request_json = {
+            "name": "D"
+        }
+        response = self.client.patch('api/v1/parties/1/name', data=json.dumps(edit_request_json))
+        self.assertEqual(response.status_code, 400, "Should Return a 404 HTTP Status Code Response:Not Found")
+        # Should return error message
+        self.assertEqual(response.json['error'], 'Incorrect Data Received,Bad request',
+                         'Should return not found response')
+
+    def test_edit_political_party_invalid_id_value_error(self):
+        """Tests valid request but invalid data on PATCH request on /parties/{:id}/name endpoint"""
+        self.client.post('api/v1/parties', data=json.dumps(self.party))
+        edit_request_json = {
+            "name": "Dynamo Party"
+        }
+        response = self.client.patch('api/v1/parties/e/name', data=json.dumps(edit_request_json))
+        self.assertEqual(response.status_code, 400, "Should Return a 404 HTTP Status Code Response:Not Found")
+        # Should return error message
+        self.assertEqual(response.json['error'], 'Invalid Party Id',
+                         'Should return not found response')
 
     def test_delete_political_party(self):
         """Tests DELETE Http method request on /parties/{:id} endpoint"""
@@ -55,16 +106,25 @@ class PartiesEndpointsTestCase(BaseTestCase):
         self.client.post('api/v1/parties', data=json.dumps(self.party))
         # Delete Party
         response = self.client.delete('api/v1/parties/{0}'.format(1))
-        assert response.status_code == 200, "Should Return a 200 HTTP Status Code Response:Deleted"
-        assert "Deleted Successfully" == response.json['message']
+        self.assertEqual(response.status_code, 200, "Should Return a 200 HTTP Status Code Response:Deleted")
+        self.assertEqual("Deleted Successfully", response.json['message'])
 
     def test_delete_political_party_not_found(self):
         """"Tests malformed DELETE Http method request on /parties/{:id} endpoint"""
         # Save Post First
         response = self.client.delete('api/v1/parties/{0}'.format(99))
-        assert response.status_code == 404, "Should Return a 404 HTTP Status Code Response:Not Found"
+        self.assertEqual(response.status_code, 404, "Should Return a 404 HTTP Status Code Response:Not Found")
         # Should return error message
-        assert 'Invalid Id Not Found' == response.json['error'], "Should return resource not found response"
+        self.assertEqual(response.json['error'], 'Invalid Id Not Found', "Should return resource not found response")
+
+    def test_delete_political_party_invalid_id_value_error(self):
+        """Tests valid request but invalid data on DELETE request on /parties/{:id}/name endpoint"""
+        self.client.post('api/v1/parties', data=json.dumps(self.party))
+        response = self.client.delete('api/v1/parties/e')
+        self.assertEqual(response.status_code, 400, "Should Return a 404 HTTP Status Code Response:Not Found")
+        # Should return error message
+        self.assertEqual(response.json['error'], 'Invalid Party Id',
+                         'Should return not found response')
 
     def test_view_political_party(self):
         """Tests GET Http method request on /parties/{:id} endpoint"""
@@ -78,23 +138,32 @@ class PartiesEndpointsTestCase(BaseTestCase):
             "hqAddress": "Nairobi,Kenya 00100",
             "logoUrl": "https://www.some.url.co.ke"
         }
-        assert response.status_code == 200, "Should Return a 200 HTTP Status Code:Success"
+        self.assertEqual(response.status_code, 200, "Should Return a 200 HTTP Status Code:Success")
         # Returns Dict as string and compares if its in response
-        assert expected_response == response.json['data'][0]
+        self.assertEqual(expected_response, response.json['data'][0])
 
     def test_view_political_party_invalid_id(self):
         """Tests malformed GET Http method request on /parties/{:id} endpoint"""
         response = self.client.get('api/v1/parties/{}'.format(0))
-        assert response.status_code == 404, "Should Return a 404 HTTP Status Code Response:Not Found"
+        self.assertEqual(response.status_code, 404, "Should Return a 404 HTTP Status Code Response:Not Found")
         # Should return error message
-        assert self.invalid_id_json == response.json, "Should return resource not found response"
+        self.assertEqual(self.invalid_id_json, response.json, "Should return resource not found response")
 
-    def test_view_specific_office_not_found(self):
+    def test_view_political_party_invalid_id_value_error(self):
+        """Tests valid request but invalid data on DELETE request on /parties/{:id}/name endpoint"""
+        self.client.post('api/v1/parties', data=json.dumps(self.party))
+        response = self.client.get('api/v1/parties/e')
+        self.assertEqual(response.status_code, 400, "Should Return a 404 HTTP Status Code Response:Not Found")
+        # Should return error message
+        self.assertEqual(response.json['error'], 'Invalid Party Id',
+                         'Should return not found response')
+
+    def test_view_political_party_not_found(self):
         """Tests malformed GET Http method request on /office/{:id} endpoint"""
         response = self.client.get('api/v1/partiess/{}'.format(0))
-        assert 404 == response.status_code, "Should Return a 404 HTTP Status Code Response:Not Found"
+        self.assertEqual(response.status_code, 404, "Should Return a 404 HTTP Status Code Response:Not Found")
         # Should return error message
-        assert self.error_not_found == response.json, "Should return resource not found response"
+        self.assertEqual(response.json, self.error_default_not_found, "Should return resource not found response")
 
     def test_view_all_political_parties(self):
         """Tests GET Http method request on /parties/ endpoint"""
@@ -112,27 +181,27 @@ class PartiesEndpointsTestCase(BaseTestCase):
             "status": 200
         }
         # Assert - (expected,actual)
-        assert 200 == response.status_code, "Should Return a 200 HTTP Status Code Response:Success"
+        self.assertEqual(response.status_code, 200, "Should Return a 200 HTTP Status Code Response:Success")
         # Converts to string
-        assert expected_response_json == response.json
+        self.assertEqual(response.json, expected_response_json)
 
     def test_view_all_political_parties_empty_list(self):
         """Tests malformed GET Http method request on /parties/ endpoint"""
         response = self.client.get('api/v1/parties')
-        assert response.status_code == 200, "Should Return a 200 HTTP Status Code Response:Success"
+        self.assertEqual(response.status_code, 200, "Should Return a 200 HTTP Status Code Response:Success")
         expected_response_json = {
             "data": [],
             "status": 200
         }
         # Should return error message
-        assert expected_response_json == response.json, "Should return [] empty list"
+        self.assertEqual(response.json, expected_response_json, "Should return [] empty list")
 
     def test_view_all_political_parties_wrong_path(self):
         """Tests malformed GET Http method request on /parties/ endpoint"""
         response = self.client.get('api/v1/partis')
-        assert response.status_code == 404, "Should Return a 404 HTTP Status Code Response:Resource Not Found"
+        self.assertEqual(response.status_code, 404, "Should Return a 404 HTTP Status Code Response:Resource Not Found")
         # Should return error message
-        assert self.error_not_found == response.json, "Should return not found Response"
+        self.assertEqual(response.json, self.error_default_not_found, "Should return not found Response")
 
     def test_correct_non_duplicate_id_generation_after_delete(self):
         self.client.post('api/v1/parties', data=json.dumps(self.party))
@@ -141,5 +210,5 @@ class PartiesEndpointsTestCase(BaseTestCase):
         # Delete Post
         self.client.delete('api/v1/parties/{0}'.format(1))
         response = self.client.post('api/v1/parties', data=json.dumps(self.party))
-        assert response.status_code == 201
-        assert 4 == response.json['data'][0]['id']
+        self.assertEqual(response.status_code, 201, "Should Create Party")
+        self.assertEqual(response.json['data'][0]['id'], 4, "Should Create Non Duplicate Ids")
