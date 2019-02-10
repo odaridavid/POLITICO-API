@@ -9,7 +9,6 @@ class OfficesModel(Model):
     def __init__(self, office=None, office_id=0):
         # Initialise Office Values
         super().__init__(item=office, item_id=office_id, list_of_items=offices)
-        self.office_validator = OfficeValidator(self.item)
 
     def create_government_office(self):
         """
@@ -18,8 +17,9 @@ class OfficesModel(Model):
         """
         # Generate Unique id
         office_id = super().generate_id()
+        office_validator = OfficeValidator(self.item)
         # Validation Response
-        validated_office = self.office_validator.all_checks()
+        validated_office = office_validator.all_checks()
         if isinstance(validated_office, dict):
             # Created Office as dict
             created_office = {

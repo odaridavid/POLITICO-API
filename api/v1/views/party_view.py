@@ -11,9 +11,8 @@ def api_parties():
         return req_worker_post()
     # Get List Items from model
     parties = PartiesModel().get_all_items_in_list()
-    if len(parties) >= 0:
-        # If parties list has no items or does should be  Successful
-        return make_response(jsonify({"status": 200, "data": parties}), 200)
+    # If parties list has no items or does should be  Successful
+    return make_response(jsonify({"status": 200, "data": parties}), 200)
 
 
 @party_api.route("/parties/<party_id>/name", methods=['PATCH'])
