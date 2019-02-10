@@ -95,3 +95,12 @@ class OfficeEndpointsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 404, "Should Return a 404 HTTP Status Code Response:Not Found")
         # Should return error message
         self.assertEqual(response.json, self.error_default_not_found, "Should return resource not found response")
+
+    def test_view_specific_office_invalid_id_value_error(self):
+        """Tests valid request but invalid data on DELETE request on /parties/{:id}/name endpoint"""
+        self.client.post('api/v1/offices', data=json.dumps(self.office))
+        response = self.client.get('api/v1/offices/e')
+        self.assertEqual(response.status_code, 400, "Should Return a 404 HTTP Status Code Response:Not Found")
+        # Should return error message
+        self.assertEqual(response.json['error'], 'Invalid Office Id',
+                         'Should return not found response')

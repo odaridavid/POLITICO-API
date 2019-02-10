@@ -40,8 +40,12 @@ def api_office():
 
 @office_api.route("/offices/<office_id>", methods=['GET'])
 def api_specific_office(office_id):
-    model_result = OfficesModel(office_id=int(office_id)).get_specific_item()
-    # Checks Keys Exist
-    if {'id', 'type', 'name'} <= set(model_result):
-        return make_response(jsonify({"status": 200, "data": [model_result]}), 200)
-    return make_response(jsonify({"status": 404, "error": "Office Does Not Exist"}), 404)
+    try:
+        oid = int(office_id)
+        model_result = OfficesModel(office_id=oid).get_specific_item()
+        # Checks Keys Exist
+        if {'id', 'type', 'name'} <= set(model_result):
+            return make_response(jsonify({"status": 200, "data": [model_result]}), 200)
+        return make_response(jsonify({"status": 404, "error": "Office Does Not Exist"}), 404)
+    except ValueError:
+        return make_response(jsonify({"status": 400, "error": "Invalid Office Id"}), 400)
