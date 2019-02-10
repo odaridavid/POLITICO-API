@@ -40,4 +40,4 @@ class PartiesModel(Model):
             if len(item) > 0:
                 return item[0]['name']
             return 'Doesnt Exist'
-        return 'Doesnt Exist In Model'
+        return 'Invalid Id'

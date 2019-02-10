@@ -20,28 +20,42 @@ def api_parties():
 
 @party_api.route("/parties/<party_id>/name", methods=['PATCH'])
 def api_edit_party(party_id):
-    model_result = PartiesModel(party_id=int(party_id)).get_specific_political_party_name()
-    if 'Doesnt Exist' in model_result:
-        return make_response(jsonify({"status": 404, "error": "Political Party Not Found"}), 404)
     # Get Json Request Data
     party = request.get_json(force=True)
-    # Change Name
-    if {'name'} <= set(party):
-        model_result = party['name']
-        return make_response(jsonify({"status": 200, "data": [{"id": party_id, "name": model_result}]}, 200))
-    return make_response(jsonify({"status": 400, "error": "Incorrect Data Received,Bad request"}), 400)
+    try:
+        pid = int(party_id)
+        # Get Current Party Name
+        model_result = PartiesModel(party_id=pid).get_specific_political_party_name()
+        if 'Invalid Id' in model_result:
+            # id == 0 or negatives edge case
+            return make_response(jsonify({"status": 404, "error": "Invalid Political Party ,Id Not Found"}), 404)
+        elif 'Doesnt Exist' in model_result:
+            # Id greater than 0 but not found
+            return make_response(jsonify({"status": 404, "error": "Political Party Not Found"}), 404)
+        # Check key in request and string has value
+        if {'name'} <= set(party) and len(party['name']) >= 3:
+            model_result = party['name']
+            # Success
+            return make_response(jsonify({"status": 200, "data": [{"id": pid, "name": model_result}]}, 200))
+        return make_response(jsonify({"status": 400, "error": "Incorrect Data Received,Bad request"}), 400)
+    except ValueError:
+        # Letters as ids edge case
+        return make_response(jsonify({"status": 400, "error": "Invalid Party Id"}), 400)
 
 
 @party_api.route("/parties/<party_id>", methods=['GET', 'DELETE'])
 def api_specific_party(party_id):
-    if not request.method == 'DELETE':
-        return req_worker_get(party_id)
-
-    model_result = PartiesModel(party_id=int(party_id)).remove_item()
-    if model_result is None:
-        return make_response(
-            jsonify({"status": 200, "message": "Deleted Successfully"}), 200)
-    return generate_response(model_result)
+    try:
+        pid = int(party_id)
+        if not request.method == 'DELETE':
+            return req_worker_get(pid)
+        model_result = PartiesModel(party_id=pid).remove_item()
+        if model_result is None:
+            return make_response(
+                jsonify({"status": 200, "message": "Deleted Successfully"}), 200)
+        return generate_response(model_result)
+    except ValueError:
+        return make_response(jsonify({"status": 400, "error": "Invalid Party Id"}), 400)
 
 
 def req_worker_post():
