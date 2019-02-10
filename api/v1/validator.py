@@ -89,3 +89,30 @@ class PartyValidator:
                 "logoUrl": validated_party_url
             }
         return 'Invalid'
+
+
+class PetitionValidator:
+    def __init__(self, petition):
+        self.petition = petition
+
+    def checks(self, key_name):
+        if not self.petition[key_name] > 0:
+            return 'Invalid'
+        return self.petition[key_name]
+
+    def check_body(self):
+        if not len(self.petition['body']) > 0:
+            return 'Invalid'
+        return self.petition['body']
+
+    def all_checks(self):
+        validate_user_response = self.checks('createdBy')
+        validate_office_response = self.checks('office')
+        validate_body_response = self.check_body()
+        if 'Invalid' not in [validate_user_response, validate_office_response, validate_body_response]:
+            return {
+                "createdBy": validate_user_response,
+                "office": validate_office_response,
+                "body": validate_body_response
+            }
+        return 'Invalid'
