@@ -35,7 +35,6 @@ def api_office():
     if len(offices) >= 0:
         # If parties list has no items or does  Successful
         return make_response(jsonify({"status": 200, "data": offices}), 200)
-    return make_response(jsonify({"status": 404, "error": "404 ERROR:DATA NOT FOUND"}), 404)
 
 
 @office_api.route("/offices/<office_id>", methods=['GET'])

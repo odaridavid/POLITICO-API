@@ -14,8 +14,6 @@ def api_parties():
     if len(parties) >= 0:
         # If parties list has no items or does should be  Successful
         return make_response(jsonify({"status": 200, "data": parties}), 200)
-    # Unsuccessful No Such data or not found
-    return make_response(jsonify({"status": 404, "error": "Data Not Found"}), 404)
 
 
 @party_api.route("/parties/<party_id>/name", methods=['PATCH'])

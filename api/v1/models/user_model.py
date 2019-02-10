@@ -12,10 +12,13 @@ class UserModel(Model):
         # Pass in user to be validated
         self.user_validator = UserValidator(self.item)
 
-    def user_sign_up(self):
+    def user_is_admin(self):
         if not self.isAdmin == 0:
-            self.isAdmin = True
-        self.isAdmin = False
+            return True
+        return False
+
+    def user_sign_up(self):
+        admin_status = self.user_is_admin()
         # Generate Unique Id
         user_id = super().generate_id()
         # Returns Validated User Dict
@@ -34,7 +37,7 @@ class UserModel(Model):
                 "phoneNumber": validated_user['phoneNumber'],
                 "passportUrl": validated_user['passportUrl'],
                 "password": validated_user['password'],
-                "isAdmin": self.isAdmin
+                "isAdmin": admin_status
             }
             # Add User To List
             users.append(created_user)
