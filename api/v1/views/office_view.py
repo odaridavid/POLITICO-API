@@ -15,7 +15,7 @@ def api_office():
         if {'type', 'name'} <= set(office):
             # add office to model which returns generated id
             gen_id = OfficesModel(office).create_government_office()
-            if not type(gen_id) == int:
+            if not isinstance(gen_id, int):
                 # Invalid Data
                 return make_response(jsonify({"status": 403, "error": "Check Input Values"}), 403)
             response_body = {

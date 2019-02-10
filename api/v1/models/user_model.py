@@ -23,7 +23,7 @@ class UserModel(Model):
         user_id = super().generate_id()
         # Returns Validated User Dict
         validated_user = user_validator.all_checks()
-        if type(validated_user) == dict:
+        if isinstance(validated_user, dict):
             # Checks If User is in list
             for user in users:
                 if user['email'] == validated_user['email']:

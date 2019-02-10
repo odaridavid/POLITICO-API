@@ -20,7 +20,7 @@ class OfficesModel(Model):
         office_id = super().generate_id()
         # Validation Response
         validated_office = self.office_validator.all_checks()
-        if type(validated_office) == dict:
+        if isinstance(validated_office, dict):
             # Created Office as dict
             created_office = {
                 # Id increments on length of list

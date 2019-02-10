@@ -19,7 +19,7 @@ class PartiesModel(Model):
         # Extract data from party dict
         party_id = super().generate_id()
         validated_party = self.party_validator.all_checks()
-        if type(validated_party) == dict:
+        if isinstance(validated_party, dict):
             created_party = {
                 # Id increments on id of last element in list
                 "id": party_id,
