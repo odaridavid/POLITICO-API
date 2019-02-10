@@ -23,6 +23,7 @@ class PetitionModelTest(BaseTestCase):
         """Test Politician Can Create Petition"""
         petition_id = self.petition.create_petition()
         self.assertEqual(petition_id, 1)
+        self.assertTrue(len(petition_model.petitions) >= 1)
 
     def test_create_petition_invalid_user(self):
         """Test Politician Can Create Petition"""

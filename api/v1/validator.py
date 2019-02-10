@@ -101,7 +101,7 @@ class PetitionValidator:
         return self.petition[key_name]
 
     def check_body(self):
-        if not len(self.petition['body']) > 0:
+        if not len(self.petition['body']) >= 100:
             return 'Invalid'
         return self.petition['body']
 
