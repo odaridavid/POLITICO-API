@@ -8,7 +8,6 @@ petition_api = Blueprint('petition_v1', __name__, url_prefix="/api/v1")
 def api_petitions():
     petition = request.get_json(force=True)
     # Make Sure Keys Exist
-    # TODO Write Tests
     if {"createdBy", "office", "body"} <= set(petition):
         validated_petition = PetitionModel(petition=petition).create_petition()
         if 'Invalid Operation' in validated_petition:
