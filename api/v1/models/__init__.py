@@ -20,7 +20,7 @@ class Model:
         return self.list_of_items
 
     def remove_item(self):
-        if self.item_id >= 1 and len(self.list_of_items) >= 1:
+        if self.item_id >= 1:
             # Remove if id matches
             del_item = [item for item in self.list_of_items if item['id'] == self.item_id]
             if len(del_item) == 0:
