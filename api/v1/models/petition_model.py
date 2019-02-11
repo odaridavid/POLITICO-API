@@ -18,13 +18,13 @@ class PetitionModel(Model):
             created_petition = {
                 # Auto Gen id and timestamp
                 "id": petition_id,
-                "createdOn": "{0} / {1} / {2} at {3}:{4}".format(localtime().tm_year, localtime().tm_mon,
-                                                                 localtime().tm_mday, localtime().tm_hour,
-                                                                 localtime().tm_min),
+                "createdOn": "{0}/{1}/{2} at {3}:{4}".format(localtime().tm_year, localtime().tm_mon,
+                                                             localtime().tm_mday, localtime().tm_hour,
+                                                             localtime().tm_min),
                 "createdBy": validated_petition['createdBy'],
                 "office": validated_petition['office'],
                 "body": validated_petition['body']
             }
             petitions.append(created_petition)
-            return created_petition['id']
+            return created_petition
         return 'Invalid Operation'

@@ -8,7 +8,10 @@ class PetitionModelTest(BaseTestCase):
         self.petition = PetitionModel(petition={
             "createdBy": 1,
             "office": 2,
-            "body": "This is a petition Against x for the seat y"
+            "body": "This is a petition Against x for the seat yhis is a petition Against x for the seat yhis is a "
+                    "petition Against x for the seat yhis is a petition Against x for the seat yhis is a petition "
+                    "Against x for the seat yhis is a petition Against x for the seat yhis is a petition Against x "
+                    "for the seat yhis is a petition Against x for the seat y "
         })
         self.petition_invalid = PetitionModel(petition={
             "createdBy": 0,
@@ -21,8 +24,8 @@ class PetitionModelTest(BaseTestCase):
 
     def test_create_petition(self):
         """Test Politician Can Create Petition"""
-        petition_id = self.petition.create_petition()
-        self.assertEqual(petition_id, 1)
+        petition = self.petition.create_petition()
+        self.assertEqual(petition['id'], 1)
         self.assertTrue(len(petition_model.petitions) >= 1)
 
     def test_create_petition_invalid_user(self):
