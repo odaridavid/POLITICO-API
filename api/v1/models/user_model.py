@@ -17,14 +17,13 @@ class UserModel(Model):
 
     def user_sign_up(self):
         admin_status = self.user_is_admin()
-        # Pass in user to be validated
-        user_validator = UserValidator(self.item)
         # Generate Unique Id
         user_id = super().generate_id()
         # Returns Validated User Dict
-        validated_user = user_validator.all_checks()
-        if isinstance(validated_user, dict):
+        validated_user = UserValidator(self.item).all_checks()
+        if not validated_user == 'Invalid':
             # Checks If User is in list
+            #TODO List Comprehension
             for user in users:
                 if user['email'] == validated_user['email']:
                     return 'User Exists'

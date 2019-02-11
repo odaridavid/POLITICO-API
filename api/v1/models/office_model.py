@@ -17,10 +17,9 @@ class OfficesModel(Model):
         """
         # Generate Unique id
         office_id = super().generate_id()
-        office_validator = OfficeValidator(self.item)
         # Validation Response
-        validated_office = office_validator.all_checks()
-        if isinstance(validated_office, dict):
+        validated_office = OfficeValidator(self.item).all_checks()
+        if not validated_office == 'Invalid':
             # Created Office as dict
             created_office = {
                 # Id increments on length of list
