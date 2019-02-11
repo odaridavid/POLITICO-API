@@ -52,7 +52,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
         response = self.client.patch('api/v1/parties/{}/name'.format(1),
                                      data=json.dumps(edit_request_json))
         self.assertEqual(response.status_code, 200, "Should Return a 200 HTTP Status Code Response:Updated")
-        self.assertEqual(edit_request_json.get('name'), response.json[0]['data'][0]['name'])
+        self.assertEqual(edit_request_json.get('name'), response.json['data'][0]['name'])
 
     def test_edit_political_party_invalid_id(self):
         """Tests invalid id on PATCH request on /parties/{:id}/name endpoint"""
