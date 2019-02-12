@@ -4,7 +4,7 @@ from api.v1.validator import UserValidator
 users = []
 
 
-class UserModel(Model, object):
+class UserModel(Model):
     def __init__(self, user=None, is_admin=0):
         super(UserModel, self).__init__(item=user, list_of_items=users)
         # Remains 0 for default user

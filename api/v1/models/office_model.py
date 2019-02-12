@@ -5,7 +5,7 @@ from api.v1.validator import OfficeValidator
 offices = []
 
 
-class OfficesModel(Model, object):
+class OfficesModel(Model):
     def __init__(self, office=None, office_id=0):
         # Initialise Office Values
         super(OfficesModel, self).__init__(item=office, item_id=office_id, list_of_items=offices)

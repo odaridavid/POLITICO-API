@@ -6,7 +6,7 @@ parties = []
 
 
 # Use of new style class
-class PartiesModel(Model, object):
+class PartiesModel(Model):
     def __init__(self, party=None, party_id=0):
         # Initialise Party Values
         super(PartiesModel, self).__init__(item=party, item_id=party_id, list_of_items=parties)
