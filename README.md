@@ -20,6 +20,7 @@ petitioning,voting and user login and sign up to be consumed by front end framew
 | /parties/<party_id>     |  GET     |  Gets a specific party  |
 | /parties/<party_id>/name|  PATCH   |  Updates Name value of a party  |
 | /parties/<party_id>     |  DELETE  |  Deletes Specified Party |
+| /offices/<office_id>    |  DELETE  |  Deletes Specified Office  |
 | /offices/<offices_id>   |  GET     |  Gets a specific office |
 | /users                  |  POST    |  Adds User to List Of Users  |
 
