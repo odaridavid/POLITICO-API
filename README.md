@@ -67,6 +67,7 @@ App Link Hosted On Heroku
    ``` 
          * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
    ```
+   - With the above link apply a url prefix `/api/v1` such that its `http://127.0.0.1:5000/api/v1/endpoints`
    
 5. Using an API Test Client like Postman or Insomnia you can run the above endpoints for each request.
    The Bodys of Requests are below\
