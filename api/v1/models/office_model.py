@@ -16,7 +16,7 @@ class OfficesModel(Model):
         @:return the created office id
         """
         # Generate Unique id
-        office_id = super(OfficesModel,self).generate_id()
+        office_id = super(OfficesModel, self).generate_id()
         # Validation Response
         validated_office = OfficeValidator(self.item).all_checks()
         if not validated_office == 'Invalid':

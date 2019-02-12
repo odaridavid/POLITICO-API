@@ -5,6 +5,7 @@ from api.v1.validator import PartyValidator
 parties = []
 
 
+# Use of new style class
 class PartiesModel(Model):
     def __init__(self, party=None, party_id=0):
         # Initialise Party Values
@@ -16,7 +17,7 @@ class PartiesModel(Model):
         """
 
         # Extract data from party dict
-        party_id = super(PartiesModel,self).generate_id()
+        party_id = super(PartiesModel, self).generate_id()
         validated_party = PartyValidator(self.item).all_checks()
         if not validated_party == 'Invalid':
             created_party = {
