@@ -36,28 +36,55 @@ App Link Hosted On Heroku
 
 [POLITICO-API on Heroku](https://blackpolitico-api-heroku.herokuapp.com/)
 
-1. Append Endpoints to the the above link and try out Get methods
-
 ##### Local Machine
 
-1. From your terminal clone The Repository on your machine \
-   `git clone repo link `
-2. Checkout to `Develop Branch`
-3. Start virtual env if is installed or check out [documentation](http://flask.pocoo.org/docs/1.0/installation/#virtual-environments) to set it up\
-  Since Project was built on python 3
-  `. venv/bin/activate`  
-4. Run Flask App
-   - First run the following commands to set up the environment and config
+1. From your terminal clone The Repository on your machine \ it will be on develop branch
+   `git clone https://github.com/Davidodari/POLITICO-API.git `
+
+3. Start virtual env if is installed and created ,with python 3\ 
+   `. venv/bin/activate` \
+    to install the virtual env if missing use\
+    ```pip3 install virtualenv```\
+    and create virtual environment using the \
+    ```python3 -m venv venv```
+    
+    Then Run The Above Commands to activate the virtual env when on the root folder of the project which will be
+    Politico API
+
+4. Install Flask in Virtual Environment    
+    -  The terminal will be instatiate a virtual env and appear similar to what is shown below\
+   ```(venv)blackcoder@blackPC:~/POLITICO-API$ ```
+   -  Then Run \
+    ```pip install Flask``` \
+    to download required packages for Flask
+    
+5. Run Flask App
+   - Then run the following commands to set up the environment and config in the terminal
       - export FLASK_APP=run.py
       - export FLASK_ENV=development
       - export FLASK_DEBUG=1 ,This will reduce need to restart server in case you make changes
-
-5. On Your Browser You can try out a GET Method route like offices by appending the endpoint to
-base localhost url such that it becomes
-`127.0.0.1/api/v1/offices` and a json response will show
-_`api/v1`_ comes from the defined blueprint      
-6. For More Fine Grain Control Use Postman or Similar API Testing Service to use `POST`,`DELETE` AND `PATCH`
-   using the below set of API endpoints collection \
-   [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/945b3aaed258679b7a07)
+   - A link to where the app is hosted will appear in the terminal as shown in the below format
+   ``` 
+         * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+   ```
+   
+5. Using an API Test Client like Postman or Insomnia you can run the above endpoints for each request.
+   The Bodys of Requests are below\
+   **Offices**
+   ```
+   {
+   "name":"office_name",
+   "type":"office_type"
+   }
+   ```
+   **Parties**
+   ```
+   {
+   "name":"party_name",
+   "hqAddress":"party_address",
+   "logoUrl":"party_logo"
+   }
+   ```
+   As for update just use `name`
 7. For unit tests navigate to the tests folder and run `pytest` command in terminal
    If not installed check out the [documentation](https://docs.pytest.org/en/latest/getting-started.html)
