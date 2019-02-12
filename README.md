@@ -86,6 +86,8 @@ App Link Hosted On Heroku
    "logoUrl":"party_logo"
    }
    ```
-   As for update just use `name`
-7. For unit tests navigate to the tests folder and run `pytest` command in terminal
-   If not installed check out the [documentation](https://docs.pytest.org/en/latest/getting-started.html)
+   As for update just use `name` key and value 
+7. For unit tests navigate to the tests folder on the terminals under `api/tests`  and run `pytest` command and tests will
+   automatically be run
+   If not installed run the following command in terminal to install pytest\
+   ```pip install -U pytest```
