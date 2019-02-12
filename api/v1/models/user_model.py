@@ -4,7 +4,7 @@ from api.v1.validator import UserValidator
 users = []
 
 
-class UserModel(Model):
+class UserModel(Model, object):
     def __init__(self, user=None, is_admin=0):
         super(UserModel, self).__init__(item=user, list_of_items=users)
         # Remains 0 for default user
@@ -18,7 +18,7 @@ class UserModel(Model):
     def user_sign_up(self):
         admin_status = self.user_is_admin()
         # Generate Unique Id
-        user_id = super(UserModel,self).generate_id()
+        user_id = super(UserModel, self).generate_id()
         # Returns Validated User Dict
         validated_user = UserValidator(self.item).all_checks()
         if not validated_user == 'Invalid':

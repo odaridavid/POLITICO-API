@@ -1,5 +1,5 @@
 # Generic Models
-class Model:
+class Model(object):
     # Generic Class from which models will inherit from
     def __init__(self, item=None, item_id=0, list_of_items=None):
         self.item = item

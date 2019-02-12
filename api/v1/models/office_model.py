@@ -5,7 +5,7 @@ from api.v1.validator import OfficeValidator
 offices = []
 
 
-class OfficesModel(Model):
+class OfficesModel(Model, object):
     def __init__(self, office=None, office_id=0):
         # Initialise Office Values
         super(OfficesModel, self).__init__(item=office, item_id=office_id, list_of_items=offices)
@@ -16,7 +16,7 @@ class OfficesModel(Model):
         @:return the created office id
         """
         # Generate Unique id
-        office_id = super(OfficesModel,self).generate_id()
+        office_id = super(OfficesModel, self).generate_id()
         # Validation Response
         validated_office = OfficeValidator(self.item).all_checks()
         if not validated_office == 'Invalid':

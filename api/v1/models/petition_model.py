@@ -5,7 +5,7 @@ from api.v1.validator import PetitionValidator
 petitions = []
 
 
-class PetitionModel(Model):
+class PetitionModel(Model, object):
     def __init__(self, petition=None, petition_id=0):
         super(PetitionModel, self).__init__(item=petition, item_id=petition_id, list_of_items=petitions)
 
