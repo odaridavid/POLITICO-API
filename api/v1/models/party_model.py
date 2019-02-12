@@ -8,7 +8,7 @@ parties = []
 class PartiesModel(Model):
     def __init__(self, party=None, party_id=0):
         # Initialise Party Values
-        super().__init__(item=party, item_id=party_id, list_of_items=parties)
+        super(PartiesModel, self).__init__(item=party, item_id=party_id, list_of_items=parties)
 
     def create_political_party(self):
         """A function that facilitates creation of a political party and appending to a data structure
@@ -16,7 +16,7 @@ class PartiesModel(Model):
         """
 
         # Extract data from party dict
-        party_id = super().generate_id()
+        party_id = super(PartiesModel,self).generate_id()
         validated_party = PartyValidator(self.item).all_checks()
         if not validated_party == 'Invalid':
             created_party = {
