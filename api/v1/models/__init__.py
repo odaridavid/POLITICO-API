@@ -37,3 +37,12 @@ class Model:
             return user_id
         user_id = self.list_of_items[-1]['id'] + 1
         return user_id
+
+    def get_specific_item_name(self):
+        # Get item by passed in id and return item otherwise default to message response
+        if self.item_id >= 1:
+            item = [item for item in self.list_of_items if item['id'] == self.item_id]
+            if len(item) > 0:
+                return item[0]
+            return 'Doesnt Exist'
+        return 'Invalid Id'
