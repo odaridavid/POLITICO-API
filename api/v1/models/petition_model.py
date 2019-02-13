@@ -7,11 +7,11 @@ petitions = []
 
 class PetitionModel(Model):
     def __init__(self, petition=None, petition_id=0):
-        super().__init__(item=petition, item_id=petition_id, list_of_items=petitions)
+        super(PetitionModel, self).__init__(item=petition, item_id=petition_id, list_of_items=petitions)
 
     def create_petition(self):
         """Creates A Petition"""
-        petition_id = super().generate_id()
+        petition_id = super(PetitionModel, self).generate_id()
         validated_petition = PetitionValidator(self.item).all_checks()
         # Checks If user exists
         if not validated_petition == 'Invalid':
