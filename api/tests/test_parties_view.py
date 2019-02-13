@@ -116,7 +116,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
         # Delete Party Twice
         self.client.delete('api/v1/parties/1')
         response = self.client.delete('api/v1/parties/1')
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
         self.assertEqual("Item Not Found", response.json['error'])
 
     def test_delete_political_party_not_found(self):
