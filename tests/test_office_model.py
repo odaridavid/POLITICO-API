@@ -42,6 +42,11 @@ class OfficeModelTest(BaseTestCase):
         current_list = self.new_office.get_all_items_in_list()
         self.assertTrue(len(current_list) == 2, "Problem with list")
 
+    def test_gets_specific_party_name(self):
+        self.new_office.create_government_office()
+        party = self.specific_office.get_specific_item_name()
+        self.assertEqual(party['name'], "Test Office")
+
     def tests_remove_office_from_list(self):
         # Removes item from list
         self.new_office.create_government_office()

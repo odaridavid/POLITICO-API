@@ -52,3 +52,28 @@ def api_specific_office(office_id):
         return generate_response(model_result)
     except ValueError:
         return make_response(jsonify({"status": 400, "error": "Invalid Office Id"}), 400)
+
+
+@office_api.route("/offices/<offices_id>/name", methods=['PATCH'])
+def api_edit_office(offices_id):
+    # Get Json Request Data
+    office = request.get_json(force=True)
+    try:
+        oid = int(offices_id)
+        # Get Current Office Name
+        model_result = OfficesModel(office_id=oid).get_specific_item_name()
+        if 'Invalid Id' in model_result:
+            # id == 0 or negatives edge case
+            return make_response(jsonify({"status": 404, "error": "Invalid Government Office ,Id Not Found"}), 404)
+        elif 'Doesnt Exist' in model_result:
+            # Id greater than 0 but not found
+            return make_response(jsonify({"status": 404, "error": "Government Office Not Found"}), 404)
+        # Check keys in request and string is not null
+        if {'name'} <= set(office) and len(office['name']) >= 3:
+            model_result['name'] = office['name']
+            # Success Response
+            return make_response(jsonify({"status": 200, "data": [{"id": oid, "name": model_result['name']}]}, 200))
+        return make_response(jsonify({"status": 400, "error": "Incorrect Data Received,Bad request"}), 400)
+    except ValueError:
+        # Use of Letters as ids edge case
+        return make_response(jsonify({"status": 400, "error": "Invalid Government Office id"}), 400)
