@@ -87,7 +87,7 @@ App Link Hosted On Heroku
    }
    ```
    As for update just use `name` key and value 
-7. For unit tests  on the root folder run `pytest --cov=api` command and tests will
+7. For unit tests  on the root folder run `pytest --cov api tests` command and tests will
    automatically be run with coverage 
    If not installed run the following command in terminal to install pytest with coverage in venv and run above  \
    ```pip install -U pytest-cov```
