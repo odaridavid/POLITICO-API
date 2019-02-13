@@ -46,3 +46,21 @@ class OfficeModelTest(BaseTestCase):
         self.new_office.create_government_office()
         party = self.specific_office.get_specific_item_name()
         self.assertEqual(party['name'], "Test Office")
+
+    def tests_remove_office_from_list(self):
+        # Removes item from list
+        self.new_office.create_government_office()
+        self.specific_office.remove_item()
+        current_list = self.new_office.get_all_items_in_list()
+        self.assertEqual(len(current_list), 0, "Item Doesnt Exist")
+
+    def tests_remove_party_from_list_invalid(self):
+        # If list is empty and id doesnt exist
+        msg = self.specific_office_invalid.remove_item()
+        self.assertEqual(msg, 'Invalid Id')
+
+    def tests_remove_party_from_list_not_exist(self):
+        # If list is not empty but id missing
+        self.new_office.create_government_office()
+        msg = self.specific_office_not_exist.remove_item()
+        self.assertEqual(msg, 'Doesnt Exist')

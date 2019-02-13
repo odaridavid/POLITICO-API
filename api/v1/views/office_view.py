@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, make_response
 from api.v1.models.office_model import OfficesModel
+from . import generate_response
 
 # flask blueprint is a way for you to organize your flask application into smaller and re-usable application
 office_api = Blueprint('office_v1', __name__, url_prefix="/api/v1")
@@ -35,15 +36,21 @@ def api_office():
     return make_response(jsonify({"status": 200, "data": offices}), 200)
 
 
-@office_api.route("/offices/<office_id>", methods=['GET'])
+@office_api.route("/offices/<office_id>", methods=['GET', 'DELETE'])
 def api_specific_office(office_id):
     try:
         oid = int(office_id)
-        model_result = OfficesModel(office_id=oid).get_specific_item()
-        # Checks Keys Exist
-        if {'id', 'type', 'name'} <= set(model_result):
-            return make_response(jsonify({"status": 200, "data": [model_result]}), 200)
-        return make_response(jsonify({"status": 404, "error": "Office Does Not Exist"}), 404)
+        if not request.method == 'DELETE':
+            model_result = OfficesModel(office_id=oid).get_specific_item()
+            # Checks Keys Exist
+            if {'id', 'type', 'name'} <= set(model_result):
+                return make_response(jsonify({"status": 200, "data": [model_result]}), 200)
+            return make_response(jsonify({"status": 404, "error": "Office Does Not Exist"}), 404)
+        model_result = OfficesModel(office_id=oid).remove_item()
+        if model_result is None:
+            return make_response(
+                jsonify({"status": 200, "message": "Deleted Successfully"}), 200)
+        return generate_response(model_result)
     except ValueError:
         return make_response(jsonify({"status": 400, "error": "Invalid Office Id"}), 400)
 
