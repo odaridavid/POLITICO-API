@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, make_response
 from api.v1.models.office_model import OfficesModel
+from . import generate_response
 
 # flask blueprint is a way for you to organize your flask application into smaller and re-usable application
 office_api = Blueprint('office_v1', __name__, url_prefix="/api/v1")
