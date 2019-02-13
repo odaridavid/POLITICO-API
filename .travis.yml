@@ -10,6 +10,6 @@ install:
   - pip install python-coveralls
   - pip install pytest-cov
 script:
-  - pytest  --cov api tests -v --cov-report term-missing
+  - pytest  --cov=api  -v --cov-report term-missing
 after_success:
   - coveralls
