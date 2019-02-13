@@ -8,7 +8,7 @@ offices = []
 class OfficesModel(Model):
     def __init__(self, office=None, office_id=0):
         # Initialise Office Values
-        super().__init__(item=office, item_id=office_id, list_of_items=offices)
+        super(OfficesModel, self).__init__(item=office, item_id=office_id, list_of_items=offices)
 
     def create_government_office(self):
         """
@@ -16,7 +16,7 @@ class OfficesModel(Model):
         @:return the created office id
         """
         # Generate Unique id
-        office_id = super().generate_id()
+        office_id = super(OfficesModel, self).generate_id()
         # Validation Response
         validated_office = OfficeValidator(self.item).all_checks()
         if not validated_office == 'Invalid':
