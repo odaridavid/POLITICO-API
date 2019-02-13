@@ -38,43 +38,67 @@ def api_office():
 
 @office_api.route("/offices/<office_id>", methods=['GET', 'DELETE'])
 def api_specific_office(office_id):
-    try:
-        oid = int(office_id)
-        if not request.method == 'DELETE':
-            model_result = OfficesModel(office_id=oid).get_specific_item()
-            # Checks Keys Exist
-            if {'id', 'type', 'name'} <= set(model_result):
-                return make_response(jsonify({"status": 200, "data": [model_result]}), 200)
-            return make_response(jsonify({"status": 404, "error": "Office Does Not Exist"}), 404)
-        model_result = OfficesModel(office_id=oid).remove_item()
-        if model_result is None:
-            return make_response(
-                jsonify({"status": 200, "message": "Deleted Successfully"}), 200)
-        return generate_response(model_result)
-    except ValueError:
-        return make_response(jsonify({"status": 400, "error": "Invalid Office Id"}), 400)
+    # Pass in office id and option to distinguish between other requests in the method
+    return method_requests(office_id, 1, None)
 
 
 @office_api.route("/offices/<offices_id>/name", methods=['PATCH'])
 def api_edit_office(offices_id):
     # Get Json Request Data
-    office = request.get_json(force=True)
+    updated_office_data = request.get_json(force=True)
+    # Pass in office id and office data to be used
+    return method_requests(offices_id, None, updated_office_data, )
+
+
+def office_id_conversion(offices_id):
     try:
+        # Convert in try except and return an id
         oid = int(offices_id)
-        # Get Current Office Name
-        model_result = OfficesModel(office_id=oid).get_specific_item_name()
-        if 'Invalid Id' in model_result:
-            # id == 0 or negatives edge case
-            return make_response(jsonify({"status": 404, "error": "Invalid Government Office ,Id Not Found"}), 404)
-        elif 'Doesnt Exist' in model_result:
-            # Id greater than 0 but not found
-            return make_response(jsonify({"status": 404, "error": "Government Office Not Found"}), 404)
-        # Check keys in request and string is not null
-        if {'name'} <= set(office) and len(office['name']) >= 3:
-            model_result['name'] = office['name']
-            # Success Response
-            return make_response(jsonify({"status": 200, "data": [{"id": oid, "name": model_result['name']}]}, 200))
-        return make_response(jsonify({"status": 400, "error": "Incorrect Data Received,Bad request"}), 400)
+        return oid
     except ValueError:
         # Use of Letters as ids edge case
-        return make_response(jsonify({"status": 400, "error": "Invalid Government Office id"}), 400)
+        return make_response(jsonify({"status": 400, "error": "Invalid Office Id"}), 400)
+
+
+# Channel for method requests
+def method_requests(office_id, option, office):
+    # Conversion of id
+    oid = office_id_conversion(office_id)
+    # Check that id is int for either patch or get or delete
+    if isinstance(oid, int):
+        if option == 1 and office is None:
+            # Option 1 for delete and get
+            return delete_and_get(oid)
+        # Update Office
+        return patch(oid, office)
+    return oid
+
+
+def delete_and_get(oid):
+    if not request.method == 'DELETE':
+        model_result = OfficesModel(office_id=oid).get_specific_item()
+        # Checks Keys Exist
+        if {'id', 'type', 'name'} <= set(model_result):
+            return make_response(jsonify({"status": 200, "data": [model_result]}), 200)
+        return make_response(jsonify({"status": 404, "error": "Office Does Not Exist"}), 404)
+    model_result = OfficesModel(office_id=oid).remove_item()
+    if model_result is None:
+        return make_response(
+            jsonify({"status": 200, "message": "Deleted Successfully"}), 200)
+    return generate_response(model_result)
+
+
+def patch(oid, office):
+    model_result = OfficesModel(office_id=oid).get_specific_item_name()
+    if 'Invalid Id' in model_result:
+        # id == 0 or negatives edge case
+        return make_response(jsonify({"status": 404, "error": "Invalid Government Office ,Id Not Found"}), 404)
+    elif 'Doesnt Exist' in model_result:
+        # Id greater than 0 but not found
+        return make_response(jsonify({"status": 404, "error": "Government Office Not Found"}), 404)
+    # Check keys in request and string is not null
+    if {'name'} <= set(office) and len(office['name']) >= 3:
+        model_result['name'] = office['name']
+        # Success Response
+        return make_response(jsonify({"status": 200, "data": [{"id": oid, "name": model_result['name']}]}, 200))
+    return make_response(jsonify({"status": 400, "error": "Incorrect Data Received,Bad request"}), 400)
