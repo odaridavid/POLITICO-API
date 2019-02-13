@@ -163,7 +163,8 @@ class OfficeEndpointsTestCase(BaseTestCase):
         # Should return error message
         self.assertEqual(response.json['error'], 'Invalid Government Office id',
                          'Should return not found response')
-        def test_delete_office(self):
+
+    def test_delete_office(self):
         """Tests DELETE Http method request on /offices/{:id} endpoint"""
         # Save Post First
         self.client.post('api/v1/offices', data=json.dumps(self.office))
@@ -186,4 +187,4 @@ class OfficeEndpointsTestCase(BaseTestCase):
         response = self.client.delete('api/v1/offices/e')
         self.assertEqual(response.status_code, 400, "Should Return a 404 HTTP Status Code Response:Not Found")
         # Should return error message
-        self.assertEqual(response.json['error'], 'Invalid Office Id')    
+        self.assertEqual(response.json['error'], 'Invalid Office Id')
