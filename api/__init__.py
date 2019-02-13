@@ -6,7 +6,6 @@ from .v1.views.office_view import office_api
 from .v1.views.party_view import party_api
 from .v1.views.user_view import user_api
 from .v1.views.petition_view import petition_api
-from instance.config import app_config
 
 
 # Error Handler Method
@@ -19,10 +18,9 @@ def page_not_found(e):
 
 
 # configure app prerequisites
-def create_app(config):
+def create_app():
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_object(app_config[config])
     #  Register  blueprints in app instance creation
     app.register_blueprint(office_api)
     app.register_blueprint(party_api)
