@@ -33,7 +33,9 @@ def api_edit_party(party_id):
         if {'name'} <= set(party) and len(party['name']) >= 3:
             model_result['name'] = party['name']
             # Success
+
             return make_response(jsonify({"status": 200, "data": [{"id": pid, "name": model_result['name']}]}, 200))
+
         return make_response(jsonify({"status": 400, "error": "Incorrect Data Received,Bad request"}), 400)
     except ValueError:
         # Letters as ids edge case

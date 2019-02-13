@@ -52,7 +52,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
         response = self.client.patch('api/v1/parties/{}/name'.format(1),
                                      data=json.dumps(edit_request_json))
         self.assertEqual(response.status_code, 200, "Should Return a 200 HTTP Status Code Response:Updated")
-        self.assertEqual(edit_request_json.get('name'), response.json[0]['data'][0]['name'])
+        self.assertEqual(edit_request_json.get('name'), response.json['data'][0]['name'])
 
     def test_edit_political_party_invalid_id(self):
         """Tests invalid id on PATCH request on /parties/{:id}/name endpoint"""
@@ -109,10 +109,20 @@ class PartiesEndpointsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200, "Should Return a 200 HTTP Status Code Response:Deleted")
         self.assertEqual("Deleted Successfully", response.json['message'])
 
-    def test_delete_political_party_not_found(self):
-        """"Tests malformed DELETE Http method request on /parties/{:id} endpoint"""
+    def test_delete_political_party_twice(self):
+        """Tests DELETE Http method request on /parties/{:id} endpoint twice"""
         # Save Post First
-        response = self.client.delete('api/v1/parties/{0}'.format(99))
+        self.client.post('api/v1/parties', data=json.dumps(self.party))
+        # Delete Party Twice
+        self.client.delete('api/v1/parties/1')
+        response = self.client.delete('api/v1/parties/1')
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual("Item Not Found", response.json['error'])
+
+    def test_delete_political_party_not_found(self):
+        """"Tests malformed DELETE Http method request on /parties/{:id} endpoint invalid negative id"""
+        # Save Post First
+        response = self.client.delete('api/v1/parties/{0}'.format(-2))
         self.assertEqual(response.status_code, 404, "Should Return a 404 HTTP Status Code Response:Not Found")
         # Should return error message
         self.assertEqual(response.json['error'], 'Invalid Id Not Found', "Should return resource not found response")
