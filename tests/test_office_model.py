@@ -44,7 +44,7 @@ class OfficeModelTest(BaseTestCase):
 
     def test_gets_specific_party_name(self):
         self.new_office.create_government_office()
-        party = self.specific_office.get_specific_item_name()
+        party = self.specific_office.get_specific_item()
         self.assertEqual(party['name'], "Test Office")
 
     def tests_remove_office_from_list(self):

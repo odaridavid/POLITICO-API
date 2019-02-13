@@ -62,7 +62,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
         response = self.client.patch('api/v1/parties/0/name', data=json.dumps(edit_request_json))
         self.assertEqual(response.status_code, 404, "Should Return a 404 HTTP Status Code Response:Not Found")
         # Should return error message
-        self.assertEqual(response.json['error'], 'Invalid Political Party ,Id Not Found',
+        self.assertEqual(response.json['error'], 'Invalid Id Not Found',
                          'Should return invalid id response')
 
     def test_edit_political_party_not_found(self):
@@ -73,7 +73,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
         response = self.client.patch('api/v1/parties/3/name', data=json.dumps(edit_request_json))
         self.assertEqual(response.status_code, 404, "Should Return a 404 HTTP Status Code Response:Not Found")
         # Should return error message
-        self.assertEqual(response.json['error'], 'Political Party Not Found',
+        self.assertEqual(response.json['error'], 'Invalid Id Not Found',
                          'Should return not found response')
 
     def test_edit_political_party_invalid_data(self):

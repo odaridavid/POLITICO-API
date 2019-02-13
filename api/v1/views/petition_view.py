@@ -9,6 +9,7 @@ def api_petitions():
     petition = request.get_json(force=True)
     # Make Sure Keys Exist
     if {"createdBy", "office", "body"} <= set(petition):
+        # Validation
         validated_petition = PetitionModel(petition=petition).create_petition()
         if 'Invalid Operation' in validated_petition:
             return make_response(jsonify({"status": 400, "error": "Parsing Invalid Data ,Bad Request"}), 400)
