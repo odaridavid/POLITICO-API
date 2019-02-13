@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, make_response
-from . import generate_response
+from . import generate_response, Methods
 from api.v1.models.party_model import PartiesModel
 
 party_api = Blueprint('party_v1', __name__, url_prefix="/api/v1")
@@ -18,43 +18,13 @@ def api_parties():
 @party_api.route("/parties/<party_id>/name", methods=['PATCH'])
 def api_edit_party(party_id):
     # Get Json Request Data
-    party = request.get_json(force=True)
-    try:
-        pid = int(party_id)
-        # Get Current Party Name
-        model_result = PartiesModel(party_id=pid).get_specific_item_name()
-        if 'Invalid Id' in model_result:
-            # id == 0 or negatives edge case
-            return make_response(jsonify({"status": 404, "error": "Invalid Political Party ,Id Not Found"}), 404)
-        elif 'Doesnt Exist' in model_result:
-            # Id greater than 0 but not found
-            return make_response(jsonify({"status": 404, "error": "Political Party Not Found"}), 404)
-        # Check key in request and string has value
-        if {'name'} <= set(party) and len(party['name']) >= 3:
-            model_result['name'] = party['name']
-            # Success
-
-            return make_response(jsonify({"status": 200, "data": [{"id": pid, "name": model_result['name']}]}, 200))
-
-        return make_response(jsonify({"status": 400, "error": "Incorrect Data Received,Bad request"}), 400)
-    except ValueError:
-        # Letters as ids edge case
-        return make_response(jsonify({"status": 400, "error": "Invalid Party Id"}), 400)
+    updated_party_data = request.get_json(force=True)
+    return method_requests(party_id, None, updated_party_data)
 
 
 @party_api.route("/parties/<party_id>", methods=['GET', 'DELETE'])
 def api_specific_party(party_id):
-    try:
-        pid = int(party_id)
-        if not request.method == 'DELETE':
-            return req_worker_get(pid)
-        model_result = PartiesModel(party_id=pid).remove_item()
-        if model_result is None:
-            return make_response(
-                jsonify({"status": 200, "message": "Deleted Successfully"}), 200)
-        return generate_response(model_result)
-    except ValueError:
-        return make_response(jsonify({"status": 400, "error": "Invalid Party Id"}), 400)
+    return method_requests(party_id, 1, party=None)
 
 
 def req_worker_post():
@@ -72,10 +42,38 @@ def req_worker_post():
     return make_response(jsonify({"status": 400, "error": "Bad Request: Missing Data Values"}), 400)
 
 
-def req_worker_get(party_id):
-    # Pass Through Model to get specific item
-    model_result = PartiesModel(party_id=int(party_id)).get_specific_item()
-    #  Check keys
-    if {'id', 'name', 'hqAddress', 'logoUrl'} <= set(model_result):
-        return make_response(jsonify({"status": 200, "data": [model_result]}), 200)
+def party_id_conversions(party_id):
+    try:
+        # conversion of id
+        pid = int(party_id)
+        return pid
+    except ValueError:
+        # Use of Letters as ids edge case
+        return make_response(jsonify({"status": 400, "error": "Invalid Party Id"}), 400)
+
+
+def method_requests(party_id, option, party):
+    pid = party_id_conversions(party_id)
+    if isinstance(pid, int):
+        if option == 1 and party is None:
+            # Option 1 for delete and get
+            return delete_and_get(pid)
+        # Update Party
+        return Methods(PartiesModel, pid, party, 'party').patch()
+    return pid
+
+
+def delete_and_get(pid):
+    if not request.method == 'DELETE':
+        # Pass Through Model to get specific item
+        model_result = PartiesModel(party_id=int(pid)).get_specific_item()
+        #  Check keys
+        if {'id', 'name', 'hqAddress', 'logoUrl'} <= set(model_result):
+            return make_response(jsonify({"status": 200, "data": [model_result]}), 200)
+        return generate_response(model_result)
+    # Delete
+    model_result = PartiesModel(party_id=pid).remove_item()
+    if model_result is None:
+        return make_response(
+            jsonify({"status": 200, "message": "Deleted Successfully"}), 200)
     return generate_response(model_result)

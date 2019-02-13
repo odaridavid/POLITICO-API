@@ -118,7 +118,7 @@ class OfficeEndpointsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200, "Should Return a 200 HTTP Status Code Response:Updated")
         self.assertEqual(edit_request_json.get('name'), response.json[0]['data'][0]['name'])
 
-    def test_edit_political_party_invalid_id(self):
+    def test_edit_office_invalid_id(self):
         """Tests invalid id on PATCH request on /offices/{:id}/name endpoint"""
         edit_request_json = {
             "name": "Secretary General"
@@ -126,21 +126,21 @@ class OfficeEndpointsTestCase(BaseTestCase):
         response = self.client.patch('api/v1/offices/0/name', data=json.dumps(edit_request_json))
         self.assertEqual(response.status_code, 404, "Should Return a 404 HTTP Status Code Response:Not Found")
         # Should return error message
-        self.assertEqual(response.json['error'], 'Invalid Government Office ,Id Not Found',
+        self.assertEqual(response.json['error'], 'Invalid Id Not Found',
                          'Should return invalid id response')
 
-    def test_edit_political_party_not_found(self):
+    def test_edit_offices_not_found(self):
         """Tests valid but non existent id on PATCH request on /parties/{:id}/name endpoint"""
         edit_request_json = {
-            "name": "Dynamo Party"
+            "name": "Secretary"
         }
-        response = self.client.patch('api/v1/parties/3/name', data=json.dumps(edit_request_json))
+        response = self.client.patch('api/v1/offices/3/name', data=json.dumps(edit_request_json))
         self.assertEqual(response.status_code, 404, "Should Return a 404 HTTP Status Code Response:Not Found")
         # Should return error message
-        self.assertEqual(response.json['error'], 'Political Party Not Found',
+        self.assertEqual(response.json['error'], 'Invalid Id Not Found',
                          'Should return not found response')
 
-    def test_edit_political_party_invalid_data(self):
+    def test_edit_office_invalid_data(self):
         """Tests valid request but invalid data on PATCH request on /offices/{:id}/name endpoint"""
         self.client.post('api/v1/offices', data=json.dumps(self.office))
         edit_request_json = {
@@ -152,7 +152,7 @@ class OfficeEndpointsTestCase(BaseTestCase):
         self.assertEqual(response.json['error'], 'Incorrect Data Received,Bad request',
                          'Should return not found response')
 
-    def test_edit_political_party_invalid_id_value_error(self):
+    def test_edit_office_invalid_id_value_error(self):
         """Tests valid request but invalid data on PATCH request on /offices/{:id}/name endpoint"""
         self.client.post('api/v1/offices', data=json.dumps(self.office))
         edit_request_json = {
@@ -161,7 +161,7 @@ class OfficeEndpointsTestCase(BaseTestCase):
         response = self.client.patch('api/v1/offices/e/name', data=json.dumps(edit_request_json))
         self.assertEqual(response.status_code, 400, "Should Return a 404 HTTP Status Code Response:Not Found")
         # Should return error message
-        self.assertEqual(response.json['error'], 'Invalid Government Office id',
+        self.assertEqual(response.json['error'], 'Invalid Office Id',
                          'Should return not found response')
 
     def test_delete_office(self):

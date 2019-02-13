@@ -32,7 +32,7 @@ class PartyModelTest(BaseTestCase):
 
     def test_gets_specific_party_name(self):
         self.new_party.create_political_party()
-        party = self.specific_party.get_specific_item_name()
+        party = self.specific_party.get_specific_item()
         self.assertEqual(party['name'], "Test Party")
 
     def tests_gets_all_items_in_list(self):
