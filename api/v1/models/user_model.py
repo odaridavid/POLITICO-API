@@ -6,7 +6,7 @@ users = []
 
 class UserModel(Model):
     def __init__(self, user=None, is_admin=0):
-        super().__init__(item=user, list_of_items=users)
+        super(UserModel, self).__init__(item=user, list_of_items=users)
         # Remains 0 for default user
         self.isAdmin = is_admin
 
@@ -18,12 +18,12 @@ class UserModel(Model):
     def user_sign_up(self):
         admin_status = self.user_is_admin()
         # Generate Unique Id
-        user_id = super().generate_id()
+        user_id = super(UserModel, self).generate_id()
         # Returns Validated User Dict
         validated_user = UserValidator(self.item).all_checks()
         if not validated_user == 'Invalid':
             # Checks If User is in list
-            #TODO List Comprehension
+            # TODO List Comprehension
             for user in users:
                 if user['email'] == validated_user['email']:
                     return 'User Exists'
