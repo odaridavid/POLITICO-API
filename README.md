@@ -13,15 +13,16 @@ petitioning,voting and user login and sign up to be consumed by front end framew
 
 |   ENDPOINT  | METHOD | STATUS |
 |:---:|:---:|:---:|
-| /offices                |  GET     |  Gets List of offices |
-| /offices                |  POST    |  Adds an office to List of offices  |
-| /parties                |  GET     |  Gets List of Parties  |
-| /parties                |  POST    |  Adds a party to list of parties  |
-| /parties/<party_id>     |  GET     |  Gets a specific party  |
-| /parties/<party_id>/name|  PATCH   |  Updates Name value of a party  |
-| /parties/<party_id>     |  DELETE  |  Deletes Specified Party |
-| /offices/<offices_id>   |  GET     |  Gets a specific office |
-| /users                  |  POST    |  Adds User to List Of Users  |
+| /offices                 |  GET     |  Gets List of offices |
+| /offices                 |  POST    |  Adds an office to List of offices  |
+| /parties                 |  GET     |  Gets List of Parties  |
+| /parties                 |  POST    |  Adds a party to list of parties  |
+| /parties/<party_id>      |  GET     |  Gets a specific party  |
+| /parties/<party_id>/name |  PATCH   |  Updates Name value of a party  |
+| /parties/<office_id>/name|  PATCH   |  Updates Office value of a office  |
+| /parties/<party_id>      |  DELETE  |  Deletes Specified Party |
+| /offices/<offices_id>    |  GET     |  Gets a specific office |
+| /users                   |  POST    |  Adds User to List Of Users  |
 
 
 ## Author
