@@ -32,8 +32,8 @@ class PartyModelTest(BaseTestCase):
 
     def test_gets_specific_party_name(self):
         self.new_party.create_political_party()
-        party_name = self.specific_party.get_specific_political_party_name()
-        self.assertEqual(party_name, "Test Party")
+        party = self.specific_party.get_specific_political_party_name()
+        self.assertEqual(party['name'], "Test Party")
 
     def tests_gets_all_items_in_list(self):
         # Retrieves List of items

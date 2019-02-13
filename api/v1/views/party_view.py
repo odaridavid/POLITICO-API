@@ -31,9 +31,9 @@ def api_edit_party(party_id):
             return make_response(jsonify({"status": 404, "error": "Political Party Not Found"}), 404)
         # Check key in request and string has value
         if {'name'} <= set(party) and len(party['name']) >= 3:
-            model_result = party['name']
+            model_result['name'] = party['name']
             # Success
-            return make_response(jsonify({"status": 200, "data": [{"id": pid, "name": model_result}]}, 200))
+            return make_response(jsonify({"status": 200, "data": [{"id": pid, "name": model_result['name']}]}), 200)
         return make_response(jsonify({"status": 400, "error": "Incorrect Data Received,Bad request"}), 400)
     except ValueError:
         # Letters as ids edge case

@@ -38,6 +38,6 @@ class PartiesModel(Model):
         if self.item_id >= 1:
             item = [item for item in self.list_of_items if item['id'] == self.item_id]
             if len(item) > 0:
-                return item[0]['name']
+                return item[0]
             return 'Doesnt Exist'
         return 'Invalid Id'
