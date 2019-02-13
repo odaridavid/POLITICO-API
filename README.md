@@ -55,7 +55,7 @@ App Link Hosted On Heroku
     -  The terminal will be instatiate a virtual env and appear similar to what is shown below\
    ```(venv)blackcoder@blackPC:~/POLITICO-API$ ```
    -  Then Run \
-    ```pip install Flask``` \
+    ```pip install -r requirements.txt``` \
     to download required packages for Flask
     
 5. Run Flask App
@@ -87,7 +87,7 @@ App Link Hosted On Heroku
    }
    ```
    As for update just use `name` key and value 
-7. For unit tests navigate to the tests folder on the terminals under `api/tests`  and run `pytest` command and tests will
-   automatically be run
-   If not installed run the following command in terminal to install pytest\
-   ```pip install -U pytest```
+7. For unit tests  on the root folder run `pytest --cov api/v1 tests` command and tests will
+   automatically be run with coverage 
+   If not installed run the following command in terminal to install pytest with coverage in venv and run above  \
+   ```pip install -U pytest-cov```
