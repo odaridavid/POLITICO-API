@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, make_response
-from . import generate_response, Methods
+from . import Methods
 from api.v1.models.party_model import PartiesModel
 
 party_api = Blueprint('party_v1', __name__, url_prefix="/api/v1")
@@ -19,12 +19,17 @@ def api_parties():
 def api_edit_party(party_id):
     # Get Json Request Data
     updated_party_data = request.get_json(force=True)
-    return method_requests(party_id, None, updated_party_data)
+    return Methods(party_id, updated_party_data, 'party').method_requests(0)
 
 
-@party_api.route("/parties/<party_id>", methods=['GET', 'DELETE'])
-def api_specific_party(party_id):
-    return method_requests(party_id, 1, party=None)
+@party_api.route("/parties/<party_id>", methods=['GET'])
+def api_specific_party_get(party_id):
+    return Methods(party_id, None, 'party').method_requests(1)
+
+
+@party_api.route("/parties/<party_id>", methods=['DELETE'])
+def api_specific_party_delete(party_id):
+    return Methods(party_id, None, 'party').method_requests(2)
 
 
 def req_worker_post():
@@ -40,40 +45,3 @@ def req_worker_post():
         # Successful
         return make_response(jsonify(response_body), 201)
     return make_response(jsonify({"status": 400, "error": "Bad Request: Missing Data Values"}), 400)
-
-
-def party_id_conversions(party_id):
-    try:
-        # conversion of id
-        pid = int(party_id)
-        return pid
-    except ValueError:
-        # Use of Letters as ids edge case
-        return make_response(jsonify({"status": 400, "error": "Invalid Party Id"}), 400)
-
-
-def method_requests(party_id, option, party):
-    pid = party_id_conversions(party_id)
-    if isinstance(pid, int):
-        if option == 1 and party is None:
-            # Option 1 for delete and get
-            return delete_and_get(pid)
-        # Update Party
-        return Methods(PartiesModel, pid, party, 'party').patch()
-    return pid
-
-
-def delete_and_get(pid):
-    if not request.method == 'DELETE':
-        # Pass Through Model to get specific item
-        model_result = PartiesModel(party_id=int(pid)).get_specific_item()
-        #  Check keys
-        if {'id', 'name', 'hqAddress', 'logoUrl'} <= set(model_result):
-            return make_response(jsonify({"status": 200, "data": [model_result]}), 200)
-        return generate_response(model_result)
-    # Delete
-    model_result = PartiesModel(party_id=pid).remove_item()
-    if model_result is None:
-        return make_response(
-            jsonify({"status": 200, "message": "Deleted Successfully"}), 200)
-    return generate_response(model_result)
