@@ -97,7 +97,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
         response = self.client.patch('api/v1/parties/e/name', data=json.dumps(edit_request_json))
         self.assertEqual(response.status_code, 400, "Should Return a 404 HTTP Status Code Response:Not Found")
         # Should return error message
-        self.assertEqual(response.json['error'], 'Invalid Party Id',
+        self.assertEqual(response.json['error'], 'Invalid Id',
                          'Should return not found response')
 
     def test_delete_political_party(self):
@@ -105,7 +105,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
         # Save Post First
         self.client.post('api/v1/parties', data=json.dumps(self.party))
         # Delete Party
-        response = self.client.delete('api/v1/parties/{0}'.format(1))
+        response = self.client.delete('api/v1/parties/1')
         self.assertEqual(response.status_code, 200, "Should Return a 200 HTTP Status Code Response:Deleted")
         self.assertEqual("Deleted Successfully", response.json['message'])
 
@@ -133,7 +133,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
         response = self.client.delete('api/v1/parties/e')
         self.assertEqual(response.status_code, 400, "Should Return a 404 HTTP Status Code Response:Not Found")
         # Should return error message
-        self.assertEqual(response.json['error'], 'Invalid Party Id',
+        self.assertEqual(response.json['error'], 'Invalid Id',
                          'Should return not found response')
 
     def test_view_political_party(self):
@@ -141,7 +141,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
         # Create Party First
         self.client.post('api/v1/parties', data=json.dumps(self.party), content_type="application/json")
         # Get data for specific party
-        response = self.client.get('api/v1/parties/{0}'.format(1))
+        response = self.client.get('api/v1/parties/1')
         expected_response = {
             "id": 1,
             "name": "Pinnacle Party",
@@ -165,7 +165,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
         response = self.client.get('api/v1/parties/e')
         self.assertEqual(response.status_code, 400, "Should Return a 404 HTTP Status Code Response:Not Found")
         # Should return error message
-        self.assertEqual(response.json['error'], 'Invalid Party Id',
+        self.assertEqual(response.json['error'], 'Invalid Id',
                          'Should return not found response')
 
     def test_view_political_party_not_found(self):
