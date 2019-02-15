@@ -46,7 +46,7 @@ class UserEndpointsTestCase(BaseTestCase):
         Tests User cant sign up with insufficient info
         """
         response = self.client.post('api/v1/users', data=json.dumps({"firstname": "David"}))
-        self.assertEqual(response.status_code, 403, "Insufficient Information Being Passed In")
+        self.assertEqual(response.status_code, 400, "Insufficient Information Being Passed In")
         self.assertIn('Invalid Request', response.json['error'])
 
     def test_user_sign_up_user_exists(self):

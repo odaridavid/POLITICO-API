@@ -38,9 +38,8 @@ class PartyModelTest(BaseTestCase):
     def tests_gets_all_items_in_list(self):
         # Retrieves List of items
         self.new_party.create_political_party()
-        self.new_party.create_political_party()
         current_list = self.new_party.get_all_items_in_list()
-        self.assertEqual(len(current_list), 2, "List Length Incorrect")
+        self.assertEqual(len(current_list), 1, "List Length Incorrect")
 
     def tests_remove_party_from_list(self):
         # Removes item from list

@@ -23,7 +23,6 @@ class UserModel(Model):
         validated_user = UserValidator(self.item).all_checks()
         if not validated_user == 'Invalid':
             # Checks If User is in list
-            # TODO List Comprehension
             for user in users:
                 if user['email'] == validated_user['email']:
                     return 'User Exists'

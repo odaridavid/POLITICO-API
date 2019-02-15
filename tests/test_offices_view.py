@@ -27,7 +27,7 @@ class OfficeEndpointsTestCase(BaseTestCase):
                                         'type': 'n',
                                         'name': 'p'
                                     })
-        self.assertEqual(response.status_code, 403, "Should Return a 400 HTTP Status Code Response:Bad Request")
+        self.assertEqual(response.status_code, 400, "Should Return a 400 HTTP Status Code Response:Bad Request")
         # Should return error message
         self.assertIn("Check Input Values", response.json['error'])
 
@@ -183,8 +183,16 @@ class OfficeEndpointsTestCase(BaseTestCase):
 
     def test_delete_office_invalid_id_value_error(self):
         """Tests valid request but invalid data on DELETE request on /offices/{:id}/name endpoint"""
-        self.client.post('api/v1/offices', data=json.dumps(self.party))
+        self.client.post('api/v1/offices', data=json.dumps(self.office))
         response = self.client.delete('api/v1/offices/e')
         self.assertEqual(response.status_code, 400, "Should Return a 404 HTTP Status Code Response:Not Found")
         # Should return error message
         self.assertEqual(response.json['error'], 'Invalid Id')
+
+    def test_no_duplication(self):
+        # Create
+        self.client.post('api/v1/offices', data=json.dumps(self.office))
+
+        response = self.client.post('api/v1/offices', data=json.dumps(self.office))
+        self.assertEqual(response.status_code, 409, "Should Create Party")
+        self.assertEqual(response.json['error'], "Office Already Exists", "Should Create Non Duplicate Ids")

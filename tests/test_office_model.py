@@ -38,9 +38,8 @@ class OfficeModelTest(BaseTestCase):
 
     def test_gets_all_offices_in_list(self):
         self.new_office.create_government_office()
-        self.new_office.create_government_office()
         current_list = self.new_office.get_all_items_in_list()
-        self.assertTrue(len(current_list) == 2, "Problem with list")
+        self.assertTrue(len(current_list) == 1, "Problem with list")
 
     def test_gets_specific_party_name(self):
         self.new_office.create_government_office()

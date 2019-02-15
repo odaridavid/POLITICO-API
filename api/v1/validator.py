@@ -53,9 +53,10 @@ class CheckStrings:
         self.item = item
 
     def check_strings(self):
-        """Validated User names"""
-        if len(self.item) >= 3 and type(self.item) == str:
-            return self.item
+        """Validated Strings and prevents entry of any other type"""
+        if isinstance(self.item, str):
+            if len(self.item) >= 3:
+                return self.item
         return 'Invalid'
 
 
@@ -96,11 +97,13 @@ class PetitionValidator:
         self.petition = petition
 
     def checks(self, key_name):
+        """Checks id is valid"""
         if not self.petition[key_name] > 0:
             return 'Invalid'
         return self.petition[key_name]
 
     def check_body(self):
+        """Checks body of petition"""
         if not len(self.petition['body']) >= 100:
             return 'Invalid'
         return self.petition['body']

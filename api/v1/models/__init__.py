@@ -35,5 +35,4 @@ class Model(object):
         if not len(self.list_of_items) > 0:
             user_id = len(self.list_of_items) + 1
             return user_id
-        user_id = self.list_of_items[-1]['id'] + 1
-        return user_id
+        return self.list_of_items[-1]['id'] + 1

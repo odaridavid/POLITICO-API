@@ -1,6 +1,6 @@
 import unittest
 # Imports create app function to set testing config
-from run import app
+from api import create_app
 from api.v1.models import party_model
 from api.v1.models import office_model
 from api.v1.models import user_model
@@ -10,7 +10,7 @@ class BaseTestCase(unittest.TestCase):
     # Base Class for all test files
     def setUp(self):
         # setup flask app instance to testing configuration environment
-        self.app = app
+        self.app = create_app()
         self.app.config['TESTING'] = True
         self.client = self.app.test_client()
         # for modularisation and code reuse
