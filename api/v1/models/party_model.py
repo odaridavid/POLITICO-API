@@ -20,6 +20,10 @@ class PartiesModel(Model):
         party_id = super(PartiesModel, self).generate_id()
         validated_party = PartyValidator(self.item).all_checks()
         if not validated_party == 'Invalid':
+            # Check for duplicates
+            for party in parties:
+                if party['name'] == validated_party['name']:
+                    return 'Party Exists'
             created_party = {
                 # Id increments on id of last element in list
                 "id": party_id,
@@ -32,4 +36,3 @@ class PartiesModel(Model):
             # Return assigned id response when party successfully created
             return created_party['id']
         return 'Check Input Data'
-

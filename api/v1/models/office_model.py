@@ -20,6 +20,10 @@ class OfficesModel(Model):
         # Validation Response
         validated_office = OfficeValidator(self.item).all_checks()
         if not validated_office == 'Invalid':
+            # Check for duplicates
+            for office in offices:
+                if office['name'] == validated_office['name']:
+                    return 'Office Exists'
             # Created Office as dict
             created_office = {
                 # Id increments on length of list

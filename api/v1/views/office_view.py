@@ -16,8 +16,12 @@ def api_office():
             # add office to model which returns generated id
             gen_id = OfficesModel(office).create_government_office()
             if not isinstance(gen_id, int):
+                if 'Office Exists' in gen_id:
+                    # Duplicate User not allowed
+                    return make_response(jsonify({"status": 409, "error": "Office Already Exists"}), 409)
                 # Invalid Data
-                return make_response(jsonify({"status": 403, "error": "Check Input Values"}), 403)
+                return make_response(jsonify({"status": 400, "error": "Check Input Values"}), 400)
+
             response_body = {
                 "status": 201,
                 "data": [{

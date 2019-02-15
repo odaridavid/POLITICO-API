@@ -213,12 +213,20 @@ class PartiesEndpointsTestCase(BaseTestCase):
         # Should return error message
         self.assertEqual(response.json, self.error_default_not_found, "Should return not found Response")
 
-    def test_correct_non_duplicate_id_generation_after_delete(self):
+    def test_create_afresh_from_scratch_after_delete(self):
+        # Create
         self.client.post('api/v1/parties', data=json.dumps(self.party))
-        self.client.post('api/v1/parties', data=json.dumps(self.party))
-        self.client.post('api/v1/parties', data=json.dumps(self.party))
-        # Delete Post
+        # Delete
         self.client.delete('api/v1/parties/{0}'.format(1))
+
         response = self.client.post('api/v1/parties', data=json.dumps(self.party))
         self.assertEqual(response.status_code, 201, "Should Create Party")
-        self.assertEqual(response.json['data'][0]['id'], 4, "Should Create Non Duplicate Ids")
+        self.assertEqual(response.json['data'][0]['id'], 1, "Should Create Non Duplicate Ids")
+
+    def test_no_duplication(self):
+        # Create
+        self.client.post('api/v1/parties', data=json.dumps(self.party))
+
+        response = self.client.post('api/v1/parties', data=json.dumps(self.party))
+        self.assertEqual(response.status_code, 409, "Should Create Party")
+        self.assertEqual(response.json['error'], "Party Already Exists", "Should Create Non Duplicate Ids")

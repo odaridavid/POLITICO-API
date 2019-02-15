@@ -39,8 +39,12 @@ def req_worker_post():
         # Create Party Model instance and add Party to list
         gen_id = PartiesModel(party).create_political_party()
         if not isinstance(gen_id, int):
-            # Invalid Data
+            if 'Party Exists' in gen_id:
+                # Duplicate Party not allowed
+                return make_response(jsonify({"status": 409, "error": "Party Already Exists"}), 409)
+                # Invalid Data
             return make_response(jsonify({"status": 403, "error": "Check Input Values"}), 403)
+
         response_body = {"status": 201, "data": [{"id": gen_id, "name": party['name']}]}
         # Successful
         return make_response(jsonify(response_body), 201)
