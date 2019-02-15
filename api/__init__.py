@@ -17,6 +17,14 @@ def page_not_found(e):
     return make_response(jsonify(error_response), 404)
 
 
+def method_not_allowed(e):
+    error_response = {
+        "error": "405 ERROR METHOD NOT ALLOWED",
+        "status": 405
+    }
+    return make_response(jsonify(error_response), 405)
+
+
 # configure app prerequisites
 def create_app():
     # create and configure the app
@@ -28,5 +36,6 @@ def create_app():
     app.register_blueprint(petition_api)
     # Error Handler for error message 404
     app.register_error_handler(404, page_not_found)
+    app.register_error_handler(405, method_not_allowed)
     # Return application context
     return app
