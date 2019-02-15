@@ -10,8 +10,7 @@ class BaseTestCase(unittest.TestCase):
     # Base Class for all test files
     def setUp(self):
         # setup flask app instance to testing configuration environment
-        self.app = create_app()
-        self.app.config['TESTING'] = True
+        self.app = create_app('testing')
         self.client = self.app.test_client()
         # for modularisation and code reuse
         self.office = {

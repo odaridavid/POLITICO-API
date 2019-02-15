@@ -6,6 +6,7 @@ from .v1.views.office_view import office_api
 from .v1.views.party_view import party_api
 from .v1.views.user_view import user_api
 from .v1.views.petition_view import petition_api
+from instance.config import application_config
 
 
 # Error Handler Method
@@ -26,9 +27,10 @@ def method_not_allowed(e):
 
 
 # configure app prerequisites
-def create_app():
+def create_app(configuration):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    app.config.from_object(application_config[configuration])
     #  Register  blueprints in app instance creation
     app.register_blueprint(office_api)
     app.register_blueprint(party_api)
