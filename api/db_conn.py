@@ -19,7 +19,11 @@ def db_cursor():
     return db_connection().cursor()
 
 
-def execute_init_queries():
-    db_cursor().execute(DropTables.drop_all_tables())
+def execute_creates_queries():
     db_cursor().execute(CreateTables.create_all_tables())
+    db_connection().commit()
+
+
+def execute_drop_queries():
+    db_cursor().execute(DropTables.drop_all_tables())
     db_connection().commit()
