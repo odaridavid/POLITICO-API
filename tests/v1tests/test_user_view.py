@@ -1,5 +1,5 @@
-from . import BaseTestCase
-from run import app
+from tests.v1tests import BaseTestCase
+from run import create_app
 import json
 
 
@@ -23,7 +23,7 @@ class UserEndpointsTestCase(BaseTestCase):
             "passportUrl": "www.googledrive.com/pics?v=jejfek",
             "password": "12we4r"
         }
-        self.client = app.test_client()
+        self.client = create_app('testing').test_client()
 
     def test_user_sign_up_success(self):
         """
