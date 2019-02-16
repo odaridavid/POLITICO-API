@@ -68,21 +68,37 @@ class CreateTables:
 
 class DropTables:
 
-    def drop_user_table(self):
-        pass
+    @staticmethod
+    def drop_user_table():
+        drop_user = "DROP TABLE IF EXISTS users CASCADE "
+        return drop_user
 
-    def drop_petition_table(self):
-        pass
+    @staticmethod
+    def drop_petition_table():
+        drop_petitions = "DROP TABLE IF EXISTS petitions  "
+        return drop_petitions
 
-    def drop_office_table(self):
-        pass
+    @staticmethod
+    def drop_office_table():
+        drop_offices = "DROP TABLE IF EXISTS offices CASCADE "
+        return drop_offices
 
-    def drop_parties_table(self):
-        pass
+    @staticmethod
+    def drop_parties_table():
+        drop_parties = "DROP TABLE IF EXISTS parties CASCADE "
+        return drop_parties
 
-    def drop_votes_table(self):
-        pass
+    @staticmethod
+    def drop_votes_table():
+        drop_votes = "DROP TABLE IF EXISTS votes "
+        return drop_votes
+
+    @staticmethod
+    def drop_candidates_table():
+        drop_candidates = "DROP TABLE IF EXISTS candidates CASCADE  "
+        return drop_candidates
 
     @classmethod
     def drop_all_tables(cls):
-        pass
+        drop_all = "DROP TABLE IF EXISTS users,petitions,offices,parties,votes,candidates CASCADE "
+        return drop_all
