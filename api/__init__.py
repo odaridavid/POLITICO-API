@@ -31,8 +31,6 @@ def create_app(configuration):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(application_config[configuration])
-    # Load the configuration from the instance folder
-    app.config.from_pyfile('config.py')
     #  Register  blueprints in app instance creation
     app.register_blueprint(office_api)
     app.register_blueprint(party_api)
