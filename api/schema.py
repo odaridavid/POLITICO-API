@@ -11,6 +11,7 @@ class CreateTables:
                       "email        VARCHAR(50) UNIQUE NOT NULL," \
                       "phone_number INTEGER NOT NULL," \
                       "passport_url VARCHAR(50) NOT NULL," \
+                      "pass         VARCHAR(50) NOT NULL," \
                       "is_admin     BOOLEAN NOT NULL DEFAULT 'f');"
 
         create_petition = "CREATE TABLE petitions(" \
