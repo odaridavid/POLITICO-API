@@ -27,3 +27,9 @@ def execute_creates_queries():
 def execute_drop_queries():
     db_cursor().execute(DropTables.drop_all_tables())
     db_connection().commit()
+
+
+def closing_connection(cursor):
+    """Close connection in curson and db"""
+    cursor.close()
+    db_connection().close()
