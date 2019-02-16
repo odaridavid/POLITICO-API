@@ -2,7 +2,7 @@ from tests.v1tests import BaseTestCase
 from api.v1.models.user_model import UserModel
 
 
-class PartyModelTest(BaseTestCase):
+class UserModelTest(BaseTestCase):
     def setUp(self):
         self.user = UserModel(
             user={
