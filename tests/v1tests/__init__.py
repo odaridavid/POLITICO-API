@@ -7,7 +7,7 @@ from api.v1.models import user_model
 
 
 class BaseTestCase(unittest.TestCase):
-    # Base Class for all test files
+    # Base Class for v1 test files
     def setUp(self):
         # setup flask app instance to testing configuration environment
         app.config['TESTING'] = True
