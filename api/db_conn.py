@@ -20,12 +20,14 @@ def db_cursor():
 
 
 def execute_creates_queries():
-    db_cursor().execute(CreateTables.create_all_tables())
+    # Loops through queries as it executes and finally commits
+    for query in CreateTables.create_tables_queries():
+        db_cursor().execute(query)
     db_connection().commit()
 
 
 def execute_drop_queries():
-    db_cursor().execute(DropTables.drop_all_tables())
+    db_cursor().execute(DropTables.drop_tables())
     db_connection().commit()
 
 
