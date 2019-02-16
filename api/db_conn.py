@@ -2,6 +2,7 @@ import psycopg2
 import os
 from instance.config import application_config
 from .schema import CreateTables
+from .schema import DropTables
 
 # Get current environment
 environment = os.getenv("FLASK_ENV")
@@ -13,10 +14,12 @@ def db_connection():
     return psycopg2.connect(db_uri)
 
 
+# Cursor to execute queries
 def db_cursor():
     return db_connection().cursor()
 
 
-def execute_queries():
+def execute_init_queries():
+    db_cursor().execute(DropTables.drop_all_tables())
     db_cursor().execute(CreateTables.create_all_tables())
     db_connection().commit()
