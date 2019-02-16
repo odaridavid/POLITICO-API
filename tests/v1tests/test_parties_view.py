@@ -1,4 +1,4 @@
-from . import BaseTestCase
+from tests.v1tests import BaseTestCase
 import json
 
 

@@ -1,7 +1,9 @@
 """app initializer """
 from api import create_app
+import os
 
-app = create_app()
+# Create app instance with env
+app = create_app(os.getenv("FLASK_ENV"))
 
 if __name__ == '__main__':
     app.run()

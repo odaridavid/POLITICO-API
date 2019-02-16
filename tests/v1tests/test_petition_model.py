@@ -1,4 +1,4 @@
-from . import BaseTestCase
+from tests.v1tests import BaseTestCase
 from api.v1.models.petition_model import PetitionModel
 from api.v1.models import petition_model
 

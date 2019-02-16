@@ -94,5 +94,4 @@ class Methods:
             model_result = OfficesModel(office_id=oid).get_specific_item()
         else:
             model_result = PartiesModel(party_id=oid).get_specific_item()
-
         return model_result

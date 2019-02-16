@@ -2,6 +2,8 @@ language: python
 python:
   #  Python Version to be used
   - "3.6"
+services:
+  - postgresql
 install:
   #  Use Requirements.txt to install dependencies in virtual env
   - pip install -r requirements.txt
@@ -9,6 +11,10 @@ install:
   - pip install pytest
   - pip install python-coveralls
   - pip install pytest-cov
+  - pip install psycopg2
+before_script:
+  - psql -c 'create database politico_db_tests;' -U postgres
+  - export FLASK_ENV=testing
 script:
   - pytest  --cov api tests  -v --cov-report term-missing
 after_success:
