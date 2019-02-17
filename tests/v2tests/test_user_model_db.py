@@ -12,3 +12,8 @@ class UserModelDbTestCase(BaseTestCase):
         self.user.user_sign_up()
         integrity_error = self.user.user_sign_up()
         self.assertEqual(integrity_error, 'User Exists')
+
+    def test_user_sign_up_invalid_data(self):
+        """Tests User cant sign up with invalid data"""
+        invalid_data = self.user_invalid.user_sign_up()
+        self.assertEqual(invalid_data, 'Invalid Data')
