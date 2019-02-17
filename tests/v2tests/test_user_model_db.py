@@ -1,4 +1,5 @@
 from . import BaseTestCase
+from api.v2.models.user_model import UserModelDb
 
 
 class UserModelDbTestCase(BaseTestCase):
@@ -17,3 +18,17 @@ class UserModelDbTestCase(BaseTestCase):
         """Tests User cant sign up with invalid data"""
         invalid_data = self.user_invalid.user_sign_up()
         self.assertEqual(invalid_data, 'Invalid Data')
+
+    def test_user_sign_in_successful(self):
+        """Tests user signed in successfully"""
+        self.user.user_sign_up()
+        user_sign_in = UserModelDb({"email": "odari@gmail.com", "password": "12we3e4r"})
+        sign_in_response = user_sign_in.user_sign_in()
+        self.assertEqual(sign_in_response, 'Login')
+
+    def test_user_sign_in_unsuccessful(self):
+        """Tests user signed in successfully"""
+        self.user.user_sign_up()
+        user_sign_in = UserModelDb({"email": "odari@gmail.com", "password": "12w2sas21e4r"})
+        sign_in_response = user_sign_in.user_sign_in()
+        self.assertEqual(sign_in_response, 'Invalid')
