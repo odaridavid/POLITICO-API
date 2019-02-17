@@ -70,5 +70,57 @@ class UserEndpointsTestCase(BaseTestCase):
         }
         self.client.post('api/v2/auth/signup', data=json.dumps(user))
         response = self.client.post('api/v2/auth/signup', data=json.dumps(user))
-        self.assertEqual(response.status_code, 400, "Invalid Request ,Missing Data")
+        self.assertEqual(response.status_code, 400, "Should contain insufficient keys  for request")
         self.assertIn('Invalid Request ,Missing Data', response.json['error'])
+
+    def test_user_sign_in_success(self):
+        """
+        Tests User Signed in Successfully
+        """
+        self.client.post('api/v2/auth/signup', data=json.dumps({
+            "firstname": "Davied",
+            "lastname": "Odari",
+            "othername": "Kiribwa",
+            "email": "odari@amail.com",
+            "phoneNumber": "0717455945",
+            "passportUrl": "www.googledrive.com/pics?v=jejfek",
+            "password": "1wwjdje3qr",
+            "isAdmin": 0
+        }))
+        response = self.client.post('api/v2/auth/login', data=json.dumps({
+            "email": "odari@amail.com",
+            "password": "1wwjdje3qr"
+        }))
+        self.assertEqual(response.status_code, 201, "Login Should be Successful")
+        self.assertIn('Login Successful', response.json['message'])
+
+    def test_user_sign_in_unsuccessful(self):
+        """
+        Tests User Sign In was unsuccessful
+        """
+        self.client.post('api/v2/auth/signup', data=json.dumps({
+            "firstname": "Davied",
+            "lastname": "Odari",
+            "othername": "Kiribwa",
+            "email": "odari@amail.com",
+            "phoneNumber": "0717455945",
+            "passportUrl": "www.googledrive.com/pics?v=jejfek",
+            "password": "1wwjdje3qr",
+            "isAdmin": 0
+        }))
+        response = self.client.post('api/v2/auth/login', data=json.dumps({
+            "email": "odari@amail.com",
+            "password": "1ww1dqe3qr"
+        }))
+        self.assertEqual(response.status_code, 400, "Login Should be unsuccessful")
+        self.assertIn('Parsing Invalid Data ,Bad Request', response.json['error'])
+
+    def test_user_sign_in_unsuccessful_missing_data(self):
+        """
+        Tests User Sign In was unsuccessful
+        """
+        response = self.client.post('api/v2/auth/login', data=json.dumps({
+            "email": "odari@amail.com",
+        }))
+        self.assertEqual(response.status_code, 400, "Login Should be unsuccessful")
+        self.assertIn('Bad Request,Check Data', response.json['error'])

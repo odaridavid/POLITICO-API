@@ -9,6 +9,7 @@ from api.db_conn import create_tables, drop_tables, close_connection
 class BaseTestCase(unittest.TestCase):
     # Base Class for v2 test files
     def setUp(self):
+        drop_tables()
         create_tables()
         # setup flask app instance to testing configuration environment
         self.app = app_context()
@@ -22,7 +23,7 @@ class BaseTestCase(unittest.TestCase):
                   "phoneNumber": "0717455945",
                   "passportUrl": "www.googledrive.com/pics?v=jejfek",
                   "password": "12we3e4r",
-                  "isAdmin": 0
+                  "isAdmin": 'f'
                   })
         self.user_invalid = UserModelDb(
             user={"firstname": "David",
