@@ -10,7 +10,8 @@ class TestingConfig(Config):
     """Configurations for Testing"""
     TESTING = True
     DEBUG = True
-    DATABASE_URI = os.getenv("TESTING_DATABASE_URI")
+    # Testing db accessed explicitly
+    DATABASE_URI = "postgresql://postgres:politico_dev@localhost:5432/politico_db_tests"
 
 
 class ProductionConfig(Config):

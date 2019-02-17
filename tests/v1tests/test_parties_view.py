@@ -18,7 +18,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 201, "Should Return a 201 HTTP Status Code Response")
         self.assertEqual(expected_data_json, response.json)
 
-    def test_create_office_invalid_forbidden(self):
+    def test_create_office_invalid_bad_request(self):
         """Tests invalid data on POST method request on /parties endpoint"""
         response = self.client.post('api/v1/parties',
                                     json={
@@ -26,7 +26,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
                                         'hqAddress': 'n',
                                         'logoUrl': 'n'
                                     })
-        self.assertEqual(response.status_code, 403, "Should Return a 400 HTTP Status Code Response:Bad Request")
+        self.assertEqual(response.status_code, 400, "Should Return a 400 HTTP Status Code Response:Bad Request")
         # Should return error message
         self.assertIn("Check Input Values", response.json['error'])
 

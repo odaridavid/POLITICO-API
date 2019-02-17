@@ -1,37 +1,54 @@
 import psycopg2
 import os
 from instance.config import application_config
-from .schema import CreateTables
-from .schema import DropTables
+
 
 # Get current environment
-environment = os.getenv("FLASK_ENV")
-# Database URI as per environment
-db_uri = application_config[environment].DATABASE_URI
+def db_uri():
+    # Database URI as per environment
+    if os.getenv("FLASK_ENV") is None:
+        # return "dbname=politico_db_tests user=postgres password=politico host=localhost port=5432"
+        return application_config['testing'].DATABASE_URI
+    return application_config[os.getenv("FLASK_ENV")].DATABASE_URI
 
 
-def db_connection():
-    return psycopg2.connect(db_uri)
+def connection():
+    """Psycopg2 connection to db"""
+    return psycopg2.connect(db_uri())
 
 
-# Cursor to execute queries
-def db_cursor():
-    return db_connection().cursor()
+def db_connect():
+    """Connection to database"""
+    con = connection()
+    return con
 
 
-def execute_creates_queries():
-    # Loops through queries as it executes and finally commits
-    for query in CreateTables.create_tables_queries():
-        db_cursor().execute(query)
-    db_connection().commit()
+def create_tables():
+    """Creates tables and commits to database"""
+    con = psycopg2.connect(db_uri())
+    cursor = con.cursor()
+    cursor.execute("CREATE TABLE IF NOT EXISTS users(\
+                       _id         SERIAL  PRIMARY KEY NOT NULL,\
+                      firstname    VARCHAR(100) NOT NULL ,\
+                      lastname     VARCHAR(100) NOT NULL,\
+                      othername    VARCHAR(100) NOT NULL,\
+                      email        VARCHAR  UNIQUE NOT NULL,\
+                      phone_number VARCHAR(15) NOT NULL,\
+                      passport_url VARCHAR NOT NULL,\
+                      pass         VARCHAR NOT NULL, \
+                      is_admin     BOOLEAN NOT NULL DEFAULT 'f');")
+    con.commit()
 
 
-def execute_drop_queries():
-    db_cursor().execute(DropTables.drop_tables())
-    db_connection().commit()
+def drop_tables():
+    """Drops tables when done"""
+    con = psycopg2.connect(db_uri())
+    cursor = con.cursor()
+    cursor.execute("""DROP TABLE IF EXISTS users;""")
+    con.commit()
 
 
-def closing_connection(cursor):
-    """Close connection in curson and db"""
-    cursor.close()
-    db_connection().close()
+def close_connection():
+    """Closes connection when done"""
+    con = psycopg2.connect(db_uri())
+    con.close()

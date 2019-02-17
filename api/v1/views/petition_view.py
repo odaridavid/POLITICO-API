@@ -19,4 +19,4 @@ def api_petitions():
                     "status": 201,
                     "data": [validated_petition]
                 }), 201)
-    return make_response(jsonify({"status": 403, "error": "Invalid Request ,Missing Data"}), 403)
+    return make_response(jsonify({"status": 400, "error": "Invalid Request ,Missing Data"}), 400)

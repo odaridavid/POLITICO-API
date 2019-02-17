@@ -1,5 +1,5 @@
 from tests.v1tests import BaseTestCase
-from run import app
+from run import app_context
 import json
 
 
@@ -23,7 +23,7 @@ class PetitionEndpointsTestCase(BaseTestCase):
             "office": 2,
             "body": "P"
         }
-        self.client = app.test_client()
+        self.client = app_context().test_client()
 
     def test_petition_created_successfully(self):
         """
@@ -38,7 +38,7 @@ class PetitionEndpointsTestCase(BaseTestCase):
         Tests Petition Creation Unsuccessful
         """
         response = self.client.post('api/v1/petitions', data=json.dumps(self.petition_invalid_key))
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json['error'], "Invalid Request ,Missing Data")
 
     def test_petition_invalidated(self):

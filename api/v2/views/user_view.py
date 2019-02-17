@@ -1,16 +1,15 @@
 from flask import Blueprint, request, jsonify, make_response
-from api.v1.models.user_model import UserModel
+from api.v2.models.user_model import UserModelDb
 
-user_api = Blueprint('user_v1', __name__, url_prefix="/api/v1")
+user_api_v2 = Blueprint('user_v2', __name__, url_prefix="/api/v2")
 
 
-@user_api.route("/users", methods=['POST'])
+@user_api_v2.route("/auth/signup", methods=['POST'])
 def api_user_sign_up():
     user = request.get_json(force=True)
     # Make Sure Keys Exist
-    if {"firstname", "lastname", "othername", "email", "phoneNumber", "passportUrl", "password"} <= set(
-            user):
-        validated_user_msg = UserModel(user=user).user_sign_up()
+    if {"firstname", "lastname", "othername", "email", "phoneNumber", "passportUrl", "password","isAdmin"} <= set(user):
+        validated_user_msg = UserModelDb(user).user_sign_up()
         if 'Invalid Data' in validated_user_msg:
             # Invalidated data
             return make_response(jsonify({"status": 400, "error": "Parsing Invalid Data ,Bad Request"}), 400)
@@ -20,4 +19,5 @@ def api_user_sign_up():
         else:
             return make_response(
                 jsonify({"status": 201, "data": "{} Signed Up Successfully".format(validated_user_msg)}), 201)
+    #     Missing data
     return make_response(jsonify({"status": 400, "error": "Invalid Request ,Missing Data"}), 400)

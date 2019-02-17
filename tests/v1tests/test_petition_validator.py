@@ -1,5 +1,5 @@
 from tests.v1tests import BaseTestCase
-from api.v1.validator import PetitionValidator
+from api.validator import PetitionValidator
 
 
 class PetitionValidatorTest(BaseTestCase):

@@ -1,5 +1,5 @@
 from . import Model
-from api.v1.validator import OfficeValidator
+from api.validator import OfficeValidator
 
 # List DT will hold list of parties and offices represented as dicts
 offices = []
