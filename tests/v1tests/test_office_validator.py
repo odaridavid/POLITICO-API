@@ -1,5 +1,5 @@
 from tests.v1tests import BaseTestCase
-from api.v1.validator import OfficeValidator
+from api.validator import OfficeValidator
 
 
 class OfficeValidatorTest(BaseTestCase):

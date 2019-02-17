@@ -1,5 +1,5 @@
 from tests.v1tests import BaseTestCase
-from api.v1.validator import UserValidator, CheckStrings
+from api.validator import UserValidator, CheckStrings
 
 
 class UserValidatorTest(BaseTestCase):

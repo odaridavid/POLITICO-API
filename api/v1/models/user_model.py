@@ -1,5 +1,5 @@
 from . import Model
-from api.v1.validator import UserValidator
+from api.validator import UserValidator
 
 users = []
 
