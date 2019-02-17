@@ -1,5 +1,5 @@
 from tests.v1tests import BaseTestCase
-from run import app
+from run import app_context
 import json
 
 
@@ -23,7 +23,7 @@ class PetitionEndpointsTestCase(BaseTestCase):
             "office": 2,
             "body": "P"
         }
-        self.client = app.test_client()
+        self.client = app_context().test_client()
 
     def test_petition_created_successfully(self):
         """

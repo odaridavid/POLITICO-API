@@ -7,6 +7,7 @@ from .v1.views.party_view import party_api
 from .v1.views.user_view import user_api
 from .v1.views.petition_view import petition_api
 from instance.config import application_config
+from .db_conn import create_tables, drop_tables
 
 
 # Error Handler Method

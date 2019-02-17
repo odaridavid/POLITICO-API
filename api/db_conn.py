@@ -8,15 +8,13 @@ def db_uri():
     # Database URI as per environment
     if os.getenv("FLASK_ENV") is None:
         # return "dbname=politico_db_tests user=postgres password=politico host=localhost port=5432"
-        return "postgresql://postgres:politico@localhost:5432/politico_db_tests"
-    return "postgresql://postgres:politico@localhost:5432/politico_db_tests"
+        return application_config['testing'].DATABASE_URI
+    return application_config[os.getenv("FLASK_ENV")].DATABASE_URI
 
 
 def connection():
-    try:
-        return psycopg2.connect(db_uri())
-    except psycopg2.OperationalError:
-        return 'Connection Error'
+    """Psycopg2 connection to db"""
+    return psycopg2.connect(db_uri())
 
 
 def db_connect():
