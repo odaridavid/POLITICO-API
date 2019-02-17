@@ -6,7 +6,7 @@ from api.validator import OfficeValidator
 class OfficesModelDb:
     """Offices Model Class"""
 
-    def __init__(self, office):
+    def __init__(self, office=None):
         # Setup connection to db
         self.db_conn = db_connect()
         # Office object being worked on
@@ -29,3 +29,11 @@ class OfficesModelDb:
             return office_name
         except psycopg2.IntegrityError:
             return 'Office Exists'
+
+    def get_all_offices(self):
+        query = "SELECT * from offices"
+        cursor = self.db_conn.cursor()
+        cursor.execute(query)
+        self.db_conn.commit()
+        rows = cursor.fetchall()
+        return rows

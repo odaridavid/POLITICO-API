@@ -1,4 +1,5 @@
 from . import BaseTestCase
+from api.v2.models.office_model import OfficesModelDb
 
 
 class OfficeModelDbTestCase(BaseTestCase):
@@ -17,3 +18,11 @@ class OfficeModelDbTestCase(BaseTestCase):
         """Tests data given is invalid"""
         integrity_error = self.office_invalid.create_office()
         self.assertEqual(integrity_error, 'Invalid Data')
+
+    def test_get_offices(self):
+        """Tests gets all data """
+        OfficesModelDb({"name": "Governor", "type": "Government"}).create_office()
+        OfficesModelDb({"name": "Senetor", "type": "Government"}).create_office()
+        OfficesModelDb({"name": "County Rep", "type": "Private Sec"}).create_office()
+        offices = OfficesModelDb().get_all_offices()
+        self.assertEqual(len(offices), 3)

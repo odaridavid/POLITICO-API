@@ -45,3 +45,21 @@ class OfficeEndpointsTestCase(BaseTestCase):
         }))
         self.assertEqual(response.status_code, 400, "Should be Parsing Invalid Data ,Bad Request")
         self.assertIn('Missing Key value', response.json['error'])
+
+    def test_get_all_offices_empty(self):
+        response = self.client.get('api/v2/offices')
+        self.assertEqual(response.status_code, 200, "Should be getting all offices")
+        self.assertEqual(0, len(response.json['data']))
+
+    def test_get_all_offices(self):
+        self.client.post('api/v2/offices', data=json.dumps({
+            "name": "Goverment Official",
+            "type": "Patrol"
+        }))
+        self.client.post('api/v2/offices', data=json.dumps({
+            "name": "Government Steward",
+            "type": "Patrol"
+        }))
+        response = self.client.get('api/v2/offices')
+        self.assertEqual(response.status_code, 200, "Should be getting all offices")
+        self.assertEqual(2, len(response.json['data']))
