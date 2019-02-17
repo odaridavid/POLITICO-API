@@ -43,7 +43,8 @@ def req_worker_post():
                 # Duplicate Party not allowed
                 return make_response(jsonify({"status": 409, "error": "Party Already Exists"}), 409)
                 # Invalid Data
-            return make_response(jsonify({"status": 403, "error": "Check Input Values"}), 403)
+            # TODO status code
+            return make_response(jsonify({"status": 400, "error": "Check Input Values"}), 400)
 
         response_body = {"status": 201, "data": [{"id": gen_id, "name": party['name']}]}
         # Successful
