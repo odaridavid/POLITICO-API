@@ -27,7 +27,7 @@ class UserModelDbTestCase(BaseTestCase):
         self.assertEqual(sign_in_response, 'Login')
 
     def test_user_sign_in_unsuccessful(self):
-        """Tests user signed in successfully"""
+        """Tests user sign in unsuccessfully"""
         self.user.user_sign_up()
         user_sign_in = UserModelDb({"email": "odari@gmail.com", "password": "12w2sas21e4r"})
         sign_in_response = user_sign_in.user_sign_in()

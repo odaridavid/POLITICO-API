@@ -27,7 +27,32 @@ def create_tables():
     """Creates tables and commits to database"""
     con = psycopg2.connect(db_uri())
     cursor = con.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS users(\
+    # Execute queries
+    for QUERY in schema():
+        cursor.execute(QUERY)
+    con.commit()
+
+
+def drop_tables():
+    """Drops tables when done"""
+    con = psycopg2.connect(db_uri())
+    cursor = con.cursor()
+    cursor.execute("""DROP TABLE IF EXISTS users,offices;""")
+    con.commit()
+
+
+def close_connection():
+    """Closes connection when done"""
+    con = psycopg2.connect(db_uri())
+    con.close()
+
+
+def schema():
+    create_office = """CREATE TABLE IF NOT EXISTS offices( 
+                    _id          SERIAL  PRIMARY KEY NOT NULL,
+                    office_type   VARCHAR(100) NOT NULL,
+                    office_name   VARCHAR(100) UNIQUE NOT NULL);"""
+    create_users = "CREATE TABLE IF NOT EXISTS users(\
                        _id         SERIAL  PRIMARY KEY NOT NULL,\
                       firstname    VARCHAR(100) NOT NULL ,\
                       lastname     VARCHAR(100) NOT NULL,\
@@ -36,19 +61,5 @@ def create_tables():
                       phone_number VARCHAR(15) NOT NULL,\
                       passport_url VARCHAR NOT NULL,\
                       pass         VARCHAR NOT NULL, \
-                      is_admin     BOOLEAN NOT NULL DEFAULT 'f');")
-    con.commit()
-
-
-def drop_tables():
-    """Drops tables when done"""
-    con = psycopg2.connect(db_uri())
-    cursor = con.cursor()
-    cursor.execute("""DROP TABLE IF EXISTS users;""")
-    con.commit()
-
-
-def close_connection():
-    """Closes connection when done"""
-    con = psycopg2.connect(db_uri())
-    con.close()
+                      is_admin     BOOLEAN NOT NULL DEFAULT 'f');"
+    return [create_users, create_office]
