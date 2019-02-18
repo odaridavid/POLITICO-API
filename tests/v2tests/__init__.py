@@ -1,6 +1,6 @@
 import unittest
 # Imports create app function to set testing config
-from run import app_context
+from run import create_app
 # from api.db_conn import execute_drop_queries
 from api.v2.models.user_model import UserModelDb
 from api.v2.models.office_model import OfficesModelDb
@@ -13,7 +13,7 @@ class BaseTestCase(unittest.TestCase):
         drop_tables()
         create_tables()
         # setup flask app instance to testing configuration environment
-        self.app = app_context()
+        self.app = create_app('testing')
         # drop existing tables
         self.client = self.app.test_client()
         self.user = UserModelDb(

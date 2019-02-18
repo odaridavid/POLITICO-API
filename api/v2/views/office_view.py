@@ -58,13 +58,22 @@ def api_edit_office(offices_id):
 def api_specific_office_get(office_id):
     oid = id_conversion(office_id)
     office = OfficesModelDb(office_id=oid).get_specific_office()
-    if isinstance(office, list) and len(office) > 1:
+    if isinstance(office, list) and len(office) >= 1:
         response_body = {
             "id": office[0][0],
             "office_type": office[0][1],
             "office_name": office[0][2]
         }
         return make_response(jsonify({"status": 200, "data": [response_body]}), 200)
+    return make_response(jsonify({"status": 404, "error": "Data Not Found"}), 404)
+
+
+@office_api_v2.route("/offices/<office_id>", methods=['DELETE'])
+def api_specific_office_delete(office_id):
+    oid = id_conversion(office_id)
+    office = OfficesModelDb(office_id=oid).delete_office()
+    if isinstance(office, list):
+        return make_response(jsonify({"status": 200, "message": "{} Deleted".format(office[0][0])}), 200)
     return make_response(jsonify({"status": 404, "error": "Data Not Found"}), 404)
 
 

@@ -132,7 +132,15 @@ class OfficeEndpointsTestCase(BaseTestCase):
         self.assertIn('Data Not Found', response.json['error'])
 
     def test_delete_item_success(self):
-        pass
+        self.client.post('api/v2/offices', data=json.dumps({
+            "name": "Government Steward",
+            "type": "Patrol"
+        }))
+        response = self.client.delete("api/v2/offices/1")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual('Government Steward Deleted', response.json['message'])
 
     def test_delete_item_fail(self):
-        pass
+        response = self.client.delete("api/v2/offices/1")
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual('Data Not Found', response.json['error'])

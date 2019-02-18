@@ -43,6 +43,7 @@ class OfficesModelDb:
         return rows
 
     def edit_office(self, new_name):
+        # TODO update office type
         if isinstance(self.office_id, int):
             query = "UPDATE offices SET office_name = %s WHERE _id = %s;"
             cursor = self.db_conn.cursor()
@@ -64,7 +65,17 @@ class OfficesModelDb:
         return 'Invalid Id'
 
     def delete_office(self):
-        pass
+        """Deletes an office from db"""
+        query = """DELETE FROM offices WHERE _id=%s RETURNING office_name"""
+        cursor = self.db_conn.cursor()
+        if isinstance(self.office_id, int):
+            cursor.execute(query, (self.office_id,))
+            self.db_conn.commit()
+            office_row = cursor.fetchall()
+            if len(office_row) == 0:
+                return 'Empty'
+            return office_row
+        return 'Invalid Id'
 
     def get_specific_office(self):
         """Gets a specific office provided by id"""
