@@ -112,7 +112,7 @@ class OfficeEndpointsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 400)
         self.assertIn('Invalid Data ,Check id or data being updated', response.json['error'])
 
-    def test_specific_item_success(self):
+    def test_specific_office_success(self):
         self.client.post('api/v2/offices', data=json.dumps({
             "name": "Government Steward",
             "type": "Patrol"
@@ -121,7 +121,18 @@ class OfficeEndpointsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn('Government Steward', response.json['data'][0]['office_name'])
 
-    def test_specific_item_fail(self):
+    def test_specific_office_unsuccessful(self):
+        response = self.client.get("api/v2/offices/1")
+        self.assertEqual(response.status_code, 404)
+        self.assertIn('Data Not Found', response.json['error'])
+
+    def test_specific_office_fail(self):
         response = self.client.get("api/v2/offices/---")
         self.assertEqual(response.status_code, 404)
         self.assertIn('Data Not Found', response.json['error'])
+
+    def test_delete_item_success(self):
+        pass
+
+    def test_delete_item_fail(self):
+        pass

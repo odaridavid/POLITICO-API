@@ -58,7 +58,7 @@ def api_edit_office(offices_id):
 def api_specific_office_get(office_id):
     oid = id_conversion(office_id)
     office = OfficesModelDb(office_id=oid).get_specific_office()
-    if isinstance(office, list):
+    if isinstance(office, list) and len(office) > 1:
         response_body = {
             "id": office[0][0],
             "office_type": office[0][1],
