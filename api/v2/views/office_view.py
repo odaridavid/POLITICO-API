@@ -54,6 +54,20 @@ def api_edit_office(offices_id):
     return make_response(jsonify({"status": 400, "error": "Missing Key value"}), 400)
 
 
+@office_api_v2.route("/offices/<office_id>", methods=['GET'])
+def api_specific_office_get(office_id):
+    oid = id_conversion(office_id)
+    office = OfficesModelDb(office_id=oid).get_specific_office()
+    if isinstance(office, list):
+        response_body = {
+            "id": office[0][0],
+            "office_type": office[0][1],
+            "office_name": office[0][2]
+        }
+        return make_response(jsonify({"status": 200, "data": [response_body]}), 200)
+    return make_response(jsonify({"status": 404, "error": "Data Not Found"}), 404)
+
+
 def id_conversion(item_id):
     try:
         oid = int(item_id)

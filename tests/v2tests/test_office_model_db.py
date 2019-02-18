@@ -52,3 +52,14 @@ class OfficeModelDbTestCase(BaseTestCase):
         OfficesModelDb({"name": "Assembly Speaker", "type": "Government"}).create_office()
         edit_office = OfficesModelDb(office_id='t').edit_office('Governor')
         self.assertEqual('Invalid Id', edit_office)
+
+    def test_gets_specific_item_success(self):
+        """Tests can get data with right id"""
+        OfficesModelDb({"name": "Governor", "type": "Government"}).create_office()
+        office = OfficesModelDb(office_id=1).get_specific_office()
+        self.assertIn('Government', office[0][1])
+
+    def test_gets_specific_item_invalid_id(self):
+        """Tests cant get data with invalid id"""
+        office = OfficesModelDb(office_id='t').get_specific_office()
+        self.assertIn('Invalid Id', office)

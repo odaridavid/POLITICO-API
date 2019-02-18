@@ -59,10 +59,20 @@ class OfficesModelDb:
             # Look Up To Confirm was saved
             query = "SELECT * FROM offices WHERE _id=%s"
             cursor.execute(query, (self.office_id,))
-            user_row = cursor.fetchall()
-            return user_row
+            office_row = cursor.fetchall()
+            return office_row
         return 'Invalid Id'
 
     def delete_office(self):
         pass
 
+    def get_specific_office(self):
+        """Gets a specific office provided by id"""
+        query = "SELECT * FROM offices WHERE _id=%s"
+        cursor = self.db_conn.cursor()
+        if isinstance(self.office_id, int):
+            cursor.execute(query, (self.office_id,))
+            self.db_conn.commit()
+            office_row = cursor.fetchall()
+            return office_row
+        return 'Invalid Id'
