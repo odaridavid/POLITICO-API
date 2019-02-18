@@ -36,3 +36,28 @@ def api_get_offices():
     offices = OfficesModelDb().get_all_offices()
     # If parties list has no items or does  Successful
     return make_response(jsonify({"status": 200, "data": offices}), 200)
+
+
+@office_api_v2.route("/offices/<offices_id>/name", methods=['PATCH'])
+def api_edit_office(offices_id):
+    # Get Json Request Data
+    oid = id_conversion(offices_id)
+    updated_office_data = request.get_json(force=True)
+    if {'name'} <= set(updated_office_data):
+        # Pass in office id and office data to be used
+        model_result = OfficesModelDb(office_id=oid).edit_office(updated_office_data['name'])
+        if 'Invalid Id' in model_result or 'Invalid Data' in model_result:
+            return make_response(jsonify({"status": 400, "error": "Invalid Data ,Check id or data being updated"}), 400)
+        elif 'Office Exists' in model_result:
+            return make_response(jsonify({"status": 409, "error": "Office with similar name exists"}), 409)
+        return make_response(jsonify({"status": 200, "message": "{} updated succesfully".format(model_result)}), 200)
+    return make_response(jsonify({"status": 400, "error": "Missing Key value"}), 400)
+
+
+def id_conversion(item_id):
+    try:
+        oid = int(item_id)
+        return oid
+    except ValueError:
+        # Use of Letters as ids edge case
+        return 'Invalid'

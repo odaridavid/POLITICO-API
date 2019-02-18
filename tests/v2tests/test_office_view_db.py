@@ -47,11 +47,13 @@ class OfficeEndpointsTestCase(BaseTestCase):
         self.assertIn('Missing Key value', response.json['error'])
 
     def test_get_all_offices_empty(self):
+        """Tests that the offices in the db are retrived as empty list if none"""
         response = self.client.get('api/v2/offices')
         self.assertEqual(response.status_code, 200, "Should be getting all offices")
         self.assertEqual(0, len(response.json['data']))
 
     def test_get_all_offices(self):
+        """Tests that all offices are retrieved """
         self.client.post('api/v2/offices', data=json.dumps({
             "name": "Goverment Official",
             "type": "Patrol"
@@ -63,3 +65,49 @@ class OfficeEndpointsTestCase(BaseTestCase):
         response = self.client.get('api/v2/offices')
         self.assertEqual(response.status_code, 200, "Should be getting all offices")
         self.assertEqual(2, len(response.json['data']))
+
+    def test_office_edited_successfully(self):
+        """"Tests that offices are edited successfully"""
+        # TODO From here
+        self.client.post('api/v2/offices', data=json.dumps({
+            "name": "Government Steward",
+            "type": "Patrol"
+        }))
+        response = self.client.patch('api/v2/offices/{}/name'.format(1), data=json.dumps({
+            "name": "President"
+        }))
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('President', response.json['message'])
+
+    def test_office_edited_unsuccessful_missing_key(self):
+        response = self.client.patch('api/v2/offices/{}/name'.format(1), data=json.dumps({
+        }))
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('Missing Key value', response.json['error'])
+
+    def test_office_edited_exists(self):
+        # TODO fix
+        self.client.post('api/v2/offices', data=json.dumps({
+            "name": "Government Steward",
+            "type": "Patrol"
+        }))
+        self.client.post('api/v2/offices', data=json.dumps({
+            "name": "Government This",
+            "type": "Patroler"
+        }))
+        response = self.client.patch('api/v2/offices/{}/name'.format(1), data=json.dumps({
+            "name": "Government This"
+        }))
+        self.assertEqual(response.status_code, 409)
+        self.assertIn('Office with similar name exists', response.json['error'])
+
+    def test_office_edited_data_invalid(self):
+        self.client.post('api/v2/offices', data=json.dumps({
+            "name": "Government Steward",
+            "type": "Patrol"
+        }))
+        response = self.client.patch('api/v2/offices/{}/name'.format(1), data=json.dumps({
+            "name": "G"
+        }))
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('Invalid Data ,Check id or data being updated', response.json['error'])
