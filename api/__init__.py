@@ -10,6 +10,7 @@ from instance.config import application_config
 from .db_conn import create_tables, drop_tables
 from .v2.views.user_view import user_api_v2
 from .v2.views.office_view import office_api_v2
+from .v2.views.parties_view import parties_api_v2
 
 
 # Error Handler Method
@@ -43,6 +44,7 @@ def create_app(configuration='development'):
     create_tables()
     app.register_blueprint(user_api_v2)
     app.register_blueprint(office_api_v2)
+    app.register_blueprint(parties_api_v2)
     # Error Handler for error message 404
     app.register_error_handler(404, page_not_found)
     app.register_error_handler(405, method_not_allowed)

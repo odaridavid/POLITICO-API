@@ -37,7 +37,7 @@ def drop_tables():
     """Drops tables when done"""
     con = psycopg2.connect(db_uri())
     cursor = con.cursor()
-    cursor.execute("""DROP TABLE IF EXISTS users,offices;""")
+    cursor.execute("""DROP TABLE IF EXISTS users,offices,parties;""")
     con.commit()
 
 
@@ -62,4 +62,9 @@ def schema():
                       passport_url VARCHAR NOT NULL,\
                       pass         VARCHAR NOT NULL, \
                       is_admin     BOOLEAN NOT NULL DEFAULT 'f');"
-    return [create_users, create_office]
+    create_parties = "CREATE TABLE parties(" \
+                     "_id         SERIAL  PRIMARY KEY NOT NULL," \
+                     "party_name  VARCHAR(50)   UNIQUE NOT NULL," \
+                     "hq_address  VARCHAR(100)  NOT NULL," \
+                     "logo_url    VARCHAR(200)  NOT NULL);"
+    return [create_users, create_office, create_parties]
