@@ -40,7 +40,7 @@ def api_edit_party(party_id):
             return make_response(jsonify({"status": 400, "error": "Invalid Data ,Check id or data being updated"}), 400)
         elif 'Party Exists' in model_result:
             return make_response(jsonify({"status": 409, "error": "Party with similar name exists"}), 409)
-        return make_response(jsonify({"status": 200, "message": "{} Updated successfully".format(model_result[0][1])}),
+        return make_response(jsonify({"status": 200, "message": "{} Updated Successfully".format(model_result[0][1])}),
                              200)
     return make_response(jsonify({"status": 400, "error": "Missing Key value"}), 400)
 
