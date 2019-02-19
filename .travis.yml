@@ -2,6 +2,10 @@ language: python
 python:
   #  Python Version to be used
   - "3.6"
+env:
+  global:
+    - FLASK_ENV=testing
+    - TESTING_DATABASE_URI="postgresql://postgres@localhost:5432/politico_db_tests"
 services:
   - postgresql
 install:
@@ -13,9 +17,9 @@ install:
   - pip install pytest-cov
   - pip install psycopg2
 before_script:
+  - psql -c 'drop database if exists politico_db_tests;' -U postgres
   - psql -c 'create database politico_db_tests;' -U postgres
-  - export FLASK_ENV=testing
-  - export TESTING_DATABASE_URI="postgresql://postgres@localhost:5432/politico_db_tests"
+
 script:
   - pytest  --cov api tests  -v --cov-report term-missing
 after_success:
