@@ -3,8 +3,8 @@ python:
   #  Python Version to be used
   - "3.6"
 env:
-  - export FLASK_ENV=testing
-  - export TESTING_DATABASE_URI="postgresql://postgres@localhost:5432/politico_db_tests"
+  - FLASK_ENV=testing
+  - TESTING_DATABASE_URI="postgresql://postgres@localhost:5432/politico_db_tests"
 services:
   - postgresql
 install:
