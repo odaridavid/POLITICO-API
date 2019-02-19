@@ -83,7 +83,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
             "name": "New Party"
         }))
         self.assertEqual(response.status_code, 200)
-        self.assertIn('New Party', response.json['message'])
+        self.assertIn('New Party Updated Successfully', response.json['message'])
 
     def test_party_edited_unsuccessful_missing_key(self):
         """Test edit with missing key"""

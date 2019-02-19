@@ -57,16 +57,12 @@ class PartiesModelDb:
         return results
 
     def edit_party(self, new_name):
-        # TODO edit all fields
         if isinstance(self.party_id, int):
             query = "UPDATE parties SET party_name = %s WHERE _id = %s;"
             cursor = self.db_conn.cursor()
-            # Validate data to be updated
-            if len(new_name) < 4 or isinstance(new_name, str) == False:
+            if len(new_name) < 4 or isinstance(new_name, str) is False:
                 return 'Invalid Data'
-            # Execute function works with iterable
             try:
-                # Check name doesnt exist first
                 query_check = "SELECT * FROM parties WHERE party_name=%s"
                 cursor.execute(query_check, (new_name,))
                 self.db_conn.commit()
@@ -77,7 +73,6 @@ class PartiesModelDb:
                 self.db_conn.commit()
             except psycopg2.IntegrityError:
                 return 'Party Exists'
-            # Look Up To Confirm was saved
             query = "SELECT * FROM parties WHERE _id=%s"
             cursor.execute(query, (self.party_id,))
             party_row = cursor.fetchall()
