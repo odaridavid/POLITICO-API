@@ -76,7 +76,7 @@ class OfficeEndpointsTestCase(BaseTestCase):
             "name": "President"
         }))
         self.assertEqual(response.status_code, 200)
-        self.assertIn('President', response.json['message'])
+        self.assertIn('Updated Successfully', response.json['message'])
 
     def test_office_edited_unsuccessful_missing_key(self):
         response = self.client.patch('api/v2/offices/{}/name'.format(1), data=json.dumps({
