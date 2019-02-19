@@ -34,7 +34,6 @@ class OfficesModelDb:
         cursor = self.db_conn.cursor()
         cursor.execute(query)
         self.db_conn.commit()
-        # Result of tables in list as tuples
         rows = cursor.fetchall()
         results = []
         for row in rows:
@@ -56,7 +55,6 @@ class OfficesModelDb:
             if len(new_name) < 4 or isinstance(new_name, str) is False:
                 return 'Invalid Data'
             try:
-                # Check name doesnt exist first
                 query_check = "SELECT * FROM offices WHERE office_name=%s"
                 cursor.execute(query_check, (new_name,))
                 self.db_conn.commit()
@@ -67,7 +65,6 @@ class OfficesModelDb:
                 self.db_conn.commit()
             except psycopg2.IntegrityError:
                 return 'Office Exists'
-            # Look Up To Confirm was saved
             query = "SELECT * FROM offices WHERE _id=%s"
             cursor.execute(query, (self.office_id,))
             row = cursor.fetchall()
