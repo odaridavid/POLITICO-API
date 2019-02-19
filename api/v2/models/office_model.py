@@ -71,6 +71,8 @@ class OfficesModelDb:
             query = "SELECT * FROM offices WHERE _id=%s"
             cursor.execute(query, (self.office_id,))
             row = cursor.fetchall()
+            if len(row) == 0:
+                return 'Invalid Id'
             return row
         return 'Invalid Id'
 
