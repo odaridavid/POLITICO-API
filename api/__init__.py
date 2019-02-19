@@ -34,7 +34,7 @@ def method_not_allowed(e):
 def invalid_request(e):
     error_response = {
         "error": "400 ERROR CHECK YOUR REQUEST",
-        "status": 405
+        "status": 400
     }
     return make_response(jsonify(error_response), 400)
 
