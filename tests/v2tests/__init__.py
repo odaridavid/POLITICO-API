@@ -8,13 +8,10 @@ from api.db_conn import create_tables, drop_tables, close_connection
 
 
 class BaseTestCase(unittest.TestCase):
-    # Base Class for v2 test files
     def setUp(self):
         drop_tables()
         create_tables()
-        # setup flask app instance to testing configuration environment
         self.app = create_app('testing')
-        # drop existing tables
         self.client = self.app.test_client()
         self.user = UserModelDb(
             user={"firstname": "David",
@@ -39,6 +36,5 @@ class BaseTestCase(unittest.TestCase):
         self.office_invalid = OfficesModelDb({"type": "Transport", "name": ""})
 
     def tearDown(self):
-        # execute_drop_queries()
         drop_tables()
         close_connection()
