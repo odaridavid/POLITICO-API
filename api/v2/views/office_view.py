@@ -40,7 +40,7 @@ def api_edit_office(offices_id):
             return make_response(jsonify({"status": 400, "error": "Invalid Data ,Check id or data being updated"}), 400)
         elif 'Office Exists' in model_result:
             return make_response(jsonify({"status": 409, "error": "Office with similar name exists"}), 409)
-        return make_response(jsonify({"status": 200, "message": "Updated succesfully"}), 200)
+        return make_response(jsonify({"status": 200, "message": "Updated successfully"}), 200)
     return make_response(jsonify({"status": 400, "error": "Missing Key value"}), 400)
 
 
