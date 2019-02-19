@@ -40,7 +40,6 @@ def create_app(configuration='development'):
     app.register_blueprint(party_api)
     app.register_blueprint(office_api)
     # Register app blue prints version 2
-    drop_tables()
     create_tables()
     app.register_blueprint(user_api_v2)
     app.register_blueprint(office_api_v2)

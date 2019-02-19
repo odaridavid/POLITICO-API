@@ -3,7 +3,7 @@ import json
 
 
 class OfficeEndpointsTestCase(BaseTestCase):
-    def test_office_created_success(self):
+    def test_office_creation_success(self):
         """
         Tests Office Created Successfully
         """
@@ -38,7 +38,7 @@ class OfficeEndpointsTestCase(BaseTestCase):
 
     def test_create_office_with_missing_data(self):
         """
-        Tests User Signed Up with missing
+        Tests create office with missing data
         """
         response = self.client.post('api/v2/offices', data=json.dumps({
             "name": "Attorney General"
@@ -46,13 +46,13 @@ class OfficeEndpointsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 400, "Should be Parsing Invalid Data ,Bad Request")
         self.assertIn('Missing Key value', response.json['error'])
 
-    def test_get_all_offices_empty(self):
+    def test_get_all_offices_empty_set(self):
         """Tests that the offices in the db are retrived as empty list if none"""
         response = self.client.get('api/v2/offices')
         self.assertEqual(response.status_code, 200, "Should be getting all offices")
         self.assertEqual(0, len(response.json['data']))
 
-    def test_get_all_offices(self):
+    def test_get_all_offices_success(self):
         """Tests that all offices are retrieved """
         self.client.post('api/v2/offices', data=json.dumps({
             "name": "Goverment Official",
@@ -68,7 +68,6 @@ class OfficeEndpointsTestCase(BaseTestCase):
 
     def test_office_edited_successfully(self):
         """"Tests that offices are edited successfully"""
-        # TODO From here
         self.client.post('api/v2/offices', data=json.dumps({
             "name": "Government Steward",
             "type": "Patrol"
@@ -77,7 +76,7 @@ class OfficeEndpointsTestCase(BaseTestCase):
             "name": "President"
         }))
         self.assertEqual(response.status_code, 200)
-        self.assertIn('President', response.json['message'])
+        self.assertIn('Updated successfully', response.json['message'])
 
     def test_office_edited_unsuccessful_missing_key(self):
         response = self.client.patch('api/v2/offices/{}/name'.format(1), data=json.dumps({
@@ -86,7 +85,6 @@ class OfficeEndpointsTestCase(BaseTestCase):
         self.assertIn('Missing Key value', response.json['error'])
 
     def test_office_edited_exists(self):
-        # TODO fix
         self.client.post('api/v2/offices', data=json.dumps({
             "name": "Government Steward",
             "type": "Patrol"
@@ -112,7 +110,7 @@ class OfficeEndpointsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 400)
         self.assertIn('Invalid Data ,Check id or data being updated', response.json['error'])
 
-    def test_specific_item_success(self):
+    def test_specific_office_success(self):
         self.client.post('api/v2/offices', data=json.dumps({
             "name": "Government Steward",
             "type": "Patrol"
@@ -121,7 +119,26 @@ class OfficeEndpointsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn('Government Steward', response.json['data'][0]['office_name'])
 
-    def test_specific_item_fail(self):
+    def test_get_non_existing_office(self):
+        response = self.client.get("api/v2/offices/1")
+        self.assertEqual(response.status_code, 404)
+        self.assertIn('Data Not Found', response.json['error'])
+
+    def test_get_office_with_invalid_id(self):
         response = self.client.get("api/v2/offices/---")
         self.assertEqual(response.status_code, 404)
         self.assertIn('Data Not Found', response.json['error'])
+
+    def test_delete_office_success(self):
+        self.client.post('api/v2/offices', data=json.dumps({
+            "name": "Government Steward",
+            "type": "Patrol"
+        }))
+        response = self.client.delete("api/v2/offices/1")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual('Government Steward Deleted', response.json['message'])
+
+    def test_delete_item_fail(self):
+        response = self.client.delete("api/v2/offices/1")
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual('Data Not Found', response.json['error'])
