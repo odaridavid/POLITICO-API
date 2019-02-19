@@ -40,7 +40,18 @@ class OfficesModelDb:
         self.db_conn.commit()
         # Result of tables in list as tuples
         rows = cursor.fetchall()
-        return rows
+        results = []
+        for row in rows:
+            id = row[0]
+            type = row[1]
+            name = row[2]
+            office = {
+                "id": id,
+                "type": type,
+                "name": name
+            }
+            results.append(office)
+        return results
 
     def edit_office(self, new_name):
         # TODO update office type

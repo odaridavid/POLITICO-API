@@ -29,8 +29,8 @@ def method_not_allowed(e):
     return make_response(jsonify(error_response), 405)
 
 
-# configure app prerequisites testing default
-def create_app(configuration='testing'):
+# configure app prerequisites
+def create_app(configuration='development'):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(application_config[configuration])
