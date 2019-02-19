@@ -38,13 +38,13 @@ class OfficesModelDb:
         rows = cursor.fetchall()
         results = []
         for row in rows:
-            id = row[0]
-            type = row[1]
-            name = row[2]
+            _id = row[0]
+            office_type = row[1]
+            office_name = row[2]
             office = {
-                "id": id,
-                "type": type,
-                "name": name
+                "id": _id,
+                "type": office_type,
+                "name": office_name
             }
             results.append(office)
         return results
