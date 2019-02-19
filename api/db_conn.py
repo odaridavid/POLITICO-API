@@ -62,7 +62,7 @@ def schema():
                       passport_url VARCHAR NOT NULL,\
                       pass         VARCHAR NOT NULL, \
                       is_admin     BOOLEAN NOT NULL DEFAULT 'f');"
-    create_parties = "CREATE TABLE parties(" \
+    create_parties = "CREATE TABLE IF NOT EXISTS parties(" \
                      "_id         SERIAL  PRIMARY KEY NOT NULL," \
                      "party_name  VARCHAR(50)   UNIQUE NOT NULL," \
                      "hq_address  VARCHAR(100)  NOT NULL," \
