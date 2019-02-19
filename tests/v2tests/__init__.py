@@ -4,6 +4,7 @@ from run import create_app
 # from api.db_conn import execute_drop_queries
 from api.v2.models.user_model import UserModelDb
 from api.v2.models.office_model import OfficesModelDb
+from api.v2.models.candidate_model import CandidateModel
 from api.db_conn import create_tables, drop_tables, close_connection
 from api.v2.models.parties_model import PartiesModelDb
 
@@ -47,6 +48,7 @@ class BaseTestCase(unittest.TestCase):
                 "hqAddress": "A",
                 "logoUrl": "www.some.url.to.my.picture"
             })
+        self.candidate = CandidateModel(1, 1, 1)
 
     def tearDown(self):
         drop_tables()

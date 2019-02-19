@@ -11,9 +11,10 @@ from .db_conn import create_tables, drop_tables
 from .v2.views.user_view import user_api_v2
 from .v2.views.office_view import office_api_v2
 from .v2.views.parties_view import parties_api_v2
+from .v2.views.candidate_view import candidate_api_v2
 
 
-# Error Handler Method
+# Error Handler Methods
 def page_not_found(e):
     error_response = {
         "error": "404 ERROR:REQUESTED DATA NOT FOUND",
@@ -28,6 +29,14 @@ def method_not_allowed(e):
         "status": 405
     }
     return make_response(jsonify(error_response), 405)
+
+
+def invalid_request(e):
+    error_response = {
+        "error": "400 ERROR CHECK YOUR REQUEST",
+        "status": 405
+    }
+    return make_response(jsonify(error_response), 400)
 
 
 # configure app prerequisites
@@ -45,8 +54,10 @@ def create_app(configuration='development'):
     app.register_blueprint(user_api_v2)
     app.register_blueprint(office_api_v2)
     app.register_blueprint(parties_api_v2)
-    # Error Handler for error message 404
+    app.register_blueprint(candidate_api_v2)
+    # Error Handler register
     app.register_error_handler(404, page_not_found)
     app.register_error_handler(405, method_not_allowed)
+    app.register_error_handler(400, invalid_request)
     # Return application context
     return app
