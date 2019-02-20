@@ -37,7 +37,7 @@ def drop_tables():
     """Drops tables when done"""
     con = psycopg2.connect(db_uri())
     cursor = con.cursor()
-    cursor.execute("""DROP TABLE IF EXISTS users,offices,parties,candidates;""")
+    cursor.execute("""DROP TABLE IF EXISTS users,offices,parties,candidates,votes CASCADE;""")
     con.commit()
 
 
@@ -76,7 +76,7 @@ def schema():
                         "CONSTRAINT office_fk FOREIGN KEY(office) REFERENCES offices(_id)," \
                         "CONSTRAINT party_fk FOREIGN KEY(party) REFERENCES parties(_id)," \
                         "CONSTRAINT candidate_fk FOREIGN KEY(candidate) REFERENCES users(_id)," \
-                        "CONSTRAINT candidate_key PRIMARY KEY(office,candidate));"
+                        "CONSTRAINT candidate_composite_key PRIMARY KEY(office,candidate));"
 
     create_votes = "CREATE TABLE IF NOT EXISTS votes(" \
                    "_id            SERIAL NOT NULL UNIQUE ," \
@@ -87,5 +87,5 @@ def schema():
                    "CONSTRAINT office_fk FOREIGN KEY(office) REFERENCES offices(_id)," \
                    "CONSTRAINT candidate_fk FOREIGN KEY(candidate) REFERENCES candidates(_id)," \
                    "CONSTRAINT voter_fk FOREIGN KEY(created_by) REFERENCES users(_id)," \
-                   "CONSTRAINT candidate_key PRIMARY KEY(office,created_by));"
+                   "CONSTRAINT vote_composite_key PRIMARY KEY(office,created_by));"
     return [create_users, create_office, create_parties, create_candidates, create_votes]

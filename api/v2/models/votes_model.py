@@ -21,5 +21,4 @@ class VoteModel:
             vote = cursor.fetchall()
             return vote
         except psycopg2.IntegrityError:
-            # Deals with non existent data on primary tables or existent conflicting data
             return 'Vote Conflict'

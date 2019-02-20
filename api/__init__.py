@@ -56,6 +56,7 @@ def create_app(configuration='development'):
     app.register_blueprint(office_api_v2)
     app.register_blueprint(parties_api_v2)
     app.register_blueprint(candidate_api_v2)
+    app.register_blueprint(votes_api_v2)
     # Error Handler register
     app.register_error_handler(404, page_not_found)
     app.register_error_handler(405, method_not_allowed)
