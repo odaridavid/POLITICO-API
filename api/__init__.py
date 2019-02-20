@@ -11,6 +11,7 @@ from .db_conn import create_tables, drop_tables
 from .v2.views.user_view import user_api_v2
 from .v2.views.office_view import office_api_v2
 from .v2.views.parties_view import parties_api_v2
+from .v2.views.votes_view import votes_api_v2
 
 
 # Error Handler Method
