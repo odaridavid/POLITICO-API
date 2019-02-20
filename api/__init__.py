@@ -25,18 +25,18 @@ def page_not_found(e):
 
 def method_not_allowed(e):
     error_response = {
-        "error": "405 ERROR METHOD NOT ALLOWED",
+        "error": "Performed action not allowed on resource",
         "status": 405
     }
     return make_response(jsonify(error_response), 405)
 
 
-def invalid_request(e):
+def server_error(e):
     error_response = {
-        "error": "400 ERROR CHECK YOUR REQUEST",
-        "status": 400
+        "error": "Internal Server Error",
+        "status": 500
     }
-    return make_response(jsonify(error_response), 400)
+    return make_response(jsonify(error_response), 500)
 
 
 # configure app prerequisites
@@ -58,6 +58,6 @@ def create_app(configuration='development'):
     # Error Handler register
     app.register_error_handler(404, page_not_found)
     app.register_error_handler(405, method_not_allowed)
-    app.register_error_handler(400, invalid_request)
+    app.register_error_handler(500, server_error)
     # Return application context
     return app
