@@ -18,11 +18,12 @@ class CandidateModel:
             cursor = self.db_conn.cursor()
             cursor.execute(query, data)
             self.db_conn.commit()
-            select_query = """SELECT offices.office_name, parties.party_name, users.firstname 
-                              FROM candidates
-                              INNER JOIN offices ON candidates.office=offices._id
-                              INNER JOIN parties ON candidates.party=parties._id
-                              INNER JOIN users ON candidates.candidate=users._id;"""
+            select_query = "SELECT offices.office_name, parties.party_name, users.firstname " \
+                           "FROM candidates " \
+                           "INNER JOIN offices ON candidates.office=offices._id " \
+                           "INNER JOIN parties ON candidates.party=parties._id " \
+                           "INNER JOIN users ON candidates.candidate=users._id;"
+
             cursor.execute(select_query)
             self.db_conn.commit()
             candidate_registered = cursor.fetchall()
