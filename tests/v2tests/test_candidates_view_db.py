@@ -31,7 +31,7 @@ class CandidatesViewTestCase(BaseTestCase):
             'user': 'Davied'
         }
         response = self.client.post('api/v2/office/1/register', data=json.dumps({"party": 1, "candidate": 1}))
-        self.assertEqual(response.status_code, 200, "Candidate Registration should be Successful")
+        self.assertEqual(response.status_code, 201, "Candidate Registration should be Successful")
         self.assertEqual(expected_json, response.json['data'][0])
 
     def test_candidate_cant_register_twice(self):
@@ -59,5 +59,5 @@ class CandidatesViewTestCase(BaseTestCase):
         }))
         self.client.post('api/v2/office/1/register', data=json.dumps({"party": 1, "candidate": 1}))
         response = self.client.post('api/v2/office/1/register', data=json.dumps({"party": 1, "candidate": 1}))
-        self.assertEqual(response.status_code, 400, "Candidate Registration should be Successful")
-        self.assertEqual('Check Data for invalid request', response.json['error'])
+        self.assertEqual(response.status_code, 409, "Candidate Registration should be unsuccessful")
+        self.assertEqual('Candidate Already Registered', response.json['error'])
