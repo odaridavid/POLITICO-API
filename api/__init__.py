@@ -12,6 +12,7 @@ from .v2.views.user_view import user_api_v2
 from .v2.views.office_view import office_api_v2
 from .v2.views.parties_view import parties_api_v2
 from .v2.views.candidate_view import candidate_api_v2
+from .v2.views.votes_view import votes_api_v2
 
 
 # Error Handler Methods

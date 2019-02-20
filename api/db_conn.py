@@ -67,6 +67,7 @@ def schema():
                      "party_name  VARCHAR(50)   UNIQUE NOT NULL," \
                      "hq_address  VARCHAR(100)  NOT NULL," \
                      "logo_url    VARCHAR(200)  NOT NULL);"
+
     create_candidates = "CREATE TABLE IF NOT EXISTS candidates(" \
                         "_id       SERIAL NOT NULL UNIQUE ," \
                         "office    INTEGER NOT NULL DEFAULT 0," \
@@ -76,4 +77,15 @@ def schema():
                         "CONSTRAINT party_fk FOREIGN KEY(party) REFERENCES parties(_id)," \
                         "CONSTRAINT candidate_fk FOREIGN KEY(candidate) REFERENCES users(_id)," \
                         "CONSTRAINT candidate_key PRIMARY KEY(office,candidate));"
-    return [create_users, create_office, create_parties, create_candidates]
+
+    create_votes = "CREATE TABLE IF NOT EXISTS votes(" \
+                   "_id            SERIAL NOT NULL UNIQUE ," \
+                   "created_on     DATE NOT NULL DEFAULT CURRENT_DATE," \
+                   "created_by     INTEGER NOT NULL DEFAULT 0," \
+                   "office         INTEGER UNIQUE NOT NULL DEFAULT 0, " \
+                   "candidate      INTEGER UNIQUE NOT NULL DEFAULT 0, " \
+                   "CONSTRAINT office_fk FOREIGN KEY(office) REFERENCES offices(_id)," \
+                   "CONSTRAINT candidate_fk FOREIGN KEY(candidate) REFERENCES candidates(_id)," \
+                   "CONSTRAINT voter_fk FOREIGN KEY(created_by) REFERENCES users(_id)," \
+                   "CONSTRAINT candidate_key PRIMARY KEY(office,created_by));"
+    return [create_users, create_office, create_parties, create_candidates, create_votes]
