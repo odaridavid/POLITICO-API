@@ -15,7 +15,7 @@ def api_candidate_register(office_id):
         candidate_info = CandidateModel(oid, cid, pid).register_candidate()
         if isinstance(candidate_info, list):
             return make_response(
-                jsonify({"status": 200, "data": [{"office": candidate_info[2], "user": candidate_info[0]}]}), 200)
+                jsonify({"status": 200, "data": [{"office": candidate_info[0][0], "user": candidate_info[0][2]}]}), 200)
         elif 'Candidate Conflict' or 'Empty' in candidate_info:
             return make_response(jsonify({"status": 400, "error": "Check Data for invalid request"}), 400)
     return make_response(jsonify({"status": 400, "error": "Missing Key value"}), 400)
