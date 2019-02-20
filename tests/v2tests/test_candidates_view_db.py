@@ -60,4 +60,20 @@ class CandidatesViewTestCase(BaseTestCase):
         self.client.post('api/v2/office/1/register', data=json.dumps({"party": 1, "candidate": 1}))
         response = self.client.post('api/v2/office/1/register', data=json.dumps({"party": 1, "candidate": 1}))
         self.assertEqual(response.status_code, 409, "Candidate Registration should be unsuccessful")
-        self.assertEqual('Candidate Already Registered', response.json['error'])
+        self.assertEqual('Candidate Already Registered or Doesnt Exist', response.json['error'])
+
+    def test_candidate_cant_register_with_missing_info(self):
+        """
+        Tests Candidate Cant register with missing info
+        """
+        response = self.client.post('api/v2/office/1/register', data=json.dumps({"candidate": 1}))
+        self.assertEqual(response.status_code, 400, "Candidate Registration should be unsuccessful")
+        self.assertEqual('Missing Input Values', response.json['error'])
+
+    def test_candidate_cant_register_with_invalid_id(self):
+        """
+        Tests Candidate Cant register with invalid id
+        """
+        response = self.client.post('api/v2/office/1/register', data=json.dumps({"party": 'f', "candidate": 'f'}))
+        self.assertEqual(response.status_code, 400, "Candidate Registration should be unsuccessful")
+        self.assertEqual('Input of Invalid Id', response.json['error'])

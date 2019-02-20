@@ -30,5 +30,4 @@ class CandidateModel:
                 return 'Empty'
             return candidate_registered
         except psycopg2.IntegrityError:
-            # Deals with non existent data on primary tables or existent conflicting data
             return 'Candidate Conflict'
