@@ -8,7 +8,7 @@ class CandidatesModelTestCase(BaseTestCase):
         self.office.create_office()
         self.user.user_sign_up()
         candidate_info = self.candidate.register_candidate()
-        self.assertEqual('David', candidate_info[0])
+        self.assertEqual('David', candidate_info[0][2])
 
     def test_candidate_non_existent_cant_register(self):
         candidate = CandidateModel(1, 0, 0).register_candidate()
