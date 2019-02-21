@@ -13,5 +13,4 @@ class ResultsModel:
         cursor.execute(query, (self.office_id,))
         self.db_conn.commit()
         row = cursor.fetchall()
-
-        return None
+        return row
