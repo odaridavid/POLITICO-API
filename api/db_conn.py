@@ -82,8 +82,8 @@ def schema():
                    "_id            SERIAL NOT NULL UNIQUE ," \
                    "created_on     DATE NOT NULL DEFAULT CURRENT_DATE," \
                    "created_by     INTEGER NOT NULL DEFAULT 0," \
-                   "office         INTEGER UNIQUE NOT NULL DEFAULT 0, " \
-                   "candidate      INTEGER UNIQUE NOT NULL DEFAULT 0, " \
+                   "office         INTEGER NOT NULL DEFAULT 0, " \
+                   "candidate      INTEGER NOT NULL DEFAULT 0, " \
                    "CONSTRAINT office_fk FOREIGN KEY(office) REFERENCES offices(_id)," \
                    "CONSTRAINT candidate_fk FOREIGN KEY(candidate) REFERENCES candidates(_id)," \
                    "CONSTRAINT voter_fk FOREIGN KEY(created_by) REFERENCES users(_id)," \
