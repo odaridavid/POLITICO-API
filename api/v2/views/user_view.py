@@ -30,9 +30,10 @@ def api_user_sign_in():
     if {"email", "password"} <= set(user):
         validated_user = UserModelDb(user).user_sign_in()
         if 'Invalid' in validated_user:
-            # Invalid User
             return make_response(jsonify({"status": 400, "error": "Parsing Invalid Data ,Bad Request"}), 400)
-        # Valid User
-        return make_response(jsonify({"status": 201, "message": "Login Successful"}), 201)
+        elif 'Non Existent User' in validated_user:
+            return make_response(jsonify({"status": 400, "error": "Check Email or Password"}), 400)
+        else:
+            return make_response(jsonify({"status": 201, "message": "Login Successful"}), 201)
     # Missing Data
     return make_response(jsonify({"status": 400, "error": "Bad Request,Check Data"}), 400)
