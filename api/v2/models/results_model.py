@@ -8,7 +8,7 @@ class ResultsModel:
         self.db_conn = db_connect()
 
     def get_results(self):
-        query = """SELECT office,candidate,COUNT(candidate) FROM votes WHERE office=%s"""
+        query = """SELECT DISTINCT(candidate) FROM votes WHERE office=%s"""
         cursor = self.db_conn.cursor()
         cursor.execute(query, (self.office_id,))
         self.db_conn.commit()

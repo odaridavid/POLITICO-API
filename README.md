@@ -5,7 +5,7 @@ petitioning,voting and user login and sign up to be consumed by front end framew
 !['PythonVersion''](https://img.shields.io/badge/python-3.6.7-yellow.svg)
 !['License'](https://img.shields.io/badge/License-MIT-green.svg)
 !['Travis'](https://travis-ci.org/Davidodari/POLITICO-API.svg?branch=develop)
-[![Coverage Status](https://coveralls.io/repos/github/Davidodari/POLITICO-API/badge.svg?branch=ch-refactor-tests-163807952)](https://coveralls.io/github/Davidodari/POLITICO-API?branch=ch-refactor-tests-163807952)
+[![Coverage Status](https://coveralls.io/repos/github/Davidodari/POLITICO-API/badge.svg?branch=develop)](https://coveralls.io/github/Davidodari/POLITICO-API?branch=ch-refactor-tests-163807952)
 
 ### Endpoints
 
