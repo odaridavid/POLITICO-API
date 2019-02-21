@@ -8,9 +8,11 @@ class ResultsModel:
         self.db_conn = db_connect()
 
     def get_results(self):
-        query = """SELECT DISTINCT(candidate) FROM votes WHERE office=%s"""
+        query = """SELECT candidate,COUNT(*) FROM votes WHERE office = %s GROUP BY candidate ;"""
         cursor = self.db_conn.cursor()
         cursor.execute(query, (self.office_id,))
         self.db_conn.commit()
-        row = cursor.fetchall()
-        return row
+        tally = cursor.fetchall()
+        if len(tally) < 1:
+            return 'Empty'
+        return tally
