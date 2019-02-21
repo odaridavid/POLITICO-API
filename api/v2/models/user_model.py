@@ -53,6 +53,8 @@ class UserModelDb:
         cursor.execute(query, (email,))
         self.db_conn.commit()
         user_row = cursor.fetchall()
+        if len(user_row) < 1:
+            return 'Non Existent User'
         # Check passwords match
         if check_password_hash(user_row[0][0], password):
             return 'Login'
