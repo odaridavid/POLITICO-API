@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, jsonify, make_response
 from api.v2.models.results_model import ResultsModel
 
 result_api_v2 = Blueprint('results_v2', __name__, url_prefix="/api/v2")

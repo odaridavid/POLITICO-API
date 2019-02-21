@@ -1,5 +1,4 @@
 from api.db_conn import db_connect
-import psycopg2
 
 
 class ResultsModel:

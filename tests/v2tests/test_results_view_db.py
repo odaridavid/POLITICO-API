@@ -1,5 +1,4 @@
 from . import BaseTestCase
-import json
 
 
 class ResultsEndpointsTestCase(BaseTestCase):
