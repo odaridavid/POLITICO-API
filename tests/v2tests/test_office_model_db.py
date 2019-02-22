@@ -65,12 +65,10 @@ class OfficeModelDbTestCase(BaseTestCase):
         self.assertIn('Invalid Id', office)
 
     def test_delete_office_success(self):
-        """Tests User cant input existing office name"""
         OfficesModelDb({"name": "Governor", "type": "Government"}).create_office()
         delete_office = OfficesModelDb(office_id=1).delete_office()
         self.assertEqual('Governor', delete_office[0][0])
 
     def test_delete_office_failure(self):
-        """Tests User cant input existing office name"""
         delete_office = OfficesModelDb(office_id='e').delete_office()
         self.assertEqual('Invalid Id', delete_office)
