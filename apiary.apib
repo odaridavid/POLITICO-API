@@ -45,8 +45,6 @@ An admin user with admin auth token can create an office
 
 + Response 201 (application/json)
 
-    + Body
-
             {
               "data":[
                 {
@@ -57,23 +55,25 @@ An admin user with admin auth token can create an office
             }
             
 + Request (application/json)
+    
+       
+    + Headers
+    
+            Authorization: Bearer Token
+            Location: /api/v2/offices
 
     + Body
 
-             {
+            {
                 "type": "ofte",
                 "name":"ofe"
-             }
+            }
             
 + Response 400 (application/json)
     
-    + Body
-      
             {
-             
               "status":400,
               "error":"Check Input Values"
-     
             }
             
             
@@ -91,7 +91,6 @@ A User with auth token can view all parties
             
 + Response 200 (application/json)
 
-    + Body
     
             {
                 "data":[
@@ -142,6 +141,7 @@ A new user can Sign Up
 #### Sign Up [POST]
 
 + Request (application/json)
+
     
             {
                     "firstname": "Davied",
@@ -158,8 +158,6 @@ A new user can Sign Up
         
 + Response 201 (application/json)
 
-    + Body
-    
             {
                    "status": 201,
                    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NTA4MTY0MjYsIm5iZiI6MTU1MDgxNjQyNiwianRpIjoiODBhZDU0ZTEtNjVlYS00NDczLWI3NjItNDI2ODIwZjY1ZWI3IiwiZXhwIjoxNTUwODE3MzI2LCJpZGVudGl0eSI6MSwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIn0.Bz7tvf81A4ks660nOWZOyRY9J0TsFG05jDVJ13mBYL8"
@@ -173,10 +171,12 @@ An existing user can login to the system.
 #### User Login [POST]
 + Request (application/json)
 
-        {
-                    "email": "odari@amail.com",
-                    "password": "1wwjdje3qr"
-        }
+    + Body
+
+            {
+                "email": "odari@amail.com",
+                "password": "1wwjdje3qr"
+            }
 
 + Response 201 (application/json)
 
