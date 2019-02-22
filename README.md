@@ -9,7 +9,11 @@ petitioning,voting and user login and sign up to be consumed by front end framew
 [![Maintainability](https://api.codeclimate.com/v1/badges/4151dd7acdb2ddb19f1f/maintainability)](https://codeclimate.com/github/Davidodari/POLITICO-API/maintainability)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/33734615352249b6823b104b386a6ea7)](https://www.codacy.com/app/Davidodari/POLITICO-API?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Davidodari/POLITICO-API&amp;utm_campaign=Badge_Grade)
 
-### Endpoints
+### Endpoints Version 1 
+
+####  Url Prefix - /api/v1/
+
+
 
 |   ENDPOINT  | METHOD | STATUS |
 |:---:|:---:|:---:|
@@ -25,6 +29,31 @@ petitioning,voting and user login and sign up to be consumed by front end framew
 | /offices/<offices_id>    |  GET     |  Gets a specific office |
 | /users                   |  POST    |  Adds User to List Of Users  |
 
+### Endpoints Version 2 
+
+####  Url Prefix - /api/v2/
+
+
+
+|   ENDPOINT  | METHOD | STATUS |
+|:---:|:---:|:---:|
+| /offices                 |  GET     |  Gets List of offices |
+| /offices                 |  POST    |  Adds an office to List of offices  |
+| /parties                 |  GET     |  Gets List of Parties  |
+| /parties                 |  POST    |  Adds a party to list of parties  |
+| /parties/<party_id>      |  GET     |  Gets a specific party  |
+| /parties/<party_id>/name |  PATCH   |  Updates Name value of a party  |
+| /parties/<office_id>/name|  PATCH   |  Updates Office value of a office  |
+| /parties/<party_id>      |  DELETE  |  Deletes Specified Party |
+| /offices/<office_id>     |  DELETE  |  Deletes Specified Office  |
+| /offices/<offices_id>    |  GET     |  Gets a specific office |
+| /auth/signup             |  POST    |  Sign Up A User  |
+| /auth/login              |  POST    |  Login  An Existing User  |
+| /offices/<office_id>/register             |  POST    |  Sign Up A Candidate For An Office  |
+| /offices/<office_id>/register             |  GET    |   Get A Candidate For A Specific Office  |
+| /auth/login              |  POST    |  Login  An Existing User  |
+| /votes/              |  POST    |  Users Can Vote  |
+| /office/<office_id>/results              |  POST    |  Users Can Vote  |
 
 ## Author
 
