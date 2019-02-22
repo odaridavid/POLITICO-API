@@ -67,6 +67,10 @@ App Link Hosted On Heroku
 
 [POLITICO-API on Heroku](https://blackpolitico-api-heroku.herokuapp.com/)
 
+##### API Documentation
+
+[POLITICO DOCS](https://politicoapi2.docs.apiary.io/#)
+
 ##### Local Machine
 
 1. From your terminal clone The Repository on your machine \ it will be on develop branch
