@@ -7,7 +7,7 @@ votes_api_v2 = Blueprint('votes_v2', __name__, url_prefix="/api/v2")
 
 @votes_api_v2.route("/votes/", methods=['POST'])
 @jwt_required
-def api_candidate_register():
+def api_cast_votes():
     vote_data = request.get_json(force=True)
 
     if {'office', 'candidate', 'voter'} <= set(vote_data):

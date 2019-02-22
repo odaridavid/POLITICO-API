@@ -11,11 +11,11 @@ class VotesViewTestCase(BaseTestCase):
             "name": "Party Name",
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
-        }), headers=self.generate_token())
+        }), headers=self.generate_token_admin())
         self.client.post('api/v2/offices', data=json.dumps({
             "type": "Health",
             "name": "Minister for Health"
-        }), headers=self.generate_token())
+        }), headers=self.generate_token_admin())
         expected_json = {
             "office": 1,
             "candidate": 1,
@@ -36,13 +36,13 @@ class VotesViewTestCase(BaseTestCase):
             "name": "Party Name",
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
-        }), headers=self.generate_token())
+        }), headers=self.generate_token_admin())
         self.client.post('api/v2/offices', data=json.dumps({
             "type": "Health",
             "name": "Minister for Health"
-        }), headers=self.generate_token())
+        }), headers=self.generate_token_admin())
         self.client.post('api/v2/office/1/register', data=json.dumps({"party": 1, "candidate": 1}),
-                         headers=self.generate_token())
+                         headers=self.generate_token_admin())
         self.client.post('api/v2/votes/', data=json.dumps({"voter": 1, "candidate": 1, "office": 1}),
                          headers=self.generate_token())
         response = self.client.post('api/v2/votes/', data=json.dumps({"voter": 1, "candidate": 1, "office": 1}),

@@ -11,7 +11,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
             "name": "Party Name",
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
-        }), headers=self.generate_token())
+        }), headers=self.generate_token_admin())
         self.assertEqual(response.status_code, 201, "Party Creation should be Successful")
         self.assertEqual('Party Name', response.json['data'][0]['name'])
 
@@ -22,8 +22,8 @@ class PartiesEndpointsTestCase(BaseTestCase):
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
         }
-        self.client.post('api/v2/parties', data=json.dumps(data), headers=self.generate_token())
-        response = self.client.post('api/v2/parties', data=json.dumps(data), headers=self.generate_token())
+        self.client.post('api/v2/parties', data=json.dumps(data), headers=self.generate_token_admin())
+        response = self.client.post('api/v2/parties', data=json.dumps(data), headers=self.generate_token_admin())
         self.assertEqual(response.status_code, 409, "Party Should Already Exists")
         self.assertEqual('Party Already Exists', response.json['error'])
 
@@ -35,7 +35,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
             "name": "P",
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
-        }), headers=self.generate_token())
+        }), headers=self.generate_token_admin())
         self.assertEqual(response.status_code, 400, "Should be Parsing Invalid Data ,Bad Request")
         self.assertIn('Check Input Values', response.json['error'])
 
@@ -46,7 +46,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
         response = self.client.post('api/v2/parties', data=json.dumps({
             "name": "Party Name",
             "hqAddress": "Address"
-        }), headers=self.generate_token())
+        }), headers=self.generate_token_admin())
         self.assertEqual(response.status_code, 400, "Should be Parsing Invalid Data ,Bad Request")
         self.assertIn('Missing Key value', response.json['error'])
 
@@ -62,12 +62,12 @@ class PartiesEndpointsTestCase(BaseTestCase):
             "name": "Party Name",
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
-        }), headers=self.generate_token())
+        }), headers=self.generate_token_admin())
         self.client.post('api/v2/parties', data=json.dumps({
             "name": "Party Name2",
             "hqAddress": "Address2",
             "logoUrl": "www.some.url.to.my.picture2"
-        }), headers=self.generate_token())
+        }), headers=self.generate_token_admin())
         response = self.client.get('api/v2/parties', headers=self.generate_token())
         self.assertEqual(response.status_code, 200, "Should be getting all parties")
         self.assertEqual(2, len(response.json['data']))
@@ -78,17 +78,17 @@ class PartiesEndpointsTestCase(BaseTestCase):
             "name": "Party Name2",
             "hqAddress": "Address2",
             "logoUrl": "www.some.url.to.my.picture2"
-        }), headers=self.generate_token())
+        }), headers=self.generate_token_admin())
         response = self.client.patch('api/v2/parties/{}/name'.format(1), data=json.dumps({
             "name": "New Party"
-        }), headers=self.generate_token())
+        }), headers=self.generate_token_admin())
         self.assertEqual(response.status_code, 200)
         self.assertIn('New Party Updated Successfully', response.json['message'])
 
     def test_party_edited_unsuccessful_missing_key(self):
         """Test edit with missing key"""
         response = self.client.patch('api/v2/parties/{}/name'.format(1), data=json.dumps({
-        }), headers=self.generate_token())
+        }), headers=self.generate_token_admin())
         self.assertEqual(response.status_code, 400)
         self.assertIn('Missing Key value', response.json['error'])
 
@@ -97,58 +97,58 @@ class PartiesEndpointsTestCase(BaseTestCase):
             "name": "Party Name",
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
-        }), headers=self.generate_token())
+        }), headers=self.generate_token_admin())
         self.client.post('api/v2/parties', data=json.dumps({
             "name": "Party Name2",
             "hqAddress": "Address2",
             "logoUrl": "www.some.url.to.my.picture2"
-        }), headers=self.generate_token())
+        }), headers=self.generate_token_admin())
         response = self.client.patch('api/v2/parties/{}/name'.format(1), data=json.dumps({
             "name": "Party Name"
-        }), headers=self.generate_token())
+        }), headers=self.generate_token_admin())
         self.assertEqual(response.status_code, 409)
         self.assertIn('Party with similar name exists', response.json['error'])
 
     def test_party_edited_data_invalid(self):
         response = self.client.patch('api/v2/parties/{}/name'.format(1), data=json.dumps({
             "name": "G"
-        }), headers=self.generate_token())
+        }), headers=self.generate_token_admin())
         self.assertEqual(response.status_code, 400)
         self.assertIn('Invalid Data ,Check id or data being updated', response.json['error'])
 
-    def test_specific_party_success(self):
+    def test_get_specific_party_success(self):
         """Tests get specific item"""
         self.client.post('api/v2/parties', data=json.dumps({
             "name": "Party Name2",
             "hqAddress": "Address2",
             "logoUrl": "www.some.url.to.my.picture2"
-        }), headers=self.generate_token())
+        }), headers=self.generate_token_admin())
         response = self.client.get("api/v2/parties/1", headers=self.generate_token())
         self.assertEqual(response.status_code, 200)
         self.assertIn('Party Name2', response.json['data'][0]['name'])
 
-    def test_specific_party_unsuccessful(self):
+    def test_get_specific_party_unsuccessful(self):
         response = self.client.get("api/v2/parties/1", headers=self.generate_token())
         self.assertEqual(response.status_code, 404)
         self.assertIn('Data Not Found', response.json['error'])
 
-    def test_specific_party_fail(self):
+    def test_get_specific_party_fail(self):
         response = self.client.get("api/v2/parties/---", headers=self.generate_token())
         self.assertEqual(response.status_code, 404)
         self.assertIn('Data Not Found', response.json['error'])
 
-    def test_delete_item_success(self):
+    def test_delete_party_success(self):
         """Tests delete endpoint"""
         self.client.post('api/v2/parties', data=json.dumps({
             "name": "Party Name2",
             "hqAddress": "Address2",
             "logoUrl": "www.some.url.to.my.picture2"
-        }), headers=self.generate_token())
-        response = self.client.delete("api/v2/parties/1", headers=self.generate_token())
+        }), headers=self.generate_token_admin())
+        response = self.client.delete("api/v2/parties/1", headers=self.generate_token_admin())
         self.assertEqual(response.status_code, 200)
         self.assertEqual('Party Name2 Deleted', response.json['message'])
 
     def test_delete_item_fail(self):
-        response = self.client.delete("api/v2/parties/1", headers=self.generate_token())
+        response = self.client.delete("api/v2/parties/1", headers=self.generate_token_admin())
         self.assertEqual(response.status_code, 404)
         self.assertEqual('Data Not Found', response.json['error'])

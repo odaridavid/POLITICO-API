@@ -10,7 +10,7 @@ def api_user_sign_up():
     # Make Sure Keys Exist
     if {"firstname", "lastname", "othername", "email", "phoneNumber", "passportUrl", "password", "isAdmin"} <= set(
             user):
-        validated_user = UserModelDb(user).user_sign_up()
+        validated_user = UserModelDb().user_sign_up(user)
         if 'Invalid Data' in validated_user:
             # Invalidated data
             return make_response(jsonify({"status": 400, "error": "Parsing Invalid Data ,Bad Request"}), 400)
@@ -28,7 +28,7 @@ def api_user_sign_up():
 def api_user_sign_in():
     user = request.get_json(force=True)
     if {"email", "password"} <= set(user):
-        validated_user = UserModelDb(user).user_sign_in()
+        validated_user = UserModelDb().user_sign_in(user)
         if 'Invalid' in validated_user:
             return make_response(jsonify({"status": 400, "error": "Parsing Invalid Data ,Bad Request"}), 400)
         elif 'Non Existent User' in validated_user:
