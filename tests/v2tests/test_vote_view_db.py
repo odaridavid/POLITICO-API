@@ -22,7 +22,7 @@ class VotesViewTestCase(BaseTestCase):
             "voter": 1
         }
         self.client.post('api/v2/office/1/register', data=json.dumps({"party": 1, "candidate": 1}),
-                         headers=self.generate_token())
+                         headers=self.generate_token_admin())
         response = self.client.post('api/v2/votes/', data=json.dumps({"voter": 1, "candidate": 1, "office": 1}),
                                     headers=self.generate_token())
         self.assertEqual(response.status_code, 201, "Voting Should Be Successful")
