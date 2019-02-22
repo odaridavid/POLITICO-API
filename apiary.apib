@@ -14,90 +14,184 @@ A User with auth token can view all offices
 
 + Response 200 (application/json)
 
-        [
-            "data":[
-                     {
-                         "id":1,
-                         "name":"office_name",
-                         "type":"office_type"                 
-                     }
-                   ],
-            "status" : 200       
-        ]
+            {
+                "data":[
+                         {
+                             "id":1,
+                             "name":"office_name",
+                             "type":"office_type"                 
+                         }
+                       ],
+                "status" : 200       
+            }
 
 ### Create a New Office [POST]
 
 An admin user with admin auth token can create an office 
 
 + Request (application/json)
-
-        {
-            "type": "office_type",
-            "name":"office_name"
-        }
-
-+ Response 201 (application/json)
-
+   
     + Headers
     
             Authorization: Bearer Token
             Location: /api/v2/offices
 
     + Body
+    
+             {
+                "type": "office_type",
+                "name":"office_name"
+             }
+
++ Response 201 (application/json)
+
+    + Body
 
             {
               "data":[
                 {
-                "name":"office_name"
+                   "name":"office_name"
                 }
               ],
               "status":201
             }
             
++ Request (application/json)
+
+    + Body
+
+             {
+                "type": "ofte",
+                "name":"ofe"
+             }
+            
++ Response 400 (application/json)
+    
+    + Body
+      
+            {
+             
+              "status":400,
+              "error":"Check Input Values"
+     
+            }
+            
+            
 ## Parties Collection [/api/v2/parties]
 
 ### Gets All Parties [GET]
 
-A User with auth token can view all offices
+A User with auth token can view all parties
 
++ Request
+
+    + Headers
+
+            Authorization: Bearer Token
+            
 + Response 200 (application/json)
 
-        [
-            "data":[
-                     {
-                         "id":1,
-                         "name":"office_name",
-                         "type":"office_type"                 
-                     }
-                   ],
-            "status" : 200       
-        ]
+    + Body
+    
+            {
+                "data":[
+                         {
+                             "id":1,
+                             "name":"office_name",
+                             "hqAddress":"logo_url",
+                             "logoUrl":"logo_url"
+                         }
+                       ],
+                "status" : 200       
+            }
 
 ### Create a New Party [POST]
 
-An admin user with admin auth token can create an office 
+An admin user with admin auth token can create a party
 
 + Request (application/json)
 
-        {
-            "type": "office_type",
-            "name":"office_name"
-        }
+    + Headers
+
+            Authorization: Bearer Token
+
+    + Body
+
+            {
+                "name": "office_type",
+                "hqAddress":"office_name",
+                "logoUrl":"logo_url"
+            }
 
 + Response 201 (application/json)
-
-    + Headers
-    
-            Authorization: Bearer Token
-            Location: /api/v2/offices
 
     + Body
 
             {
               "data":[
                 {
-                "name":"office_name"
+                  "name":"party_name"
                 }
               ],
               "status":201
             }
+
+## Users Sign Up [/api/v2/auth/signup]
+
+A new user can Sign Up
+#### Sign Up [POST]
+
++ Request (application/json)
+    
+            {
+                    "firstname": "Davied",
+                    "lastname": "Odari",
+                    "othername": "Kiribwa",
+                    "email": "odari@amail.com",
+                    "phoneNumber": "0717455945",
+                    "passportUrl": "www.googledrive.com/pics?v=jejfek",
+                    "password": "1wwjdje3qr",
+                    "isAdmin": 0 
+            }
+                   
+        
+        
++ Response 201 (application/json)
+
+    + Body
+    
+            {
+                   "status": 201,
+                   "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NTA4MTY0MjYsIm5iZiI6MTU1MDgxNjQyNiwianRpIjoiODBhZDU0ZTEtNjVlYS00NDczLWI3NjItNDI2ODIwZjY1ZWI3IiwiZXhwIjoxNTUwODE3MzI2LCJpZGVudGl0eSI6MSwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIn0.Bz7tvf81A4ks660nOWZOyRY9J0TsFG05jDVJ13mBYL8"
+            }
+                 
+
+        
+
+## User Login [/api/v2/auth/login]
+An existing user can login to the system.
+#### User Login [POST]
++ Request (application/json)
+
+        {
+                    "email": "odari@amail.com",
+                    "password": "1wwjdje3qr"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Location: /api/v2/auth/login
+
+    + Body
+
+            {
+              "data":[
+                {
+                 "status": 201,
+                 "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NTA4MTU2OTcsIm5iZiI6MTU1MDgxNTY5NywianRpIjoiOTljNjc4MDQtOTUxMy00OGI5LTgxYzEtNGU2YWMyNjQ0M2MxIiwiZXhwIjoxNTUwODE2NTk3LCJpZGVudGl0eSI6MSwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIn0.hZPrc6-D6mD8a_DPRquBpfLyvUn3ZTjRfFErE2DWin0"
+                }
+              ],
+              "status":201
+             }
