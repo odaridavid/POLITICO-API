@@ -50,7 +50,7 @@ def create_app(configuration='development'):
     app.config.from_object(application_config[configuration])
     # JWT Config
     app.config['JWT_SECRET_KEY'] = os.getenv('SECRET_KEY')
-    jwt = JWTManager(app)
+    JWTManager(app)
     #  Register  blueprints in app instance creation - version1
     app.register_blueprint(user_api)
     app.register_blueprint(petition_api)
