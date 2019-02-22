@@ -167,8 +167,8 @@ A new user can Sign Up
             
 + Request
          
-   + Body  
-       
+   + Body 
+   #]
             {
                 "firstname": "Davied",
                 "lastname": "Odari",
@@ -264,12 +264,6 @@ A user who is logged in can view candidates for a specific office
        
             Authorization: Bearer Token
 
-    + Body
-
-            {
-                "party": 1,
-                "candidate": 2
-            }
 
 + Response 201 (application/json)
 
@@ -299,7 +293,8 @@ A signed up user can vote for a registered candidate
     + Body
 
             {
-                "party": 1,
+                "voter": 1,
+                "office":1,
                 "candidate": 2
             }
 
@@ -310,8 +305,9 @@ A signed up user can vote for a registered candidate
             {
               "data":[
                 {
-                 "office": "office_name",
-                 "user": "user_name"
+                     "office":1
+                     "candidate": 2,
+                     "voter": 1
                 }
               ],
               "status":201
