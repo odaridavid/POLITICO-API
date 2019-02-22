@@ -1,80 +1,103 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: https://blackpolitico-api-heroku.herokuapp.com/
 
 # Politico API
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+**POLITICO API** Is a pure Flask REST API app that serves endpoints for political parties,government offices,
+petitioning,voting and user login and sign up to be consumed by front end frameworks.
 
-## Questions Collection [/questions]
+## Offices Collection [/api/v2/offices]
 
-### List All Questions [GET]
+### Gets All Offices [GET]
+
+A User with auth token can view all offices
 
 + Response 200 (application/json)
 
         [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
+            "data":[
+                     {
+                         "id":1,
+                         "name":"office_name",
+                         "type":"office_type"                 
+                     }
+                   ],
+            "status" : 200       
         ]
 
-### Create a New Question [POST]
+### Create a New Office [POST]
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+An admin user with admin auth token can create an office 
 
 + Request (application/json)
 
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
+            "type": "office_type",
+            "name":"office_name"
         }
 
 + Response 201 (application/json)
 
     + Headers
-
-            Location: /questions/2
+    
+            Authorization: Bearer Token
+            Location: /api/v2/offices
 
     + Body
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
+              "data":[
+                {
+                "name":"office_name"
+                }
+              ],
+              "status":201
+            }
+            
+## Parties Collection [/api/v2/parties]
+
+### Gets All Parties [GET]
+
+A User with auth token can view all offices
+
++ Response 200 (application/json)
+
+        [
+            "data":[
+                     {
+                         "id":1,
+                         "name":"office_name",
+                         "type":"office_type"                 
+                     }
+                   ],
+            "status" : 200       
+        ]
+
+### Create a New Party [POST]
+
+An admin user with admin auth token can create an office 
+
++ Request (application/json)
+
+        {
+            "type": "office_type",
+            "name":"office_name"
+        }
+
++ Response 201 (application/json)
+
+    + Headers
+    
+            Authorization: Bearer Token
+            Location: /api/v2/offices
+
+    + Body
+
+            {
+              "data":[
+                {
+                "name":"office_name"
+                }
+              ],
+              "status":201
             }
