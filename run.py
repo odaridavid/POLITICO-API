@@ -12,5 +12,6 @@ def app_context():
     return app
 
 
+app = app_context()
 if __name__ == '__main__':
-    app_context().run()
+    app.run()
