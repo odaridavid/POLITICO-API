@@ -2,6 +2,7 @@ from api.db_conn import db_connect
 from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
 from api.validator import UserValidator
+from flask_jwt_extended import create_access_token
 
 
 class UserModelDb:
@@ -32,13 +33,16 @@ class UserModelDb:
         # Add User to table
         data = (firstname, lastname, othername, email, phone_number, passport_url, password, admin_status)
         query = "INSERT INTO users(firstname,lastname,othername,email,phone_number,passport_url,pass,is_admin) " \
-                "VALUES(%s,%s,%s,%s,%s,%s,%s,%s);"
+                "VALUES(%s,%s,%s,%s,%s,%s,%s,%s) RETURNING _id;"
 
         try:
             cursor = self.db_conn.cursor()
             cursor.execute(query, data)
             self.db_conn.commit()
-            return firstname
+            user_row = cursor.fetchall()
+            _id = user_row[0][0]
+            access_token = create_access_token(identity=_id)
+            return access_token
         except psycopg2.IntegrityError:
             return 'User Exists'
 
@@ -46,7 +50,7 @@ class UserModelDb:
         # User sign in
         email = self.user['email']
         password = self.user['password']
-        query = """SELECT pass FROM users WHERE email = %s;"""
+        query = """SELECT _id,pass FROM users WHERE email = %s;"""
 
         cursor = self.db_conn.cursor()
         # Execute function works with iterable
@@ -56,6 +60,8 @@ class UserModelDb:
         if len(user_row) < 1:
             return 'Non Existent User'
         # Check passwords match
-        if check_password_hash(user_row[0][0], password):
-            return 'Login'
+        _id = user_row[0][0]
+        if check_password_hash(user_row[0][1], password):
+            access_token = create_access_token(identity=_id)
+            return access_token
         return 'Invalid'

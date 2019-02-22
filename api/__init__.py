@@ -1,4 +1,6 @@
 from flask import Flask, make_response, jsonify
+from flask_jwt_extended import JWTManager
+import os
 # Setup Models
 from .v1 import models
 # Import blueprint - contain routes handling interaction between view and models
@@ -46,6 +48,9 @@ def create_app(configuration='development'):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(application_config[configuration])
+    # JWT Config
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+    JWTManager(app)
     #  Register  blueprints in app instance creation - version1
     app.register_blueprint(user_api)
     app.register_blueprint(petition_api)

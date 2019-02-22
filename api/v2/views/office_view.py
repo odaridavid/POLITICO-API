@@ -1,10 +1,12 @@
 from flask import Blueprint, request, jsonify, make_response
 from api.v2.models.office_model import OfficesModelDb
+from flask_jwt_extended import jwt_required
 
 office_api_v2 = Blueprint('office_v2', __name__, url_prefix="/api/v2")
 
 
 @office_api_v2.route("/offices", methods=['POST'])
+@jwt_required
 def api_create_office():
     office = request.get_json(force=True)
     # Checks keys exist in given dict as sets
@@ -25,12 +27,14 @@ def api_create_office():
 
 
 @office_api_v2.route("/offices", methods=['GET'])
+@jwt_required
 def api_get_offices():
     offices = OfficesModelDb().get_all_offices()
     return make_response(jsonify({"status": 200, "data": offices}), 200)
 
 
 @office_api_v2.route("/offices/<offices_id>/name", methods=['PATCH'])
+@jwt_required
 def api_edit_office(offices_id):
     oid = id_conversion(offices_id)
     updated_office_data = request.get_json(force=True)
@@ -45,6 +49,7 @@ def api_edit_office(offices_id):
 
 
 @office_api_v2.route("/offices/<office_id>", methods=['GET'])
+@jwt_required
 def api_specific_office_get(office_id):
     oid = id_conversion(office_id)
     office = OfficesModelDb(office_id=oid).get_specific_office()
@@ -59,6 +64,7 @@ def api_specific_office_get(office_id):
 
 
 @office_api_v2.route("/offices/<office_id>", methods=['DELETE'])
+@jwt_required
 def api_specific_office_delete(office_id):
     oid = id_conversion(office_id)
     office = OfficesModelDb(office_id=oid).delete_office()

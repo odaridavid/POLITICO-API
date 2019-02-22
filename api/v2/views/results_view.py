@@ -1,10 +1,12 @@
 from flask import Blueprint, jsonify, make_response
 from api.v2.models.results_model import ResultsModel
+from flask_jwt_extended import jwt_required
 
 result_api_v2 = Blueprint('results_v2', __name__, url_prefix="/api/v2")
 
 
 @result_api_v2.route("/office/<office_id>/result", methods=['GET'])
+@jwt_required
 def api_results(office_id):
     oid = id_conversion(office_id)
     if isinstance(oid, int):
