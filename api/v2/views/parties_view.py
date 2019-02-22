@@ -56,7 +56,7 @@ def api_edit_party(party_id):
             return make_response(
                 jsonify({"status": 200, "message": "{} Updated Successfully".format(model_result[0][1])}),
                 200)
-        return make_response(jsonify({"status": 400, "error": "Missing Key value"}), 400)
+        return make_response(jsonify({"status": 400, "error": "Please Check All Input Fields Are Filled"}), 400)
     return make_response(jsonify({"status": 401, "error": "Unauthorized Access,Requires Admin Rights"}), 401)
 
 
