@@ -24,7 +24,7 @@ class UserModelDbTestCase(BaseTestCase):
         self.user.user_sign_up()
         user_sign_in = UserModelDb({"email": "odari@gmail.com", "password": "12we3e4r"})
         sign_in_response = user_sign_in.user_sign_in()
-        self.assertEqual(sign_in_response, 'Login')
+        self.assertTrue(len(sign_in_response) > 50)
 
     def test_user_sign_in_unsuccessful(self):
         """Tests user sign in unsuccessfully"""

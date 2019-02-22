@@ -1,10 +1,12 @@
 from flask import Blueprint, request, make_response, jsonify
 from api.v2.models.votes_model import VoteModel
+from flask_jwt_extended import jwt_required
 
 votes_api_v2 = Blueprint('votes_v2', __name__, url_prefix="/api/v2")
 
 
 @votes_api_v2.route("/votes/", methods=['POST'])
+@jwt_required
 def api_candidate_register():
     vote_data = request.get_json(force=True)
 

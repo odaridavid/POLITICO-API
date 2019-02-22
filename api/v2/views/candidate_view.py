@@ -1,10 +1,12 @@
 from flask import Blueprint, request, make_response, jsonify
 from api.v2.models.candidate_model import CandidateModel
+from flask_jwt_extended import jwt_required
 
 candidate_api_v2 = Blueprint('candidate_v2', __name__, url_prefix="/api/v2")
 
 
 @candidate_api_v2.route("/office/<office_id>/register", methods=['POST'])
+@jwt_required
 def api_candidate_register(office_id):
     register_data = request.get_json(force=True)
     oid = id_conversion(office_id)
@@ -29,6 +31,7 @@ def api_candidate_register(office_id):
 
 
 @candidate_api_v2.route("/office/<office_id>/register", methods=['GET'])
+@jwt_required
 def api_get_candidates(office_id):
     oid = id_conversion(office_id)
     candidates = CandidateModel().get_all_candidates_by_office(oid)

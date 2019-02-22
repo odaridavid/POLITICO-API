@@ -92,7 +92,7 @@ class UserEndpointsTestCase(BaseTestCase):
             "password": "1wwjdje3qr"
         }))
         self.assertEqual(response.status_code, 201, "Login Should be Successful")
-        self.assertIn('Login Successful', response.json['message'])
+        self.assertTrue(len(response.json['token']) > 50)
 
     def test_user_sign_in_unsuccessful(self):
         """

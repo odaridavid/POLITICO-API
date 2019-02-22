@@ -8,6 +8,7 @@ from api.v2.models.candidate_model import CandidateModel
 from api.v2.models.votes_model import VoteModel
 from api.db_conn import create_tables, drop_tables, close_connection
 from api.v2.models.parties_model import PartiesModelDb
+import json
 
 
 class BaseTestCase(unittest.TestCase):
@@ -51,7 +52,28 @@ class BaseTestCase(unittest.TestCase):
             })
         self.candidate = CandidateModel(1, 1, 1)
         self.vote = VoteModel(office_id=1, candidate_id=1, user_id=1)
+        self.app_context = self.app.app_context()
+        self.app_context.push()
 
     def tearDown(self):
         drop_tables()
         close_connection()
+
+    def generate_token(self):
+        self.client.post('api/v2/auth/signup', data=json.dumps({
+            "firstname": "Kiddy",
+            "lastname": "Odari",
+            "othername": "Kiribwa",
+            "email": "odari@kiddy.com",
+            "phoneNumber": "0717453455",
+            "passportUrl": "www.googledrive.com/pics?v=jejfek",
+            "password": "1wwjdje3qr",
+            "isAdmin": 0
+        }))
+        response = self.client.post('/api/v2/auth/login', data=json.dumps({
+            "email": "odari@kiddy.com",
+            "password": "1wwjdje3qr"
+        }))
+        # To access a jwt_required protected view,send in the JWT with the request
+        auth_header = {'Authorization': 'Bearer {}'.format(response.json['token'])}
+        return auth_header

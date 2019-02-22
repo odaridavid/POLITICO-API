@@ -34,6 +34,6 @@ def api_user_sign_in():
         elif 'Non Existent User' in validated_user:
             return make_response(jsonify({"status": 400, "error": "Check Email or Password"}), 400)
         else:
-            return make_response(jsonify({"status": 201, "message": "Login Successful"}), 201)
+            return make_response(jsonify({"status": 201, "token": validated_user}), 201)
     # Missing Data
     return make_response(jsonify({"status": 400, "error": "Bad Request,Check Data"}), 400)
