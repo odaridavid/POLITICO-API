@@ -1,3 +1,6 @@
+import re
+
+
 class UserValidator:
     def __init__(self, user):
         self.user = user
@@ -10,19 +13,19 @@ class UserValidator:
 
     def check_passport_url_value(self):
         if len(self.user['passportUrl']) > 0:
-            return self.user['passportUrl']
+            if re.match(r"[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)",
+                        self.user['passportUrl']):
+                return self.user['passportUrl']
         return 'Invalid'
 
     def check_password(self):
-        if not len(self.user['password']) >= 8:
-            return 'Invalid'
-        return self.user['password']
+        if re.match(r'[A-Za-z0-9@#$%^&+=]{8,}', self.user['password']):
+            return self.user['password']
+        return 'Invalid'
 
     def check_email(self):
-        if any(val == "@" for val in self.user['email']):
-            if any(val == "." for val in self.user['email']):
-                return self.user['email']
-            return 'Invalid'
+        if re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$)", self.user['email']):
+            return self.user['email']
         return 'Invalid'
 
     def all_checks(self):
@@ -55,6 +58,7 @@ class CheckStrings:
     def check_strings(self):
         """Validated Strings and prevents entry of any other type"""
         if isinstance(self.item, str):
+            self.item.strip()
             if len(self.item) >= 3:
                 return self.item
         return 'Invalid'

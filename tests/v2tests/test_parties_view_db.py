@@ -90,7 +90,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
         response = self.client.patch('api/v2/parties/{}/name'.format(1), data=json.dumps({
         }), headers=self.generate_token_admin())
         self.assertEqual(response.status_code, 400)
-        self.assertIn('Missing Key value', response.json['error'])
+        self.assertIn('Please Check All Input Fields Are Filled', response.json['error'])
 
     def test_party_edited_exists(self):
         self.client.post('api/v2/parties', data=json.dumps({

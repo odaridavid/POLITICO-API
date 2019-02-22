@@ -27,7 +27,7 @@ def api_create_office():
                 }]
             }
             return make_response(jsonify(response_body), 201)
-        return make_response(jsonify({"status": 400, "error": "Missing Key value"}), 400)
+        return make_response(jsonify({"status": 400, "error": "Please Check All Input Fields Are Filled"}), 400)
     return make_response(jsonify({"status": 401, "error": "Unauthorized Access,Requires Admin Rights"}), 401)
 
 
@@ -54,7 +54,7 @@ def api_edit_office(offices_id):
             elif 'Office Exists' in model_result:
                 return make_response(jsonify({"status": 409, "error": "Office with similar name exists"}), 409)
             return make_response(jsonify({"status": 200, "message": "Updated successfully"}), 200)
-        return make_response(jsonify({"status": 400, "error": "Missing Key value"}), 400)
+        return make_response(jsonify({"status": 400, "error": "Please Check All Input Fields Are Filled"}), 400)
     return make_response(jsonify({"status": 401, "error": "Unauthorized Access,Requires Admin Rights"}), 401)
 
 
