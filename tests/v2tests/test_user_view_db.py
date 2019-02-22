@@ -18,7 +18,7 @@ class UserEndpointsTestCase(BaseTestCase):
             "isAdmin": 0
         }))
         self.assertEqual(response.status_code, 201, "Sign Up Successful")
-        self.assertIn('Signed Up Successfully', response.json['data'])
+        self.assertTrue(len(response.json['token']) > 60)
 
     def test_user_sign_up_user_exists(self):
         """

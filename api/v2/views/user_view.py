@@ -19,7 +19,7 @@ def api_user_sign_up():
             return make_response(jsonify({"status": 409, "error": "User Already Exists"}), 409)
         else:
             return make_response(
-                jsonify({"status": 201, "data": "{} Signed Up Successfully".format(validated_user)}), 201)
+                jsonify({"status": 201, "token": validated_user}), 201)
     # Missing data
     return make_response(jsonify({"status": 400, "error": "Invalid Request ,Missing Data"}), 400)
 

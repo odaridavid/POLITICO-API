@@ -33,13 +33,16 @@ class UserModelDb:
         # Add User to table
         data = (firstname, lastname, othername, email, phone_number, passport_url, password, admin_status)
         query = "INSERT INTO users(firstname,lastname,othername,email,phone_number,passport_url,pass,is_admin) " \
-                "VALUES(%s,%s,%s,%s,%s,%s,%s,%s);"
+                "VALUES(%s,%s,%s,%s,%s,%s,%s,%s) RETURNING _id;"
 
         try:
             cursor = self.db_conn.cursor()
             cursor.execute(query, data)
             self.db_conn.commit()
-            return firstname
+            user_row = cursor.fetchall()
+            _id = user_row[0][0]
+            access_token = create_access_token(identity=_id)
+            return access_token
         except psycopg2.IntegrityError:
             return 'User Exists'
 

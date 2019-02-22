@@ -5,8 +5,8 @@ from api.v2.models.user_model import UserModelDb
 class UserModelDbTestCase(BaseTestCase):
     def test_user_sign_up_successful(self):
         """Tests User added successfully to database"""
-        user_name = self.user.user_sign_up()
-        self.assertEqual(user_name, 'David')
+        token = self.user.user_sign_up()
+        self.assertTrue(len(token) > 60)
 
     def test_user_sign_up_duplicate(self):
         """Tests User cant be added more than once"""
