@@ -10,7 +10,7 @@ petitioning,voting and user login and sign up to be consumed by front end framew
 
 ### Gets All Offices [GET]
 
-A User with auth token can view all offices
+A User with an authentication token can view all offices available.
 
 + Response 200 (application/json)
 
@@ -27,7 +27,7 @@ A User with auth token can view all offices
 
 ### Create a New Office [POST]
 
-An admin user with admin auth token can create an office 
+An admin user with an admin authentication token can create an office. 
 
 + Request (application/json)
    
@@ -81,7 +81,7 @@ An admin user with admin auth token can create an office
 
 ### Gets All Parties [GET]
 
-A User with auth token can view all parties
+A User with authentication token can view all parties.
 
 + Request
 
@@ -91,7 +91,6 @@ A User with auth token can view all parties
             
 + Response 200 (application/json)
 
-    
             {
                 "data":[
                          {
@@ -106,7 +105,7 @@ A User with auth token can view all parties
 
 ### Create a New Party [POST]
 
-An admin user with admin auth token can create a party
+An admin user with admin authentication token can create a party.
 
 + Request (application/json)
 
@@ -138,23 +137,26 @@ An admin user with admin auth token can create a party
 ## Users Sign Up [/api/v2/auth/signup]
 
 A new user can Sign Up
+
 #### Sign Up [POST]
 
 + Request (application/json)
 
-    
+   + Body
+              
             {
-                    "firstname": "Davied",
-                    "lastname": "Odari",
-                    "othername": "Kiribwa",
-                    "email": "odari@amail.com",
-                    "phoneNumber": "0717455945",
-                    "passportUrl": "www.googledrive.com/pics?v=jejfek",
-                    "password": "1wwjdje3qr",
-                    "isAdmin": 0 
-            }
-                   
+                "firstname": "Davied",
+                "lastname": "Odari",
+                "othername": "Kiribwa",
+                "email": "odari@amail.com",
+                "phoneNumber": "0717455945",
+                "passportUrl": "www.googledrive.com/pics?v=jejfek",
+                "password": "1wwjdje3qr",
+                "isAdmin": 0 
+            }     
+            
         
+                     
         
 + Response 201 (application/json)
 
@@ -162,14 +164,41 @@ A new user can Sign Up
                    "status": 201,
                    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NTA4MTY0MjYsIm5iZiI6MTU1MDgxNjQyNiwianRpIjoiODBhZDU0ZTEtNjVlYS00NDczLWI3NjItNDI2ODIwZjY1ZWI3IiwiZXhwIjoxNTUwODE3MzI2LCJpZGVudGl0eSI6MSwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIn0.Bz7tvf81A4ks660nOWZOyRY9J0TsFG05jDVJ13mBYL8"
             }
-                 
+            
++ Request
+         
+   + Body  
+       
+            {
+                "firstname": "Davied",
+                "lastname": "Odari",
+                "othername": "Kiribwa",
+                "email": "odari@amail.com",
+                "phoneNumber": "0717455945",
+                "passportUrl": "www.googledrive.com/pics?v=jejfek",
+                "password": "1wwjdje3qr",
+                "isAdmin": 0 
+            }
+            
++ Response 409 (application/json)
 
-        
+   + Body
+            
+            {
+               "status": 409,
+               "error": "User Already Exists"
+            }  
+
 
 ## User Login [/api/v2/auth/login]
+
 An existing user can login to the system.
 #### User Login [POST]
 + Request (application/json)
+
+    + Headers
+       
+            Authorization: Bearer Token
 
     + Body
 
@@ -180,17 +209,141 @@ An existing user can login to the system.
 
 + Response 201 (application/json)
 
-    + Headers
+    + Body
+
+            {
+              "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NTA4MTU2OTcsIm5iZiI6MTU1MDgxNTY5NywianRpIjoiOTljNjc4MDQtOTUxMy00OGI5LTgxYzEtNGU2YWMyNjQ0M2MxIiwiZXhwIjoxNTUwODE2NTk3LCJpZGVudGl0eSI6MSwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIn0.hZPrc6-D6mD8a_DPRquBpfLyvUn3ZTjRfFErE2DWin0",
+              "status":201
+             }
+            
+            
+## Candidate Collection [/office/{office_id}/register]
+
++ Parameters
+
+    + office_id (number) - ID of office to which candidate will be registered
     
-            Location: /api/v2/auth/login
+
+#### Register a Candidate [POST]
+
+A signed up user can be registered as a candidate
+
++ Request (application/json)
+
+    + Headers
+       
+            Authorization: Bearer Token
+
+    + Body
+
+            {
+                "party": 1,
+                "candidate": 2
+            }
+
++ Response 201 (application/json)
 
     + Body
 
             {
               "data":[
                 {
-                 "status": 201,
-                 "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NTA4MTU2OTcsIm5iZiI6MTU1MDgxNTY5NywianRpIjoiOTljNjc4MDQtOTUxMy00OGI5LTgxYzEtNGU2YWMyNjQ0M2MxIiwiZXhwIjoxNTUwODE2NTk3LCJpZGVudGl0eSI6MSwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIn0.hZPrc6-D6mD8a_DPRquBpfLyvUn3ZTjRfFErE2DWin0"
+                 "office": "office_name",
+                 "user": "user_name"
+                }
+              ],
+              "status":201
+             }
+
+#### View a Candidate [GET]
+A user who is logged in can view candidates for a specific office
+
++ Request (application/json)
+
+    + Headers
+       
+            Authorization: Bearer Token
+
+    + Body
+
+            {
+                "party": 1,
+                "candidate": 2
+            }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+              "data":[
+                {
+                 "office": "office_name",
+                 "user": "user_name"
+                }
+              ],
+              "status":201
+             }
+
+## Vote Collection [/votes/]
+
+#### Vote For an Office [POST]
+A signed up user can vote for a registered candidate
+
++ Request (application/json)
+
+    + Headers
+       
+            Authorization: Bearer Token
+
+    + Body
+
+            {
+                "party": 1,
+                "candidate": 2
+            }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+              "data":[
+                {
+                 "office": "office_name",
+                 "user": "user_name"
+                }
+              ],
+              "status":201
+             }
+
+## Results Collection [/office/{office_id}/results]
+
+#### View Results for Candidates of a specific office [POST]
+A signed up user can view results on request
+
++ Request (application/json)
+
+    + Headers
+       
+            Authorization: Bearer Token
+
+    + Body
+
+            {
+                "party": 1,
+                "candidate": 2
+            }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+              "data":[
+                {
+                 "office": "office_name",
+                 "user": "user_name"
                 }
               ],
               "status":201
