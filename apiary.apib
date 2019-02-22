@@ -168,7 +168,8 @@ A new user can Sign Up
 + Request
          
    + Body 
-   #]
+   
+   
             {
                 "firstname": "Davied",
                 "lastname": "Odari",
@@ -315,7 +316,14 @@ A signed up user can vote for a registered candidate
 
 ## Results Collection [/office/{office_id}/results]
 
++ Parameters
+
+    + office_id (number) - ID of office to which candidates are registered
+
+   
+   
 #### View Results for Candidates of a specific office [POST]
+
 A signed up user can view results on request
 
 + Request (application/json)
@@ -324,12 +332,6 @@ A signed up user can view results on request
        
             Authorization: Bearer Token
 
-    + Body
-
-            {
-                "party": 1,
-                "candidate": 2
-            }
 
 + Response 201 (application/json)
 
@@ -338,8 +340,9 @@ A signed up user can view results on request
             {
               "data":[
                 {
-                 "office": "office_name",
-                 "user": "user_name"
+                 "office": 1,
+                 "candidate": 4,
+                 "result":340
                 }
               ],
               "status":201
