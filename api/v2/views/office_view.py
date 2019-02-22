@@ -27,7 +27,7 @@ def api_create_office():
                 }]
             }
             return make_response(jsonify(response_body), 201)
-        return make_response(jsonify({"status": 400, "error": "Missing Key value"}), 400)
+        return make_response(jsonify({"status": 400, "error": "Please Check All Input Fields Are Filled"}), 400)
     return make_response(jsonify({"status": 401, "error": "Unauthorized Access,Requires Admin Rights"}), 401)
 
 

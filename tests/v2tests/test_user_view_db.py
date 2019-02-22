@@ -55,8 +55,8 @@ class UserEndpointsTestCase(BaseTestCase):
         }
         self.client.post('api/v2/auth/signup', data=json.dumps(user))
         response = self.client.post('api/v2/auth/signup', data=json.dumps(user))
-        self.assertEqual(response.status_code, 400, "Parsing Invalid Data ,Bad Request")
-        self.assertIn('Parsing Invalid Data ,Bad Request', response.json['error'])
+        self.assertEqual(response.status_code, 400, "Input fields should be empty'")
+        self.assertIn('Please Check All Input Fields Are Valid', response.json['error'])
 
     def test_user_sign_up_with_missing_data(self):
         """
@@ -71,7 +71,7 @@ class UserEndpointsTestCase(BaseTestCase):
         self.client.post('api/v2/auth/signup', data=json.dumps(user))
         response = self.client.post('api/v2/auth/signup', data=json.dumps(user))
         self.assertEqual(response.status_code, 400, "Should contain insufficient keys  for request")
-        self.assertIn('Invalid Request ,Missing Data', response.json['error'])
+        self.assertIn('Please Check All Input Fields Are Filled', response.json['error'])
 
     def test_user_sign_in_success(self):
         """
@@ -113,7 +113,7 @@ class UserEndpointsTestCase(BaseTestCase):
             "password": "1ww1dqe3qr"
         }))
         self.assertEqual(response.status_code, 400, "Login Should be unsuccessful")
-        self.assertIn('Parsing Invalid Data ,Bad Request', response.json['error'])
+        self.assertIn('Please Check All Input Fields Are Valid', response.json['error'])
 
     def test_user_sign_in_unsuccessful_missing_data(self):
         """
@@ -123,4 +123,4 @@ class UserEndpointsTestCase(BaseTestCase):
             "email": "odari@amail.com",
         }))
         self.assertEqual(response.status_code, 400, "Login Should be unsuccessful")
-        self.assertIn('Bad Request,Check Data', response.json['error'])
+        self.assertIn('Please Check All Input Fields Are Filled', response.json['error'])

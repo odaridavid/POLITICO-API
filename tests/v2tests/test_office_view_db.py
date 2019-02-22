@@ -44,7 +44,7 @@ class OfficeEndpointsTestCase(BaseTestCase):
             "name": "Attorney General"
         }), headers=self.generate_token_admin())
         self.assertEqual(response.status_code, 400, "Should be Parsing Invalid Data ,Bad Request")
-        self.assertIn('Missing Key value', response.json['error'])
+        self.assertIn('Please Check All Input Fields Are Filled', response.json['error'])
 
     def test_get_all_offices_empty_set(self):
         """Tests that the offices in the db are retrived as empty list if none"""
@@ -82,7 +82,7 @@ class OfficeEndpointsTestCase(BaseTestCase):
         response = self.client.patch('api/v2/offices/{}/name'.format(1), data=json.dumps({
         }), headers=self.generate_token_admin())
         self.assertEqual(response.status_code, 400)
-        self.assertIn('Missing Key value', response.json['error'])
+        self.assertIn('Please Check All Input Fields Are Filled', response.json['error'])
 
     def test_office_edited_exists(self):
         self.client.post('api/v2/offices', data=json.dumps({
