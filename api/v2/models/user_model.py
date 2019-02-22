@@ -6,14 +6,12 @@ from flask_jwt_extended import create_access_token
 
 
 class UserModelDb:
-    def __init__(self, user):
+    def __init__(self):
         # Setup connection to db
         self.db_conn = db_connect()
-        # User object being worked on
-        self.user = user
 
-    def user_sign_up(self):
-        validated_user = UserValidator(self.user).all_checks()
+    def user_sign_up(self, user):
+        validated_user = UserValidator(user).all_checks()
         if 'Invalid' in validated_user:
             return 'Invalid Data'
         firstname = validated_user['firstname']
@@ -22,7 +20,7 @@ class UserModelDb:
         email = validated_user['email']
         phone_number = validated_user['phoneNumber']
         passport_url = validated_user['passportUrl']
-        is_admin = self.user['isAdmin']
+        is_admin = user['isAdmin']
         # Check admin else default to 0
         if is_admin == 't' or is_admin == 'f':
             admin_status = is_admin
@@ -46,10 +44,10 @@ class UserModelDb:
         except psycopg2.IntegrityError:
             return 'User Exists'
 
-    def user_sign_in(self):
+    def user_sign_in(self, user):
         # User sign in
-        email = self.user['email']
-        password = self.user['password']
+        email = user['email']
+        password = user['password']
         query = """SELECT _id,pass FROM users WHERE email = %s;"""
 
         cursor = self.db_conn.cursor()
@@ -65,3 +63,14 @@ class UserModelDb:
             access_token = create_access_token(identity=_id)
             return access_token
         return 'Invalid'
+
+    def get_user_by_id(self, _id):
+        query = """SELECT * FROM users WHERE _id = %s;"""
+        cursor = self.db_conn.cursor()
+        # Execute function works with iterable
+        cursor.execute(query, (_id,))
+        self.db_conn.commit()
+        user_row = cursor.fetchall()
+        if user_row[0][8]:
+            return 'Can Perform Operations'
+        return 'Requires Admin Privilege'
