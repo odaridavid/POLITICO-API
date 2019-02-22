@@ -49,8 +49,7 @@ def create_app(configuration='development'):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(application_config[configuration])
     # JWT Config
-    app.config['JWT_SECRET_KEY'] = os.getenv('SECRET_KEY')
-    app.config['JWT_ALGORITHM'] = 'HS256'
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     JWTManager(app)
     #  Register  blueprints in app instance creation - version1
     app.register_blueprint(user_api)
