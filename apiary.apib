@@ -138,7 +138,7 @@ An admin user with admin authentication token can create a party.
 
 A new user can Sign Up
 
-#### Sign Up [POST]
+### Sign Up [POST]
 
 + Request (application/json)
 
@@ -194,7 +194,7 @@ A new user can Sign Up
 ## User Login [/api/v2/auth/login]
 
 An existing user can login to the system.
-#### User Login [POST]
+### User Login [POST]
 + Request (application/json)
 
     + Headers
@@ -225,7 +225,7 @@ An existing user can login to the system.
     + office_id (number) - ID of office to which candidate will be registered
     
 
-#### Register a Candidate [POST]
+### Register a Candidate [POST]
 
 A signed up user can be registered as a candidate
 
@@ -256,7 +256,7 @@ A signed up user can be registered as a candidate
               "status":201
              }
 
-#### View a Candidate [GET]
+### View a Candidate [GET]
 A user who is logged in can view candidates for a specific office
 
 + Request (application/json)
@@ -282,7 +282,7 @@ A user who is logged in can view candidates for a specific office
 
 ## Vote Collection [/votes/]
 
-#### Vote For an Office [POST]
+### Vote For an Office [POST]
 A signed up user can vote for a registered candidate
 
 + Request (application/json)
@@ -322,7 +322,7 @@ A signed up user can vote for a registered candidate
 
    
    
-#### View Results for Candidates of a specific office [POST]
+### View Results for Candidates of a specific office [POST]
 
 A signed up user can view results on request
 
