@@ -1,6 +1,7 @@
 from flask import Blueprint, request, make_response, jsonify
 from api.v2.models.votes import VoteModel
 from flask_jwt_extended import jwt_required
+from . import id_conversion
 
 votes_api_v2 = Blueprint('votes_v2', __name__, url_prefix="/api/v2")
 
@@ -9,7 +10,6 @@ votes_api_v2 = Blueprint('votes_v2', __name__, url_prefix="/api/v2")
 @jwt_required
 def api_cast_votes():
     vote_data = request.get_json(force=True)
-
     if {'office', 'candidate', 'voter'} <= set(vote_data):
         uid = id_conversion(vote_data['voter'])
         oid = id_conversion(vote_data['office'])
@@ -31,13 +31,3 @@ def api_cast_votes():
                     jsonify({"status": 409, "error": "Vote Already Cast or Voting for non existent entities"}), 409)
         return make_response(jsonify({"status": 400, "error": "Invalid Credentials on Vote Request"}), 400)
     return make_response(jsonify({"status": 400, "error": "Missing Vote Information"}), 400)
-
-
-def id_conversion(item_id):
-    try:
-        oid = int(item_id)
-        if oid <= 0:
-            return 'Invalid'
-        return oid
-    except ValueError:
-        return 'Invalid'

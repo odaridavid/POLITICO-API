@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, make_response
 from api.v2.models.results import ResultsModel
 from flask_jwt_extended import jwt_required
+from . import id_conversion
 
 result_api_v2 = Blueprint('results_v2', __name__, url_prefix="/api/v2")
 
@@ -23,11 +24,3 @@ def api_results(office_id):
     elif 'Empty' in results:
         return make_response(jsonify({"status": 404, "error": "Results Not Found"}), 404)
     return make_response(jsonify({"status": 404, "error": "Results Not Found"}), 404)
-
-
-def id_conversion(item_id):
-    try:
-        oid = int(item_id)
-        return oid
-    except ValueError:
-        return 'Invalid'

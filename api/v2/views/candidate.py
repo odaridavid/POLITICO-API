@@ -1,7 +1,7 @@
 from flask import Blueprint, request, make_response, jsonify
 from api.v2.models.candidate import CandidateModel
 from flask_jwt_extended import jwt_required
-from . import check_user
+from . import check_user, id_conversion
 
 candidate_api_v2 = Blueprint('candidate_v2', __name__, url_prefix="/api/v2")
 
@@ -53,11 +53,3 @@ def api_get_candidates(office_id):
         return make_response(
             jsonify({"status": 200, "data": candidates_list}),
             200)
-
-
-def id_conversion(item_id):
-    try:
-        oid = int(item_id)
-        return oid
-    except ValueError:
-        return 'Invalid'

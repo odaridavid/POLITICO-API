@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, make_response
 from api.v2.models.office import OfficesModelDb
 from flask_jwt_extended import jwt_required
-from . import check_user
+from . import check_user, id_conversion
 
 office_api_v2 = Blueprint('office_v2', __name__, url_prefix="/api/v2")
 
@@ -79,11 +79,3 @@ def api_specific_office_delete(office_id):
             return make_response(jsonify({"status": 200, "message": "{} Deleted".format(office[0][0])}), 200)
         return make_response(jsonify({"status": 404, "error": "Office Not Found"}), 404)
     return make_response(jsonify({"status": 401, "error": "Unauthorized Access,Requires Admin Rights"}), 401)
-
-
-def id_conversion(item_id):
-    try:
-        oid = int(item_id)
-        return oid
-    except ValueError:
-        return 'Invalid'

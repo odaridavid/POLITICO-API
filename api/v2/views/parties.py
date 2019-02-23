@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, make_response
 from api.v2.models.parties import PartiesModelDb
 from flask_jwt_extended import jwt_required
-from . import check_user
+from . import check_user, id_conversion
 
 parties_api_v2 = Blueprint('parties_v2', __name__, url_prefix="/api/v2")
 
@@ -83,11 +83,3 @@ def api_specific_party_delete(party_id):
             return make_response(jsonify({"status": 200, "message": "{} Deleted".format(party[0][0])}), 200)
         return make_response(jsonify({"status": 404, "error": "Party Not Found"}), 404)
     return make_response(jsonify({"status": 401, "error": "Unauthorized Access,Requires Admin Rights"}), 401)
-
-
-def id_conversion(item_id):
-    try:
-        oid = int(item_id)
-        return oid
-    except ValueError:
-        return 'Invalid'
