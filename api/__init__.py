@@ -50,6 +50,8 @@ def create_app(configuration='development'):
     app.config.from_object(application_config[configuration])
     # JWT Config
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+    # 24 hrs to expire
+    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 86400
     JWTManager(app)
     #  Register  blueprints in app instance creation - version1
     app.register_blueprint(user_api)
