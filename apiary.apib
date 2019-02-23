@@ -20,6 +20,16 @@ A User with an authentication token can view all offices available.
                              "id":1,
                              "name":"office_name",
                              "type":"office_type"                 
+                         },
+                         {
+                             "id":2,
+                             "name":"office_name",
+                             "type":"office_type"                 
+                         },
+                         {
+                             "id":3,
+                             "name":"office_name",
+                             "type":"office_type"                 
                          }
                        ],
                 "status" : 200       
@@ -149,7 +159,19 @@ A User with authentication token can view all parties.
                              "name":"office_name",
                              "hqAddress":"logo_url",
                              "logoUrl":"logo_url"
-                         }
+                         },
+                         {
+                             "id":2,
+                             "name":"office_name",
+                             "hqAddress":"logo_url",
+                             "logoUrl":"logo_url"
+                         },
+                         {
+                             "id":3,
+                             "name":"office_name",
+                             "hqAddress":"logo_url",
+                             "logoUrl":"logo_url"
+                         },
                        ],
                 "status" : 200       
             }
@@ -184,6 +206,58 @@ An admin user with admin authentication token can create a party.
               ],
               "status":201
             }
+
+## Specific Party Collection [/api/v2/parties/{party_id}]
+
++ Parameters
+
+    + party_id (number) - ID of party to which operations will be done on
+    
+
+### Edit A Party [PATCH]
+
+A User with an admin authentication token can edit a parties name.
+
++ Request (application/json)
+
+   + Headers
+    
+            Authorization: Bearer Token
+     
+   + Body   
+   
+            {
+                "name":"party_name"
+            } 
+
++ Response 200 (application/json)
+
+            {
+             "message":"Updated Successfully",
+             "status":200
+            }
+
+
+        
+### Delete a Party [DELETE]            
+            
+
+An admin user with an admin authentication token can delete a party. 
+
++ Request (application/json)
+   
+   + Headers
+    
+            Authorization: Bearer Token
+  
++ Response 201 (application/json)
+
+            {
+              "message":"{party_name} Deleted"
+              "status":200
+            }
+            
+
 
 ## Users Sign Up [/api/v2/auth/signup]
 
