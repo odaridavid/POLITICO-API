@@ -117,6 +117,25 @@ A User with an admin authentication token can edit an office.
              "status":200
             }
 
+### Get an Office [GET]            
+            
+
+An user with an authentication token can view an office. 
+
++ Request (application/json)
+   
+   + Headers
+    
+            Authorization: Bearer Token
+  
++ Response 201 (application/json)
+
+            {
+              "id" :1
+              "office_type":"Type Of Office"
+              "office_name":"Name Of Office"
+            }
+
 
         
 ### Delete an Office [DELETE]            
@@ -235,6 +254,26 @@ A User with an admin authentication token can edit a parties name.
             {
              "message":"Updated Successfully",
              "status":200
+            }
+
+### Get an Party [GET]            
+            
+
+An user with an authentication token can view a party. 
+
++ Request (application/json)
+   
+   + Headers
+    
+            Authorization: Bearer Token
+  
++ Response 201 (application/json)
+
+            {
+              "id" :1,
+              "name":"Name Of Party",
+              "hqAddress":"Address Of Party",
+              "logoUrl":"Party Logo Url"
             }
 
 
@@ -383,7 +422,7 @@ A signed up user can be registered as a candidate
               "status":201
              }
 
-### View a Candidate [GET]
+### View Candidates [GET]
 
 A user who is logged in can view candidates for a specific office
 
@@ -471,7 +510,7 @@ A signed up user can view results on request
                 {
                  "office": 1,
                  "candidate": 4,
-                 "result":340
+                 "results":340
                 }
               ],
               "status":201
