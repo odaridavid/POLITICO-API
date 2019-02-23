@@ -9,12 +9,14 @@ petitioning,voting and user login and sign up to be consumed by front end framew
 [![Maintainability](https://api.codeclimate.com/v1/badges/4151dd7acdb2ddb19f1f/maintainability)](https://codeclimate.com/github/Davidodari/POLITICO-API/maintainability)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/33734615352249b6823b104b386a6ea7)](https://www.codacy.com/app/Davidodari/POLITICO-API?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Davidodari/POLITICO-API&amp;utm_campaign=Badge_Grade)
 
-### Endpoints Version 1 
+### Endpoints  
 
 ####  Url Prefix - /api/v1/
 
+<details>
 
-
+ <summary> Version 1</summary>
+ 
 |   ENDPOINT  | METHOD | STATUS |
 |:---:|:---:|:---:|
 | /offices                 |  GET     |  Gets List of offices |
@@ -29,11 +31,13 @@ petitioning,voting and user login and sign up to be consumed by front end framew
 | /offices/<offices_id>    |  GET     |  Gets a specific office |
 | /users                   |  POST    |  Adds User to List Of Users  |
 
-### Endpoints Version 2 
+</details>
 
 ####  Url Prefix - /api/v2/
 
+<details>
 
+ <summary> Version 2</summary>
 
 |   ENDPOINT  | METHOD | STATUS |
 |:---:|:---:|:---:|
@@ -54,6 +58,8 @@ petitioning,voting and user login and sign up to be consumed by front end framew
 | /auth/login              |  POST    |  Login  An Existing User  |
 | /votes/              |  POST    |  Users Can Vote  |
 | /office/<office_id>/results              |  POST    |  Users Can Vote  |
+
+</details>
 
 ## Author
 
