@@ -122,12 +122,12 @@ class OfficeEndpointsTestCase(BaseTestCase):
     def test_get_non_existing_office(self):
         response = self.client.get("api/v2/offices/1", headers=self.generate_token())
         self.assertEqual(response.status_code, 404)
-        self.assertIn('Data Not Found', response.json['error'])
+        self.assertIn('Office Not Found', response.json['error'])
 
     def test_get_office_with_invalid_id(self):
         response = self.client.get("api/v2/offices/---", headers=self.generate_token())
         self.assertEqual(response.status_code, 404)
-        self.assertIn('Data Not Found', response.json['error'])
+        self.assertIn('Office Not Found', response.json['error'])
 
     def test_delete_office_success(self):
         self.client.post('api/v2/offices', data=json.dumps({
@@ -138,7 +138,7 @@ class OfficeEndpointsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual('Government Steward Deleted', response.json['message'])
 
-    def test_delete_item_fail(self):
+    def test_delete_office_fail(self):
         response = self.client.delete("api/v2/offices/1", headers=self.generate_token_admin())
         self.assertEqual(response.status_code, 404)
-        self.assertEqual('Data Not Found', response.json['error'])
+        self.assertEqual('Office Not Found', response.json['error'])
