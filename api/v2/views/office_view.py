@@ -70,7 +70,7 @@ def api_specific_office_get(office_id):
             "office_name": office[0][2]
         }
         return make_response(jsonify({"status": 200, "data": [response_body]}), 200)
-    return make_response(jsonify({"status": 404, "error": "Data Not Found"}), 404)
+    return make_response(jsonify({"status": 404, "error": "Office Not Found"}), 404)
 
 
 @office_api_v2.route("/offices/<office_id>", methods=['DELETE'])
@@ -83,7 +83,7 @@ def api_specific_office_delete(office_id):
         office = OfficesModelDb(office_id=oid).delete_office()
         if isinstance(office, list):
             return make_response(jsonify({"status": 200, "message": "{} Deleted".format(office[0][0])}), 200)
-        return make_response(jsonify({"status": 404, "error": "Data Not Found"}), 404)
+        return make_response(jsonify({"status": 404, "error": "Office Not Found"}), 404)
     return make_response(jsonify({"status": 401, "error": "Unauthorized Access,Requires Admin Rights"}), 401)
 
 

@@ -48,7 +48,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
             "hqAddress": "Address"
         }), headers=self.generate_token_admin())
         self.assertEqual(response.status_code, 400, "Should be Parsing Invalid Data ,Bad Request")
-        self.assertIn('Missing Key value', response.json['error'])
+        self.assertIn('Please Check All Input Fields Are Filled', response.json['error'])
 
     def test_get_all_party_empty(self):
         """Tests that the parties in the db are retrived as empty list if none"""
@@ -130,12 +130,12 @@ class PartiesEndpointsTestCase(BaseTestCase):
     def test_get_specific_party_unsuccessful(self):
         response = self.client.get("api/v2/parties/1", headers=self.generate_token())
         self.assertEqual(response.status_code, 404)
-        self.assertIn('Data Not Found', response.json['error'])
+        self.assertIn('Party Not Found', response.json['error'])
 
     def test_get_specific_party_fail(self):
         response = self.client.get("api/v2/parties/---", headers=self.generate_token())
         self.assertEqual(response.status_code, 404)
-        self.assertIn('Data Not Found', response.json['error'])
+        self.assertIn('Party Not Found', response.json['error'])
 
     def test_delete_party_success(self):
         """Tests delete endpoint"""
@@ -148,7 +148,7 @@ class PartiesEndpointsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual('Party Name2 Deleted', response.json['message'])
 
-    def test_delete_item_fail(self):
+    def test_delete_party_fail(self):
         response = self.client.delete("api/v2/parties/1", headers=self.generate_token_admin())
         self.assertEqual(response.status_code, 404)
-        self.assertEqual('Data Not Found', response.json['error'])
+        self.assertEqual('Party Not Found', response.json['error'])
