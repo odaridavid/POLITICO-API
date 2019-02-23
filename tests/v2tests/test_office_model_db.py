@@ -1,5 +1,5 @@
 from . import BaseTestCase
-from api.v2.models.office_model import OfficesModelDb
+from api.v2.models.office import OfficesModelDb
 
 
 class OfficeModelDbTestCase(BaseTestCase):

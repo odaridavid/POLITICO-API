@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, make_response
-from api.v2.models.office_model import OfficesModelDb
+from api.v2.models.office import OfficesModelDb
 from flask_jwt_extended import jwt_required
 from . import check_user
 

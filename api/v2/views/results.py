@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, make_response
-from api.v2.models.results_model import ResultsModel
+from api.v2.models.results import ResultsModel
 from flask_jwt_extended import jwt_required
 
 result_api_v2 = Blueprint('results_v2', __name__, url_prefix="/api/v2")

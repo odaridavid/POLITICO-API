@@ -1,5 +1,5 @@
 from flask_jwt_extended import get_jwt_identity
-from api.v2.models.user_model import UserModelDb
+from api.v2.models.user import UserModelDb
 
 
 def check_user():

@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, make_response
-from api.v2.models.parties_model import PartiesModelDb
+from api.v2.models.parties import PartiesModelDb
 from flask_jwt_extended import jwt_required
 from . import check_user
 

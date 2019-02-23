@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, make_response
-from api.v2.models.user_model import UserModelDb
+from api.v2.models.user import UserModelDb
 
 user_api_v2 = Blueprint('user_v2', __name__, url_prefix="/api/v2")
 

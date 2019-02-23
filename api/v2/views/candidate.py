@@ -1,5 +1,5 @@
 from flask import Blueprint, request, make_response, jsonify
-from api.v2.models.candidate_model import CandidateModel
+from api.v2.models.candidate import CandidateModel
 from flask_jwt_extended import jwt_required
 from . import check_user
 

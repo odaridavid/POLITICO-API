@@ -1,5 +1,5 @@
 from . import BaseTestCase
-from api.v2.models.votes_model import VoteModel
+from api.v2.models.votes import VoteModel
 
 
 class VotesModelTestCase(BaseTestCase):
