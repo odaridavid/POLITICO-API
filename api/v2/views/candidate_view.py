@@ -1,7 +1,7 @@
 from flask import Blueprint, request, make_response, jsonify
 from api.v2.models.candidate_model import CandidateModel
-from api.v2.models.user_model import UserModelDb
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required
+from . import check_user
 
 candidate_api_v2 = Blueprint('candidate_v2', __name__, url_prefix="/api/v2")
 
@@ -9,9 +9,7 @@ candidate_api_v2 = Blueprint('candidate_v2', __name__, url_prefix="/api/v2")
 @candidate_api_v2.route("/office/<office_id>/register", methods=['POST'])
 @jwt_required
 def api_candidate_register(office_id):
-    current_user = get_jwt_identity()
-    response = UserModelDb().get_user_by_id(current_user)
-    if 'Requires Admin Privilege' not in response:
+    if 'Requires Admin Privilege' not in check_user():
         register_data = request.get_json(force=True)
         oid = id_conversion(office_id)
         if {'party', 'candidate'} <= set(register_data):

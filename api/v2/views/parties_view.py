@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, make_response
 from api.v2.models.parties_model import PartiesModelDb
-from flask_jwt_extended import jwt_required, get_jwt_identity
-from api.v2.models.user_model import UserModelDb
+from flask_jwt_extended import jwt_required
+from . import check_user
 
 parties_api_v2 = Blueprint('parties_v2', __name__, url_prefix="/api/v2")
 
@@ -9,9 +9,7 @@ parties_api_v2 = Blueprint('parties_v2', __name__, url_prefix="/api/v2")
 @parties_api_v2.route("/parties", methods=['POST'])
 @jwt_required
 def api_create_parties():
-    current_user = get_jwt_identity()
-    response = UserModelDb().get_user_by_id(current_user)
-    if 'Requires Admin Privilege' not in response:
+    if 'Requires Admin Privilege' not in check_user():
         party = request.get_json(force=True)
         if {'name', 'hqAddress', 'logoUrl'} <= set(party):
             party_name = PartiesModelDb(party).create_party()
@@ -41,9 +39,7 @@ def api_get_parties():
 @parties_api_v2.route("/parties/<party_id>/name", methods=['PATCH'])
 @jwt_required
 def api_edit_party(party_id):
-    current_user = get_jwt_identity()
-    response = UserModelDb().get_user_by_id(current_user)
-    if 'Requires Admin Privilege' not in response:
+    if 'Requires Admin Privilege' not in check_user():
         oid = id_conversion(party_id)
         updated_party_data = request.get_json(force=True)
         if {'name'} <= set(updated_party_data):
@@ -80,9 +76,7 @@ def api_specific_party_get(party_id):
 @parties_api_v2.route("/parties/<party_id>", methods=['DELETE'])
 @jwt_required
 def api_specific_party_delete(party_id):
-    current_user = get_jwt_identity()
-    response = UserModelDb().get_user_by_id(current_user)
-    if 'Requires Admin Privilege' not in response:
+    if 'Requires Admin Privilege' not in check_user():
         oid = id_conversion(party_id)
         party = PartiesModelDb(party_id=oid).delete_party()
         if isinstance(party, list):
