@@ -1,5 +1,5 @@
 FORMAT: 1A
-HOST: https://blackpolitico-api-heroku.herokuapp.com/
+HOST: https://blackpolitico-api-heroku.herokuapp.com
 
 # Politico API
 
@@ -24,24 +24,24 @@ A User with an authentication token can view all offices available.
                        ],
                 "status" : 200       
             }
-
+            
 ### Create a New Office [POST]
 
 An admin user with an admin authentication token can create an office. 
 
 + Request (application/json)
    
-    + Headers
+   + Headers
     
             Authorization: Bearer Token
             Location: /api/v2/offices
-
-    + Body
+  
+   + Body
     
-             {
+            {
                 "type": "office_type",
                 "name":"office_name"
-             }
+            }
 
 + Response 201 (application/json)
 
@@ -75,8 +75,80 @@ An admin user with an admin authentication token can create an office.
               "status":400,
               "error":"Check Input Values"
             }
+
+
+## Specific Office Collection [/api/v2/offices/{office_id}]
+
++ Parameters
+
+    + office_id (number) - ID of office to which operations will be done on
+    
+
+### Edit An Office [PATCH]
+
+A User with an admin authentication token can edit an office.
+
++ Request (application/json)
+
+   + Headers
+    
+            Authorization: Bearer Token
+     
+   + Body   
+   
+            {
+                "name":"office_name"
+            } 
+
++ Response 200 (application/json)
+
+            {
+             "message":"Updated Successfully",
+             "status":200
+            }
+
+
+        
+### Delete an Office [DELETE]            
             
+
+An admin user with an admin authentication token can delete an office. 
+
++ Request (application/json)
+   
+   + Headers
+    
+            Authorization: Bearer Token
+  
++ Response 201 (application/json)
+
+            {
+              "message":"{office_name} Deleted"
+              "status":200
+            }
             
++ Request (application/json)
+    
+       
+    + Headers
+    
+            Authorization: Bearer Token
+
+    + Body
+
+            {
+                "type": "ofte",
+                "name":"ofe"
+            }
+            
++ Response 404 (application/json)
+    
+            {
+              "status":404,
+              "error":"Office Not Found"
+            }
+            
+
 ## Parties Collection [/api/v2/parties]
 
 ### Gets All Parties [GET]
@@ -136,9 +208,9 @@ An admin user with admin authentication token can create a party.
 
 ## Users Sign Up [/api/v2/auth/signup]
 
-A new user can Sign Up
-
 ### Sign Up [POST]
+
+A new user can Sign Up on the platform
 
 + Request (application/json)
 
@@ -193,8 +265,10 @@ A new user can Sign Up
 
 ## User Login [/api/v2/auth/login]
 
-An existing user can login to the system.
 ### User Login [POST]
+
+An existing user can login to the system.
+
 + Request (application/json)
 
     + Headers
@@ -257,6 +331,7 @@ A signed up user can be registered as a candidate
              }
 
 ### View a Candidate [GET]
+
 A user who is logged in can view candidates for a specific office
 
 + Request (application/json)
@@ -283,6 +358,7 @@ A user who is logged in can view candidates for a specific office
 ## Vote Collection [/votes/]
 
 ### Vote For an Office [POST]
+
 A signed up user can vote for a registered candidate
 
 + Request (application/json)
