@@ -6,6 +6,8 @@ HOST: https://blackpolitico-api-heroku.herokuapp.com
 **POLITICO API** Is a pure Flask REST API app that serves endpoints for political parties,government offices,
 petitioning,voting and user login and sign up to be consumed by front end frameworks.
 
+# Group Offices
+
 ## Offices Collection [/api/v2/offices]
 
 ### Gets All Offices [GET]
@@ -156,6 +158,7 @@ An admin user with an admin authentication token can delete an office.
               "status":200
             }
             
+# Group Parties
 
 ## Parties Collection [/api/v2/parties]
 
@@ -295,8 +298,10 @@ An admin user with an admin authentication token can delete a party.
               "message":"{party_name} Deleted"
               "status":200
             }
-            
 
+
+            
+# Group Users
 
 ## Users Sign Up [/api/v2/auth/signup]
 
@@ -461,6 +466,8 @@ A user who is logged in can view candidates for a specific office
               "status":201
              }
 
+# Group Votes
+
 ## Vote Collection [/votes/]
 
 ### Vote For a Registered Candidate [POST]
@@ -495,6 +502,8 @@ A signed up user can vote for a registered candidate
               ],
               "status":201
              }
+
+# Group Results
 
 ## Results Collection [/office/{office_id}/results]
 
