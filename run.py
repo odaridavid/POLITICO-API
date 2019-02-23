@@ -6,12 +6,13 @@ import os
 # Create app instance with env
 def app_context():
     if os.getenv("FLASK_ENV") is None:
-        app = create_app('testing')
-        return app
-    app = create_app(os.getenv("FLASK_ENV"))
-    return app
+        application = create_app('testing')
+        return application
+    application = create_app(os.getenv("FLASK_ENV"))
+    return application
 
 
 app = app_context()
+
 if __name__ == '__main__':
     app.run()
