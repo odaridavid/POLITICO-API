@@ -111,3 +111,32 @@ class CandidatesViewTestCase(BaseTestCase):
         response = self.client.get('api/v2/office/1/register', headers=self.generate_token())
         self.assertEqual(response.status_code, 200, "Candidate List Should be returned")
         self.assertEqual(response.json['data'][0]['candidate name'], 'Davied')
+
+    def test_register_candidate_with_non_admin_token(self):
+        """
+          Tests Normal User Cant Register Candidate
+        """
+        self.client.post('api/v2/auth/signup', data=json.dumps({
+            "firstname": "Davied",
+            "lastname": "Odari",
+            "othername": "Kiribwa",
+            "email": "odari@amail.com",
+            "phoneNumber": "0717455945",
+            "passportUrl": "www.googledrive.com/pics?v=jejfek",
+            "password": "1wwjdje3qr",
+            "isAdmin": 0
+        }))
+        self.client.post('api/v2/parties', data=json.dumps({
+            "name": "Party Name",
+            "hqAddress": "Address",
+            "logoUrl": "www.some.url.to.my.picture"
+        }), headers=self.generate_token_admin())
+        self.client.post('api/v2/offices', data=json.dumps({
+            "type": "Health",
+            "name": "Minister for Health"
+        }), headers=self.generate_token_admin())
+        response = self.client.post('api/v2/office/1/register', data=json.dumps({"party": 1, "candidate": 1}),
+                                    headers=self.generate_token())
+
+        self.assertEqual(response.status_code, 401, "Non Admin Shouldnt Register Candidate")
+        self.assertEqual(response.json['error'], 'Unauthorized Access,Requires Admin Rights')

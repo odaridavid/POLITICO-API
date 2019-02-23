@@ -86,7 +86,7 @@ class PartyValidator:
     def all_checks(self):
         validated_party_name = CheckStrings(self.party['name']).check_strings()
         validated_party_address = CheckStrings(self.party['hqAddress']).check_strings()
-        validated_party_url = CheckStrings(self.party['name']).check_strings()
+        validated_party_url = CheckStrings(self.party['logoUrl']).check_strings()
         if 'Invalid' not in [validated_party_name, validated_party_address, validated_party_url]:
             return {
                 "name": validated_party_name,

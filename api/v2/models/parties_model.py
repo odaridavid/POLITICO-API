@@ -35,7 +35,7 @@ class PartiesModelDb:
             return 'Party Exists'
 
     def get_all_parties(self):
-        query = "SELECT * from parties"
+        query = "SELECT * from parties;"
         cursor = self.db_conn.cursor()
         cursor.execute(query)
         self.db_conn.commit()
@@ -63,7 +63,7 @@ class PartiesModelDb:
             if len(new_name) < 4 or isinstance(new_name, str) is False:
                 return 'Invalid Data'
             try:
-                query_check = "SELECT * FROM parties WHERE party_name=%s"
+                query_check = "SELECT * FROM parties WHERE party_name=%s;"
                 cursor.execute(query_check, (new_name,))
                 self.db_conn.commit()
                 row = cursor.fetchall()
@@ -73,7 +73,7 @@ class PartiesModelDb:
                 self.db_conn.commit()
             except psycopg2.IntegrityError:
                 return 'Party Exists'
-            query = "SELECT * FROM parties WHERE _id=%s"
+            query = "SELECT * FROM parties WHERE _id=%s;"
             cursor.execute(query, (self.party_id,))
             party_row = cursor.fetchall()
             return party_row
@@ -81,7 +81,7 @@ class PartiesModelDb:
 
     def delete_party(self):
         """Deletes a party from db"""
-        query = """DELETE FROM parties WHERE _id=%s RETURNING party_name"""
+        query = """DELETE FROM parties WHERE _id=%s RETURNING party_name;"""
         cursor = self.db_conn.cursor()
         if isinstance(self.party_id, int):
             cursor.execute(query, (self.party_id,))
@@ -94,7 +94,7 @@ class PartiesModelDb:
 
     def get_specific_party(self):
         """Gets a specific party provided by id"""
-        query = "SELECT * FROM parties WHERE _id=%s"
+        query = "SELECT * FROM parties WHERE _id=%s;"
         cursor = self.db_conn.cursor()
         if isinstance(self.party_id, int):
             cursor.execute(query, (self.party_id,))
