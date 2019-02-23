@@ -112,14 +112,18 @@ App Link Hosted On Heroku
    
 5. Using an API Test Client like Postman or Insomnia you can run the above endpoints for each request.
    The Bodys of Requests are below\
-   **Offices**
+   <details>
+   
+   <summary> Models </summary>
+   
+   **Office**
    ```
    {
    "name":"office_name",
    "type":"office_type"
    }
    ```
-   **Parties**
+   **Party**
    ```
    {
    "name":"party_name",
@@ -127,7 +131,20 @@ App Link Hosted On Heroku
    "logoUrl":"party_logo"
    }
    ```
-   As for update just use `name` key and value 
+   **User**
+   ```
+   {
+   "firstname":"first_name",
+   "lastname":"last_name",
+   "othername":"other_name",
+   "email":"dedaap@them.mail.com",
+   "phoneNumber":"+123442211",
+   "password":"password"
+   }
+   ```
+   </details>
+   
+   As for update just use `name` key and value on offices and parties 
 7. For unit tests  on the root folder run `pytest --cov api tests` command and tests will
    automatically be run with coverage 
    If not installed run the following command in terminal to install pytest with coverage in venv and run above  \
