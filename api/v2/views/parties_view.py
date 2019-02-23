@@ -27,7 +27,7 @@ def api_create_parties():
                 }]
             }
             return make_response(jsonify(response_body), 201)
-        return make_response(jsonify({"status": 400, "error": "Missing Key value"}), 400)
+        return make_response(jsonify({"status": 400, "error": "Please Check All Input Fields Are Filled"}), 400)
     return make_response(jsonify({"status": 401, "error": "Unauthorized Access,Requires Admin Rights"}), 401)
 
 
@@ -73,7 +73,7 @@ def api_specific_party_get(party_id):
             "logoUrl": party[0][3],
         }
         return make_response(jsonify({"status": 200, "data": [response_body]}), 200)
-    return make_response(jsonify({"status": 404, "error": "Data Not Found"}), 404)
+    return make_response(jsonify({"status": 404, "error": "Party Not Found"}), 404)
 
 
 @parties_api_v2.route("/parties/<party_id>", methods=['DELETE'])
@@ -86,7 +86,7 @@ def api_specific_party_delete(party_id):
         party = PartiesModelDb(party_id=oid).delete_party()
         if isinstance(party, list):
             return make_response(jsonify({"status": 200, "message": "{} Deleted".format(party[0][0])}), 200)
-        return make_response(jsonify({"status": 404, "error": "Data Not Found"}), 404)
+        return make_response(jsonify({"status": 404, "error": "Party Not Found"}), 404)
     return make_response(jsonify({"status": 401, "error": "Unauthorized Access,Requires Admin Rights"}), 401)
 
 
