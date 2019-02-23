@@ -66,11 +66,12 @@ def api_specific_party_get(party_id):
     oid = id_conversion(party_id)
     party = PartiesModelDb(party_id=oid).get_specific_party()
     if isinstance(party, list) and len(party) >= 1:
+        print(party)
         response_body = {
             "id": party[0][0],
             "name": party[0][1],
             "hqAddress": party[0][2],
-            "logoUrl": party[0][3],
+            "logoUrl": party[0][3]
         }
         return make_response(jsonify({"status": 200, "data": [response_body]}), 200)
     return make_response(jsonify({"status": 404, "error": "Party Not Found"}), 404)
