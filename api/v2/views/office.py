@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, make_response
-from api.v2.models.office_model import OfficesModelDb
-from api.v2.models.user_model import UserModelDb
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from api.v2.models.office import OfficesModelDb
+from flask_jwt_extended import jwt_required
+from . import check_user, id_conversion
 
 office_api_v2 = Blueprint('office_v2', __name__, url_prefix="/api/v2")
 
@@ -9,9 +9,7 @@ office_api_v2 = Blueprint('office_v2', __name__, url_prefix="/api/v2")
 @office_api_v2.route("/offices", methods=['POST'])
 @jwt_required
 def api_create_office():
-    current_user = get_jwt_identity()
-    response = UserModelDb().get_user_by_id(current_user)
-    if 'Requires Admin Privilege' not in response:
+    if 'Requires Admin Privilege' not in check_user():
         office = request.get_json(force=True)
         # Checks keys exist in given dict as sets
         if {'type', 'name'} <= set(office):
@@ -41,9 +39,7 @@ def api_get_offices():
 @office_api_v2.route("/offices/<offices_id>/name", methods=['PATCH'])
 @jwt_required
 def api_edit_office(offices_id):
-    current_user = get_jwt_identity()
-    response = UserModelDb().get_user_by_id(current_user)
-    if 'Requires Admin Privilege' not in response:
+    if 'Requires Admin Privilege' not in check_user():
         oid = id_conversion(offices_id)
         updated_office_data = request.get_json(force=True)
         if {'name'} <= set(updated_office_data):
@@ -76,20 +72,10 @@ def api_specific_office_get(office_id):
 @office_api_v2.route("/offices/<office_id>", methods=['DELETE'])
 @jwt_required
 def api_specific_office_delete(office_id):
-    current_user = get_jwt_identity()
-    response = UserModelDb().get_user_by_id(current_user)
-    if 'Requires Admin Privilege' not in response:
+    if 'Requires Admin Privilege' not in check_user():
         oid = id_conversion(office_id)
         office = OfficesModelDb(office_id=oid).delete_office()
         if isinstance(office, list):
             return make_response(jsonify({"status": 200, "message": "{} Deleted".format(office[0][0])}), 200)
         return make_response(jsonify({"status": 404, "error": "Office Not Found"}), 404)
     return make_response(jsonify({"status": 401, "error": "Unauthorized Access,Requires Admin Rights"}), 401)
-
-
-def id_conversion(item_id):
-    try:
-        oid = int(item_id)
-        return oid
-    except ValueError:
-        return 'Invalid'

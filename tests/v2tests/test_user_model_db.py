@@ -1,5 +1,5 @@
 from . import BaseTestCase
-from api.v2.models.user_model import UserModelDb
+from api.v2.models.user import UserModelDb
 
 
 class UserModelDbTestCase(BaseTestCase):

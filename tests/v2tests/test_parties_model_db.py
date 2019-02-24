@@ -1,5 +1,5 @@
 from . import BaseTestCase
-from api.v2.models.parties_model import PartiesModelDb
+from api.v2.models.parties import PartiesModelDb
 
 
 class PartiesModelDbTestCase(BaseTestCase):

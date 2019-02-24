@@ -1,5 +1,5 @@
 from . import BaseTestCase
-from api.v2.models.candidate_model import CandidateModel
+from api.v2.models.candidate import CandidateModel
 
 
 class CandidatesModelTestCase(BaseTestCase):

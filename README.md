@@ -9,12 +9,14 @@ petitioning,voting and user login and sign up to be consumed by front end framew
 [![Maintainability](https://api.codeclimate.com/v1/badges/4151dd7acdb2ddb19f1f/maintainability)](https://codeclimate.com/github/Davidodari/POLITICO-API/maintainability)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/33734615352249b6823b104b386a6ea7)](https://www.codacy.com/app/Davidodari/POLITICO-API?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Davidodari/POLITICO-API&amp;utm_campaign=Badge_Grade)
 
-### Endpoints Version 1 
+### Endpoints  
 
 ####  Url Prefix - /api/v1/
 
+<details>
 
-
+ <summary> Version 1</summary>
+ 
 |   ENDPOINT  | METHOD | STATUS |
 |:---:|:---:|:---:|
 | /offices                 |  GET     |  Gets List of offices |
@@ -29,11 +31,13 @@ petitioning,voting and user login and sign up to be consumed by front end framew
 | /offices/<offices_id>    |  GET     |  Gets a specific office |
 | /users                   |  POST    |  Adds User to List Of Users  |
 
-### Endpoints Version 2 
+</details>
 
 ####  Url Prefix - /api/v2/
 
+<details>
 
+ <summary> Version 2</summary>
 
 |   ENDPOINT  | METHOD | STATUS |
 |:---:|:---:|:---:|
@@ -54,6 +58,8 @@ petitioning,voting and user login and sign up to be consumed by front end framew
 | /auth/login              |  POST    |  Login  An Existing User  |
 | /votes/              |  POST    |  Users Can Vote  |
 | /office/<office_id>/results              |  POST    |  Users Can Vote  |
+
+</details>
 
 ## Author
 
@@ -106,14 +112,18 @@ App Link Hosted On Heroku
    
 5. Using an API Test Client like Postman or Insomnia you can run the above endpoints for each request.
    The Bodys of Requests are below\
-   **Offices**
+   <details>
+   
+   <summary> Models </summary>
+   
+   **Office**
    ```
    {
    "name":"office_name",
    "type":"office_type"
    }
    ```
-   **Parties**
+   **Party**
    ```
    {
    "name":"party_name",
@@ -121,7 +131,20 @@ App Link Hosted On Heroku
    "logoUrl":"party_logo"
    }
    ```
-   As for update just use `name` key and value 
+   **User**
+   ```
+   {
+   "firstname":"first_name",
+   "lastname":"last_name",
+   "othername":"other_name",
+   "email":"dedaap@them.mail.com",
+   "phoneNumber":"+123442211",
+   "password":"password"
+   }
+   ```
+   </details>
+   
+   As for update just use `name` key and value on offices and parties 
 7. For unit tests  on the root folder run `pytest --cov api tests` command and tests will
    automatically be run with coverage 
    If not installed run the following command in terminal to install pytest with coverage in venv and run above  \

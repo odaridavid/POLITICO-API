@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, make_response
-from api.v2.models.user_model import UserModelDb
+from api.v2.models.user import UserModelDb
 
 user_api_v2 = Blueprint('user_v2', __name__, url_prefix="/api/v2")
 
@@ -7,20 +7,16 @@ user_api_v2 = Blueprint('user_v2', __name__, url_prefix="/api/v2")
 @user_api_v2.route("/auth/signup", methods=['POST'])
 def api_user_sign_up():
     user = request.get_json(force=True)
-    # Make Sure Keys Exist
     if {"firstname", "lastname", "othername", "email", "phoneNumber", "passportUrl", "password", "isAdmin"} <= set(
             user):
         validated_user = UserModelDb().user_sign_up(user)
         if 'Invalid Data' in validated_user:
-            # Invalidated data
             return make_response(jsonify({"status": 400, "error": "Please Check All Input Fields Are Valid"}), 400)
         elif 'User Exists' in validated_user:
-            # Duplicate User not allowed
             return make_response(jsonify({"status": 409, "error": "User Already Exists"}), 409)
         else:
             return make_response(
                 jsonify({"status": 201, "token": validated_user}), 201)
-    # Missing data
     return make_response(jsonify({"status": 400, "error": "Please Check All Input Fields Are Filled"}), 400)
 
 
@@ -35,5 +31,4 @@ def api_user_sign_in():
             return make_response(jsonify({"status": 400, "error": "Check Email or Password"}), 400)
         else:
             return make_response(jsonify({"status": 201, "token": validated_user}), 201)
-    # Missing Data
     return make_response(jsonify({"status": 400, "error": "Please Check All Input Fields Are Filled"}), 400)
