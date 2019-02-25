@@ -58,8 +58,7 @@ class CheckStrings:
     def check_strings(self):
         """Validated Strings and prevents entry of any other type"""
         if isinstance(self.item, str):
-            self.item.strip()
-            if len(self.item) >= 3:
+            if len(self.item.strip()) >= 3:
                 return self.item
         return 'Invalid'
 
