@@ -7,8 +7,7 @@ user_api_v2 = Blueprint('user_v2', __name__, url_prefix="/api/v2")
 @user_api_v2.route("/auth/signup", methods=['POST'])
 def api_user_sign_up():
     user = request.get_json(force=True)
-    if {"firstname", "lastname", "othername", "email", "phoneNumber", "passportUrl", "password", "isAdmin"} <= set(
-            user):
+    if {"firstname", "lastname", "othername", "email", "phoneNumber", "passportUrl", "password"} <= set(user):
         validated_user = UserModelDb().user_sign_up(user)
         if 'Invalid Data' in validated_user:
             return make_response(jsonify({"status": 400, "error": "Please Check All Input Fields Are Valid"}), 400)

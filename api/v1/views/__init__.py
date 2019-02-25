@@ -1,4 +1,4 @@
-from flask import jsonify, make_response, request
+from flask import jsonify, make_response
 from api.v1.models.office_model import OfficesModel
 from api.v1.models.party_model import PartiesModel
 

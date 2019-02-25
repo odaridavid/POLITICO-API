@@ -13,3 +13,7 @@ def id_conversion(item_id):
         return oid
     except ValueError:
         return 'Invalid'
+
+
+class ViewMethods:
+    pass
