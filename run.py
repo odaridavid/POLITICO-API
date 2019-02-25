@@ -17,7 +17,7 @@ app = app_context()
 
 
 # Create a URL route in our application for "/"
-@app.route('/')
+@app.route('/docs')
 def home():
     return redirect('https://politicoapi2.docs.apiary.io/#', 301,
                     make_response(jsonify({"message": "redirecting to documentation"})))
