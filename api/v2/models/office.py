@@ -30,7 +30,7 @@ class OfficesModelDb:
             return 'Office Exists'
 
     def get_all_offices(self):
-        query = "SELECT * from offices"
+        query = "SELECT * from offices;"
         cursor = self.db_conn.cursor()
         cursor.execute(query)
         self.db_conn.commit()
@@ -55,7 +55,7 @@ class OfficesModelDb:
             if len(new_name) < 4 or isinstance(new_name, str) is False:
                 return 'Invalid Data'
             try:
-                query_check = "SELECT * FROM offices WHERE office_name=%s"
+                query_check = "SELECT * FROM offices WHERE office_name=%s;"
                 cursor.execute(query_check, (new_name,))
                 self.db_conn.commit()
                 row = cursor.fetchall()
@@ -65,7 +65,7 @@ class OfficesModelDb:
                 self.db_conn.commit()
             except psycopg2.IntegrityError:
                 return 'Office Exists'
-            query = "SELECT * FROM offices WHERE _id=%s"
+            query = "SELECT * FROM offices WHERE _id=%s;"
             cursor.execute(query, (self.office_id,))
             row = cursor.fetchall()
             if len(row) == 0:
@@ -75,7 +75,7 @@ class OfficesModelDb:
 
     def delete_office(self):
         """Deletes an office from db"""
-        query = """DELETE FROM offices WHERE _id=%s RETURNING office_name"""
+        query = """DELETE FROM offices WHERE _id=%s RETURNING office_name;"""
         cursor = self.db_conn.cursor()
         if isinstance(self.office_id, int):
             cursor.execute(query, (self.office_id,))
@@ -88,7 +88,7 @@ class OfficesModelDb:
 
     def get_specific_office(self):
         """Gets a specific office provided by id"""
-        query = "SELECT * FROM offices WHERE _id=%s"
+        query = "SELECT * FROM offices WHERE _id=%s;"
         cursor = self.db_conn.cursor()
         if isinstance(self.office_id, int):
             cursor.execute(query, (self.office_id,))
