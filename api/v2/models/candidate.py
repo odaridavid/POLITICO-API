@@ -12,7 +12,7 @@ class CandidateModel:
     def register_candidate(self):
         """Function to register a candidate"""
         query = "INSERT INTO candidates(office,party,candidate) " \
-                "VALUES(%s,%s,%s) RETURNING _id"
+                "VALUES(%s,%s,%s) RETURNING _id;"
         data = (self.office_id, self.candidate_id, self.party_id)
         try:
             cursor = self.db_conn.cursor()

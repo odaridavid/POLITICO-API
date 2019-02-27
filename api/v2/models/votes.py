@@ -12,7 +12,7 @@ class VoteModel:
     def vote(self):
         """Function to vote for a candidate once"""
         query = "INSERT INTO votes(created_by,office,candidate) " \
-                "VALUES(%s,%s,%s) RETURNING office,candidate,created_by"
+                "VALUES(%s,%s,%s) RETURNING office,candidate,created_by;"
         data = (self.user_id, self.office_id, self.candidate_id)
         try:
             cursor = self.db_conn.cursor()

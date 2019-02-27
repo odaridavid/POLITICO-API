@@ -25,7 +25,7 @@ def db_connect():
 
 def create_tables():
     """Creates tables and commits to database"""
-    con = psycopg2.connect(db_uri())
+    con = connection()
     cursor = con.cursor()
     # Execute queries
     for QUERY in schema():
@@ -35,7 +35,7 @@ def create_tables():
 
 def drop_tables():
     """Drops tables when done"""
-    con = psycopg2.connect(db_uri())
+    con = connection()
     cursor = con.cursor()
     cursor.execute("""DROP TABLE IF EXISTS users,offices,parties,candidates,votes CASCADE;""")
     con.commit()
@@ -43,7 +43,7 @@ def drop_tables():
 
 def close_connection():
     """Closes connection when done"""
-    con = psycopg2.connect(db_uri())
+    con = connection()
     con.close()
 
 
