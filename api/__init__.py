@@ -1,5 +1,6 @@
 from flask import Flask, make_response, jsonify
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 import os
 # Setup Models
 from .v1 import models
@@ -53,6 +54,7 @@ def create_app(configuration='development'):
     # 24 hrs to expire
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = 86400
     JWTManager(app)
+    CORS(app)
     #  Register  blueprints in app instance creation - version1
     app.register_blueprint(user_api)
     app.register_blueprint(petition_api)
