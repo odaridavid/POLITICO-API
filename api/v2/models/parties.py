@@ -4,28 +4,6 @@ import psycopg2
 
 class PartiesModelDb(Model):
 
-    def get_all_parties(self):
-        query = "SELECT * from parties;"
-        cursor = self.db_conn.cursor()
-        cursor.execute(query)
-        self.db_conn.commit()
-        # Result of tables in list as tuples
-        rows = cursor.fetchall()
-        results = []
-        for row in rows:
-            _id = row[0]
-            name = row[1]
-            hq_address = row[2]
-            logo_url = row[3]
-            party = {
-                "id": _id,
-                "name": name,
-                "hqAddress": hq_address,
-                "logoUrl": logo_url
-            }
-            results.append(party)
-        return results
-
     def edit_party(self, new_name, party_id):
         if isinstance(party_id, int):
             query = "UPDATE parties SET party_name = %s WHERE _id = %s;"

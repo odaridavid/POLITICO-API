@@ -16,7 +16,7 @@ def api_create_parties():
 @parties_api_v2.route("/parties", methods=['GET'])
 @jwt_required
 def api_get_parties():
-    parties = PartiesModelDb().get_all_parties()
+    parties = PartiesModelDb().get_resource('party')
     return make_response(jsonify({"status": 200, "data": parties}), 200)
 
 

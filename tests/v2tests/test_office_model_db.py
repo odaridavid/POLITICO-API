@@ -25,7 +25,7 @@ class OfficeModelDbTestCase(BaseTestCase):
         OfficesModelDb().create_resource('office', {"name": "Governor", "type": "Government"})
         OfficesModelDb().create_resource('office', {"name": "Senetor", "type": "Government"})
         OfficesModelDb().create_resource('office', {"name": "County Rep", "type": "Private Sec"})
-        offices = OfficesModelDb().get_all_offices()
+        offices = OfficesModelDb().get_resource('office')
         self.assertEqual(len(offices), 3)
 
     def test_edit_office_edits_item_successfuly(self):

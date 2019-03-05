@@ -49,7 +49,7 @@ class PartiesModelDbTestCase(BaseTestCase):
             "name": "Party Name3",
             "hqAddress": "Address2",
             "logoUrl": "www.some.url.to.my.picture3"})
-        parties = PartiesModelDb().get_all_parties()
+        parties = PartiesModelDb().get_resource('party')
         self.assertEqual(len(parties), 3)
 
     def test_edit_party_edits_item_successfuly(self):
