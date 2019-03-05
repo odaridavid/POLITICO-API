@@ -24,10 +24,10 @@ def api_get_parties():
 @jwt_required
 def api_edit_party(party_id):
     if 'Requires Admin Privilege' not in check_user():
-        oid = id_conversion(party_id)
+        pid = id_conversion(party_id)
         updated_party_data = request.get_json(force=True)
         if {'name'} <= set(updated_party_data):
-            model_result = PartiesModelDb().edit_party(updated_party_data['name'], party_id=oid)
+            model_result = PartiesModelDb().edit_resource('party', updated_party_data['name'], pid)
             if 'Invalid Id' in model_result or 'Invalid Data' in model_result:
                 return make_response(jsonify({"status": 400, "error": "Invalid Data ,Check id or data being updated"}),
                                      400)

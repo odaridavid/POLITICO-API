@@ -59,7 +59,7 @@ class PartiesModelDbTestCase(BaseTestCase):
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
         })
-        edit_party = PartiesModelDb().edit_party('New Party Name', party_id=1)
+        edit_party = PartiesModelDb().edit_resource('party', 'New Party Name', 1)
         self.assertEqual('New Party Name', edit_party[0][1])
 
     def test_edit_party_cant_edit_invalid_data(self):
@@ -69,7 +69,7 @@ class PartiesModelDbTestCase(BaseTestCase):
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
         })
-        edit_party = PartiesModelDb().edit_party('P', party_id=1)
+        edit_party = PartiesModelDb().edit_resource('party', 'P', 1)
         self.assertEqual('Invalid Data', edit_party)
 
     def test_edit_party_cant_edit_similar_existing_data(self):
@@ -83,12 +83,12 @@ class PartiesModelDbTestCase(BaseTestCase):
             "hqAddress": "Address2",
             "logoUrl": "www.some.url.to.my.picture3"})
 
-        edit_party = PartiesModelDb().edit_party('Party Name2', party_id=2)
+        edit_party = PartiesModelDb().edit_resource('party', 'Party Name2', 2)
         self.assertEqual('Party Exists', edit_party)
 
     def test_edit_party_cant_edit_invalid_id(self):
         """Tests User cant input invalid id"""
-        edit_party = PartiesModelDb().edit_party('Party We', party_id='t')
+        edit_party = PartiesModelDb().edit_resource('party', 'Party We', 't')
         self.assertEqual('Invalid Id', edit_party)
 
     def test_gets_specific_item_success(self):
