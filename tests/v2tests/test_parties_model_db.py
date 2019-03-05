@@ -5,7 +5,7 @@ from api.v2.models.parties import PartiesModelDb
 class PartiesModelDbTestCase(BaseTestCase):
     def test_create_party_successful(self):
         """Tests party was created successfully"""
-        party_name = self.party.create_party({
+        party_name = self.party.create_resource('party', {
             "name": "Party Name",
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
@@ -14,12 +14,12 @@ class PartiesModelDbTestCase(BaseTestCase):
 
     def test_create_party_duplicate(self):
         """Tests party already exists and cant be added"""
-        self.party.create_party({
+        self.party.create_resource('party', {
             "name": "Party Name",
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
         })
-        integrity_error = self.party.create_party({
+        integrity_error = self.party.create_resource('party', {
             "name": "Party Name",
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
@@ -28,7 +28,7 @@ class PartiesModelDbTestCase(BaseTestCase):
 
     def test_create_party_invalid_data(self):
         """Tests data given is invalid"""
-        integrity_error = self.party_invalid.create_party({
+        integrity_error = self.party_invalid.create_resource('party', {
             "name": "",
             "hqAddress": "A",
             "logoUrl": "www.some.url.to.my.picture"
@@ -37,15 +37,15 @@ class PartiesModelDbTestCase(BaseTestCase):
 
     def test_get_parties(self):
         """Tests gets all data """
-        PartiesModelDb().create_party({
+        PartiesModelDb().create_resource('party', {
             "name": "Party Name",
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture2"})
-        PartiesModelDb().create_party({
+        PartiesModelDb().create_resource('party', {
             "name": "Party Name2",
             "hqAddress": "Address3",
             "logoUrl": "www.some.url.to.my.picture1"})
-        PartiesModelDb().create_party({
+        PartiesModelDb().create_resource('party', {
             "name": "Party Name3",
             "hqAddress": "Address2",
             "logoUrl": "www.some.url.to.my.picture3"})
@@ -54,7 +54,7 @@ class PartiesModelDbTestCase(BaseTestCase):
 
     def test_edit_party_edits_item_successfuly(self):
         """Tests user edits an item successfully"""
-        self.party.create_party({
+        self.party.create_resource('party', {
             "name": "Party Name",
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
@@ -64,7 +64,7 @@ class PartiesModelDbTestCase(BaseTestCase):
 
     def test_edit_party_cant_edit_invalid_data(self):
         """Tests user cant put invalid data while editing"""
-        self.party.create_party({
+        self.party.create_resource('party', {
             "name": "Party Name",
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
@@ -74,11 +74,11 @@ class PartiesModelDbTestCase(BaseTestCase):
 
     def test_edit_party_cant_edit_similar_existing_data(self):
         """Tests User cant input existing office name"""
-        PartiesModelDb().create_party({
+        PartiesModelDb().create_resource('party', {
             "name": "Party Name2",
             "hqAddress": "Address3",
             "logoUrl": "www.some.url.to.my.picture1"})
-        PartiesModelDb().create_party({
+        PartiesModelDb().create_resource('party', {
             "name": "Party Name3",
             "hqAddress": "Address2",
             "logoUrl": "www.some.url.to.my.picture3"})
@@ -93,7 +93,7 @@ class PartiesModelDbTestCase(BaseTestCase):
 
     def test_gets_specific_item_success(self):
         """Tests can get data with right id"""
-        self.party.create_party({
+        self.party.create_resource('party', {
             "name": "Party Name",
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
@@ -108,7 +108,7 @@ class PartiesModelDbTestCase(BaseTestCase):
 
     def test_delete_office_success(self):
         """Tests User can delete"""
-        self.party.create_party({
+        self.party.create_resource('party', {
             "name": "Party Name",
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"

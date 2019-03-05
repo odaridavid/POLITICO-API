@@ -5,23 +5,6 @@ from . import Model
 
 class OfficesModelDb(Model):
 
-    def create_office(self, office):
-        validated_office = OfficeValidator(office).all_checks()
-        if 'Invalid' in validated_office:
-            return 'Invalid Data'
-        office_type = validated_office['type']
-        office_name = validated_office['name']
-        data = (office_type, office_name)
-        query = "INSERT INTO offices (office_type,office_name) " \
-                "VALUES(%s,%s);"
-        try:
-            cursor = self.db_conn.cursor()
-            cursor.execute(query, data)
-            self.db_conn.commit()
-            return office_name
-        except psycopg2.IntegrityError:
-            return 'Office Exists'
-
     def get_all_offices(self):
         query = "SELECT * from offices;"
         cursor = self.db_conn.cursor()

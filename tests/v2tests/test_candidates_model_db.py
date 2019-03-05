@@ -4,12 +4,12 @@ from api.v2.models.candidate import CandidateModel
 
 class CandidatesModelTestCase(BaseTestCase):
     def test_candidate_registers_successfully(self):
-        self.party.create_party({
+        self.party.create_resource('party', {
             "name": "Party Name",
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
         })
-        self.office.create_office({"type": "Transport", "name": "Permernent Secretary"})
+        self.office.create_resource('office', {"type": "Transport", "name": "Permernent Secretary"})
         self.user.user_sign_up({"firstname": "David",
                                 "lastname": "Odari",
                                 "othername": "Kiribwa",
@@ -27,12 +27,12 @@ class CandidatesModelTestCase(BaseTestCase):
         self.assertEqual(candidate, 'Candidate Conflict')
 
     def test_candidate_cant_register_more_than_once(self):
-        self.party.create_party({
+        self.party.create_resource('party', {
             "name": "Party Name",
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
         })
-        self.office.create_office({"type": "Transport", "name": "Permernent Secretary"})
+        self.office.create_resource('office', {"type": "Transport", "name": "Permernent Secretary"})
         self.user.user_sign_up({"firstname": "David",
                                 "lastname": "Odari",
                                 "othername": "Kiribwa",
