@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, make_response
 from api.v2.models.parties import PartiesModelDb
 from flask_jwt_extended import jwt_required
-from . import check_user, id_conversion
+from . import check_user, id_conversion, ViewMethods
 
 parties_api_v2 = Blueprint('parties_v2', __name__, url_prefix="/api/v2")
 
@@ -9,24 +9,21 @@ parties_api_v2 = Blueprint('parties_v2', __name__, url_prefix="/api/v2")
 @parties_api_v2.route("/parties", methods=['POST'])
 @jwt_required
 def api_create_parties():
-    if 'Requires Admin Privilege' not in check_user():
-        party = request.get_json(force=True)
-        if {'name', 'hqAddress', 'logoUrl'} <= set(party):
-            party_name = PartiesModelDb().create_party(party)
-            if 'Party Exists' in party_name:
-                return make_response(jsonify({"status": 409, "error": "Party Already Exists"}), 409)
-            elif 'Invalid Data' in party_name:
-                return make_response(jsonify({"status": 400, "error": "Check Input Values"}), 400)
-
-            response_body = {
-                "status": 201,
-                "data": [{
-                    "name": party_name
-                }]
-            }
-            return make_response(jsonify(response_body), 201)
+    party = request.get_json(force=True)
+    db_output = ViewMethods('party', party).create_resource()
+    if isinstance(db_output, str) and 'Unauthorized' in db_output:
+        return make_response(jsonify({"status": 401, "error": "Unauthorized Access,Requires Admin Rights"}), 401)
+    if isinstance(db_output, str) and 'Missing Key' in db_output:
         return make_response(jsonify({"status": 400, "error": "Please Check All Input Fields Are Filled"}), 400)
-    return make_response(jsonify({"status": 401, "error": "Unauthorized Access,Requires Admin Rights"}), 401)
+    elif not isinstance(db_output, str):
+        return db_output
+    response_body = {
+        "status": 201,
+        "data": [{
+            "name": db_output
+        }]
+    }
+    return make_response(jsonify(response_body), 201)
 
 
 @parties_api_v2.route("/parties", methods=['GET'])
