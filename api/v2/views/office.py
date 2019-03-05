@@ -42,7 +42,7 @@ def api_edit_office(offices_id):
 @jwt_required
 def api_specific_office_get(office_id):
     oid = id_conversion(office_id)
-    office = OfficesModelDb().get_specific_office(oid)
+    office = OfficesModelDb().get_specific_resource('office', oid)
     if isinstance(office, list) and len(office) >= 1:
         response_body = {
             "id": office[0][0],

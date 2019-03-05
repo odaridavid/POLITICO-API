@@ -100,7 +100,7 @@ class Model(object):
         return 'Invalid Id'
 
     def delete_resource(self, resource_type, resource_id):
-        """Function to delete a resource"""
+        """Function to delete a resource:party,office"""
         if isinstance(resource_id, int):
             if 'party' not in resource_type:
                 query = """DELETE FROM offices WHERE _id=%s RETURNING office_name;"""
@@ -112,6 +112,20 @@ class Model(object):
             row = cursor.fetchall()
             if len(row) == 0:
                 return 'Empty'
+            return row
+        return 'Invalid Id'
+
+    def get_specific_resource(self, resource_type, resource_id):
+        """Function to get a specific resource:party,office"""
+        if isinstance(resource_id, int):
+            if 'party' not in resource_type:
+                query = "SELECT * FROM offices WHERE _id=%s;"
+            else:
+                query = "SELECT * FROM parties WHERE _id=%s;"
+            cursor = self.db_conn.cursor()
+            cursor.execute(query, (resource_id,))
+            self.db_conn.commit()
+            row = cursor.fetchall()
             return row
         return 'Invalid Id'
 

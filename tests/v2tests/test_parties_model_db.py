@@ -98,12 +98,12 @@ class PartiesModelDbTestCase(BaseTestCase):
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
         })
-        party = PartiesModelDb().get_specific_party(party_id=1)
+        party = PartiesModelDb().get_specific_resource('party', 1)
         self.assertIn('Party Name', party[0][1])
 
     def test_gets_specific_item_invalid_id(self):
         """Tests cant get data with invalid id"""
-        party = PartiesModelDb().get_specific_party(party_id='t')
+        party = PartiesModelDb().get_specific_resource('party', 't')
         self.assertIn('Invalid Id', party)
 
     def test_delete_office_success(self):

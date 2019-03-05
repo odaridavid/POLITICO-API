@@ -57,12 +57,12 @@ class OfficeModelDbTestCase(BaseTestCase):
     def test_gets_specific_item_success(self):
         """Tests can get data with right id"""
         OfficesModelDb().create_resource('office', {"name": "Governor", "type": "Government"})
-        office = OfficesModelDb().get_specific_office(office_id=1)
+        office = OfficesModelDb().get_specific_resource('office', 1)
         self.assertIn('Government', office[0][1])
 
     def test_gets_specific_item_invalid_id(self):
         """Tests cant get data with invalid id"""
-        office = OfficesModelDb().get_specific_office(office_id='t')
+        office = OfficesModelDb().get_specific_resource('office', 't')
         self.assertIn('Invalid Id', office)
 
     def test_delete_office_success(self):

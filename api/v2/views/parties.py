@@ -44,7 +44,7 @@ def api_edit_party(party_id):
 @jwt_required
 def api_specific_party_get(party_id):
     oid = id_conversion(party_id)
-    party = PartiesModelDb().get_specific_party(party_id=oid)
+    party = PartiesModelDb().get_specific_resource('party', oid)
     if isinstance(party, list) and len(party) >= 1:
         print(party)
         response_body = {
