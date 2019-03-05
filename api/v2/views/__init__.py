@@ -19,6 +19,7 @@ def id_conversion(item_id):
 
 
 def check_created_resource(db_output, resource_type):
+    """Validation Checks for values and existence and responses """
     if 'Invalid Data' in db_output:
         return make_response(jsonify({"status": 400, "error": "Check Input Values"}), 400)
     elif 'party' not in resource_type and 'Office Exists' in db_output:
@@ -26,6 +27,29 @@ def check_created_resource(db_output, resource_type):
     elif 'office' not in resource_type and 'Party Exists' in db_output:
         return make_response(jsonify({"status": 409, "error": "Party Already Exists"}), 409)
     return db_output
+
+
+def response(db_output):
+    """Build Response for resource"""
+    if isinstance(db_output, str) and 'Unauthorized' in db_output:
+        return make_response(jsonify({"status": 401, "error": "Unauthorized Access,Requires Admin Rights"}), 401)
+    if isinstance(db_output, str) and 'Missing Key' in db_output:
+        return make_response(jsonify({"status": 400, "error": "Please Check All Input Fields Are Filled"}), 400)
+    elif not isinstance(db_output, str):
+        return db_output
+    response_body = {
+        "status": 201,
+        "data": [{
+            "name": db_output
+        }]
+    }
+    return make_response(jsonify(response_body), 201)
+
+
+def resource_handler(resource_type, resource):
+    """Chooses method to use based on resource type"""
+    db_output = ViewMethods(resource_type, resource).create_resource()
+    return response(db_output)
 
 
 class ViewMethods:
