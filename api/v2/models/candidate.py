@@ -1,19 +1,14 @@
-from api.db_conn import db_connect
 import psycopg2
+from . import Model
 
 
-class CandidateModel:
-    def __init__(self, office_id=0, candidate_id=0, party_id=0):
-        self.db_conn = db_connect()
-        self.candidate_id = candidate_id
-        self.office_id = office_id
-        self.party_id = party_id
+class CandidateModel(Model):
 
-    def register_candidate(self):
+    def register_candidate(self, office_id, candidate_id, party_id):
         """Function to register a candidate"""
         query = "INSERT INTO candidates(office,party,candidate) " \
                 "VALUES(%s,%s,%s) RETURNING _id;"
-        data = (self.office_id, self.candidate_id, self.party_id)
+        data = (office_id, candidate_id, party_id)
         try:
             cursor = self.db_conn.cursor()
             cursor.execute(query, data)

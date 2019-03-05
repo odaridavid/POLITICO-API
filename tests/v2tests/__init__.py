@@ -33,7 +33,7 @@ class BaseTestCase(unittest.TestCase):
                 "hqAddress": "A",
                 "logoUrl": "www.some.url.to.my.picture"
             })
-        self.candidate = CandidateModel(1, 1, 1)
+        self.candidate = CandidateModel()
         self.vote = VoteModel(office_id=1, candidate_id=1, user_id=1)
         self.app_context = self.app.app_context()
         self.app_context.push()

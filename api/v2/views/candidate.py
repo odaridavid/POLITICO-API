@@ -16,7 +16,7 @@ def api_candidate_register(office_id):
             cid = id_conversion(register_data['party'])
             pid = id_conversion(register_data['candidate'])
             if 'Invalid' not in [cid, pid, oid]:
-                candidate_info = CandidateModel(oid, cid, pid).register_candidate()
+                candidate_info = CandidateModel().register_candidate(oid, cid, pid)
                 if isinstance(candidate_info, list):
                     return make_response(
                         jsonify(

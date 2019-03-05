@@ -15,7 +15,7 @@ class VotesModelTestCase(BaseTestCase):
                                 "password": "12we3e4r",
                                 "isAdmin": 'f'
                                 })
-        self.candidate.register_candidate()
+        self.candidate.register_candidate(1, 1, 1)
         vote = self.vote.vote()
         self.assertEqual(vote, [(1, 1, 1)])
 
@@ -31,7 +31,7 @@ class VotesModelTestCase(BaseTestCase):
                                 "password": "12we3e4r",
                                 "isAdmin": 'f'
                                 })
-        self.candidate.register_candidate()
+        self.candidate.register_candidate(1, 1, 1)
         self.vote.vote()
         vote_again = self.vote.vote()
         self.assertEqual('Vote Conflict', vote_again)

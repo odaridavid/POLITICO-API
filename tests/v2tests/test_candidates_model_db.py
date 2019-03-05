@@ -15,11 +15,11 @@ class CandidatesModelTestCase(BaseTestCase):
                                 "password": "12we3e4r",
                                 "isAdmin": 'f'
                                 })
-        candidate_info = self.candidate.register_candidate()
+        candidate_info = self.candidate.register_candidate(1, 1, 1)
         self.assertEqual('David', candidate_info[0][2])
 
     def test_candidate_non_existent_cant_register(self):
-        candidate = CandidateModel(1, 0, 0).register_candidate()
+        candidate = CandidateModel().register_candidate(1, 0, 0)
         self.assertEqual(candidate, 'Candidate Conflict')
 
     def test_candidate_cant_register_more_than_once(self):
@@ -34,6 +34,6 @@ class CandidatesModelTestCase(BaseTestCase):
                                 "password": "12we3e4r",
                                 "isAdmin": 'f'
                                 })
-        self.candidate.register_candidate()
-        response = self.candidate.register_candidate()
+        self.candidate.register_candidate(1, 1, 1)
+        response = self.candidate.register_candidate(1, 1, 1)
         self.assertEqual('Candidate Conflict', response)
