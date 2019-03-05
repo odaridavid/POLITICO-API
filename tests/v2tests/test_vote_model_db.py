@@ -5,7 +5,7 @@ from api.v2.models.votes import VoteModel
 class VotesModelTestCase(BaseTestCase):
     def test_user_can_vote_successfully(self):
         self.party.create_party()
-        self.office.create_office()
+        self.office.create_office({"type": "Transport", "name": "Permernent Secretary"})
         self.user.user_sign_up({"firstname": "David",
                                 "lastname": "Odari",
                                 "othername": "Kiribwa",
@@ -21,7 +21,7 @@ class VotesModelTestCase(BaseTestCase):
 
     def test_user_cant_vote_twice_same_office(self):
         self.party.create_party()
-        self.office.create_office()
+        self.office.create_office({"type": "Transport", "name": "Permernent Secretary"})
         self.user.user_sign_up({"firstname": "David",
                                 "lastname": "Odari",
                                 "othername": "Kiribwa",

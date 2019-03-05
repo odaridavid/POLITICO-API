@@ -5,7 +5,7 @@ from api.v2.models.candidate import CandidateModel
 class CandidatesModelTestCase(BaseTestCase):
     def test_candidate_registers_successfully(self):
         self.party.create_party()
-        self.office.create_office()
+        self.office.create_office({"type": "Transport", "name": "Permernent Secretary"})
         self.user.user_sign_up({"firstname": "David",
                                 "lastname": "Odari",
                                 "othername": "Kiribwa",
@@ -24,7 +24,7 @@ class CandidatesModelTestCase(BaseTestCase):
 
     def test_candidate_cant_register_more_than_once(self):
         self.party.create_party()
-        self.office.create_office()
+        self.office.create_office({"type": "Transport", "name": "Permernent Secretary"})
         self.user.user_sign_up({"firstname": "David",
                                 "lastname": "Odari",
                                 "othername": "Kiribwa",

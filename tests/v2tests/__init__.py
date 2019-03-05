@@ -19,8 +19,8 @@ class BaseTestCase(unittest.TestCase):
         self.client = self.app.test_client()
         self.user = UserModelDb()
         self.user_invalid = UserModelDb()
-        self.office = OfficesModelDb({"type": "Transport", "name": "Permernent Secretary"})
-        self.office_invalid = OfficesModelDb({"type": "Transport", "name": ""})
+        self.office = OfficesModelDb()
+        self.office_invalid = OfficesModelDb()
         self.party = PartiesModelDb(
             {
                 "name": "Party Name",
