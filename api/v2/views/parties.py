@@ -12,7 +12,7 @@ def api_create_parties():
     if 'Requires Admin Privilege' not in check_user():
         party = request.get_json(force=True)
         if {'name', 'hqAddress', 'logoUrl'} <= set(party):
-            party_name = PartiesModelDb(party).create_party()
+            party_name = PartiesModelDb().create_party(party)
             if 'Party Exists' in party_name:
                 return make_response(jsonify({"status": 409, "error": "Party Already Exists"}), 409)
             elif 'Invalid Data' in party_name:
@@ -43,7 +43,7 @@ def api_edit_party(party_id):
         oid = id_conversion(party_id)
         updated_party_data = request.get_json(force=True)
         if {'name'} <= set(updated_party_data):
-            model_result = PartiesModelDb(party_id=oid).edit_party(updated_party_data['name'])
+            model_result = PartiesModelDb().edit_party(updated_party_data['name'], party_id=oid)
             if 'Invalid Id' in model_result or 'Invalid Data' in model_result:
                 return make_response(jsonify({"status": 400, "error": "Invalid Data ,Check id or data being updated"}),
                                      400)
@@ -60,7 +60,7 @@ def api_edit_party(party_id):
 @jwt_required
 def api_specific_party_get(party_id):
     oid = id_conversion(party_id)
-    party = PartiesModelDb(party_id=oid).get_specific_party()
+    party = PartiesModelDb().get_specific_party(party_id=oid)
     if isinstance(party, list) and len(party) >= 1:
         print(party)
         response_body = {
@@ -78,7 +78,7 @@ def api_specific_party_get(party_id):
 def api_specific_party_delete(party_id):
     if 'Requires Admin Privilege' not in check_user():
         oid = id_conversion(party_id)
-        party = PartiesModelDb(party_id=oid).delete_party()
+        party = PartiesModelDb().delete_party(party_id=oid)
         if isinstance(party, list):
             return make_response(jsonify({"status": 200, "message": "{} Deleted".format(party[0][0])}), 200)
         return make_response(jsonify({"status": 404, "error": "Party Not Found"}), 404)

@@ -15,7 +15,7 @@ def api_cast_vote():
         oid = id_conversion(vote_data['office'])
         cid = id_conversion(vote_data['candidate'])
         if 'Invalid' not in [uid, oid, cid]:
-            vote_info = VoteModel(oid, cid, uid).vote()
+            vote_info = VoteModel().vote(oid, cid, uid)
             if not isinstance(vote_info, list):
                 return make_response(
                     jsonify({"status": 409, "error": "Vote Already Cast or Voting for non existent entities"}), 409)

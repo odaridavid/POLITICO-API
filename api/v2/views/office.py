@@ -13,7 +13,7 @@ def api_create_office():
         office = request.get_json(force=True)
         # Checks keys exist in given dict as sets
         if {'type', 'name'} <= set(office):
-            office_name = OfficesModelDb(office).create_office()
+            office_name = OfficesModelDb().create_office(office)
             if 'Office Exists' in office_name:
                 return make_response(jsonify({"status": 409, "error": "Office Already Exists"}), 409)
             elif 'Invalid Data' in office_name:
@@ -43,7 +43,7 @@ def api_edit_office(offices_id):
         oid = id_conversion(offices_id)
         updated_office_data = request.get_json(force=True)
         if {'name'} <= set(updated_office_data):
-            model_result = OfficesModelDb(office_id=oid).edit_office(updated_office_data['name'])
+            model_result = OfficesModelDb().edit_office(updated_office_data['name'], oid)
             if 'Invalid Id' in model_result or 'Invalid Data' in model_result:
                 return make_response(jsonify({"status": 400, "error": "Invalid Data ,Check id or data being updated"}),
                                      400)
@@ -58,7 +58,7 @@ def api_edit_office(offices_id):
 @jwt_required
 def api_specific_office_get(office_id):
     oid = id_conversion(office_id)
-    office = OfficesModelDb(office_id=oid).get_specific_office()
+    office = OfficesModelDb().get_specific_office(oid)
     if isinstance(office, list) and len(office) >= 1:
         response_body = {
             "id": office[0][0],
@@ -74,7 +74,7 @@ def api_specific_office_get(office_id):
 def api_specific_office_delete(office_id):
     if 'Requires Admin Privilege' not in check_user():
         oid = id_conversion(office_id)
-        office = OfficesModelDb(office_id=oid).delete_office()
+        office = OfficesModelDb().delete_office(oid)
         if isinstance(office, list):
             return make_response(jsonify({"status": 200, "message": "{} Deleted".format(office[0][0])}), 200)
         return make_response(jsonify({"status": 404, "error": "Office Not Found"}), 404)

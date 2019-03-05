@@ -19,22 +19,12 @@ class BaseTestCase(unittest.TestCase):
         self.client = self.app.test_client()
         self.user = UserModelDb()
         self.user_invalid = UserModelDb()
-        self.office = OfficesModelDb({"type": "Transport", "name": "Permernent Secretary"})
-        self.office_invalid = OfficesModelDb({"type": "Transport", "name": ""})
-        self.party = PartiesModelDb(
-            {
-                "name": "Party Name",
-                "hqAddress": "Address",
-                "logoUrl": "www.some.url.to.my.picture"
-            })
-        self.party_invalid = PartiesModelDb(
-            {
-                "name": "",
-                "hqAddress": "A",
-                "logoUrl": "www.some.url.to.my.picture"
-            })
-        self.candidate = CandidateModel(1, 1, 1)
-        self.vote = VoteModel(office_id=1, candidate_id=1, user_id=1)
+        self.office = OfficesModelDb()
+        self.office_invalid = OfficesModelDb()
+        self.party = PartiesModelDb()
+        self.party_invalid = PartiesModelDb()
+        self.candidate = CandidateModel()
+        self.vote = VoteModel()
         self.app_context = self.app.app_context()
         self.app_context.push()
 

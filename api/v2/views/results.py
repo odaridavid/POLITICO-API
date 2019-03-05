@@ -12,7 +12,7 @@ def api_results(office_id):
     oid = id_conversion(office_id)
     if not isinstance(oid, int):
         return make_response(jsonify({"status": 400, "error": "Invalid Office Id"}), 400)
-    results = ResultsModel(oid).get_results()
+    results = ResultsModel().get_results(oid)
     if not isinstance(results, list):
         return make_response(jsonify({"status": 404, "error": "Results Not Found"}), 404)
     return make_response(jsonify({"status": 200,

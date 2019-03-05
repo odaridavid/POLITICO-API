@@ -152,3 +152,35 @@ class PartiesEndpointsTestCase(BaseTestCase):
         response = self.client.delete("api/v2/parties/1", headers=self.generate_token_admin())
         self.assertEqual(response.status_code, 404)
         self.assertEqual('Party Not Found', response.json['error'])
+
+    def test_create_party_with_non_admin_token(self):
+        response = self.client.post('api/v2/parties', data=json.dumps({
+            "name": "Party Name",
+            "hqAddress": "Address",
+            "logoUrl": "www.some.url.to.my.picture"
+        }), headers=self.generate_token())
+
+        self.assertEqual(response.status_code, 401, "Non Admin Shouldnt Register Candidate")
+        self.assertEqual(response.json['error'], 'Unauthorized Access,Requires Admin Rights')
+
+    def test_delete_party_with_non_admin_token(self):
+        self.client.post('api/v2/parties', data=json.dumps({
+            "name": "Party Name",
+            "hqAddress": "Address",
+            "logoUrl": "www.some.url.to.my.picture"
+        }), headers=self.generate_token_admin())
+        response = self.client.delete("api/v2/parties/1", headers=self.generate_token())
+        self.assertEqual(response.status_code, 401, "Non Admin Shouldnt Register Candidate")
+        self.assertEqual(response.json['error'], 'Unauthorized Access,Requires Admin Rights')
+
+    def test_edit_party_with_non_admin_token(self):
+        self.client.post('api/v2/parties', data=json.dumps({
+            "name": "Party Name",
+            "hqAddress": "Address",
+            "logoUrl": "www.some.url.to.my.picture"
+        }), headers=self.generate_token_admin())
+        response = self.client.patch('api/v2/parties/{}/name'.format(1), data=json.dumps({
+            "name": "President"
+        }), headers=self.generate_token())
+        self.assertEqual(response.status_code, 401, "Non Admin Shouldnt Register Candidate")
+        self.assertEqual(response.json['error'], 'Unauthorized Access,Requires Admin Rights')

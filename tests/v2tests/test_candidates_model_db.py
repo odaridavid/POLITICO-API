@@ -4,8 +4,12 @@ from api.v2.models.candidate import CandidateModel
 
 class CandidatesModelTestCase(BaseTestCase):
     def test_candidate_registers_successfully(self):
-        self.party.create_party()
-        self.office.create_office()
+        self.party.create_party({
+            "name": "Party Name",
+            "hqAddress": "Address",
+            "logoUrl": "www.some.url.to.my.picture"
+        })
+        self.office.create_office({"type": "Transport", "name": "Permernent Secretary"})
         self.user.user_sign_up({"firstname": "David",
                                 "lastname": "Odari",
                                 "othername": "Kiribwa",
@@ -15,16 +19,20 @@ class CandidatesModelTestCase(BaseTestCase):
                                 "password": "12we3e4r",
                                 "isAdmin": 'f'
                                 })
-        candidate_info = self.candidate.register_candidate()
+        candidate_info = self.candidate.register_candidate(1, 1, 1)
         self.assertEqual('David', candidate_info[0][2])
 
     def test_candidate_non_existent_cant_register(self):
-        candidate = CandidateModel(1, 0, 0).register_candidate()
+        candidate = CandidateModel().register_candidate(1, 0, 0)
         self.assertEqual(candidate, 'Candidate Conflict')
 
     def test_candidate_cant_register_more_than_once(self):
-        self.party.create_party()
-        self.office.create_office()
+        self.party.create_party({
+            "name": "Party Name",
+            "hqAddress": "Address",
+            "logoUrl": "www.some.url.to.my.picture"
+        })
+        self.office.create_office({"type": "Transport", "name": "Permernent Secretary"})
         self.user.user_sign_up({"firstname": "David",
                                 "lastname": "Odari",
                                 "othername": "Kiribwa",
@@ -34,6 +42,6 @@ class CandidatesModelTestCase(BaseTestCase):
                                 "password": "12we3e4r",
                                 "isAdmin": 'f'
                                 })
-        self.candidate.register_candidate()
-        response = self.candidate.register_candidate()
+        self.candidate.register_candidate(1, 1, 1)
+        response = self.candidate.register_candidate(1, 1, 1)
         self.assertEqual('Candidate Conflict', response)
