@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, make_response
 from api.v2.models.office import OfficesModelDb
 from flask_jwt_extended import jwt_required
-from . import check_user, id_conversion, ViewMethods
+from . import check_user, id_conversion, resource_handler
 
 office_api_v2 = Blueprint('office_v2', __name__, url_prefix="/api/v2")
 
@@ -10,20 +10,7 @@ office_api_v2 = Blueprint('office_v2', __name__, url_prefix="/api/v2")
 @jwt_required
 def api_create_office():
     office = request.get_json(force=True)
-    db_output = ViewMethods('office', office).create_resource()
-    if isinstance(db_output, str) and 'Unauthorized' in db_output:
-        return make_response(jsonify({"status": 401, "error": "Unauthorized Access,Requires Admin Rights"}), 401)
-    if isinstance(db_output, str) and 'Missing Key' in db_output:
-        return make_response(jsonify({"status": 400, "error": "Please Check All Input Fields Are Filled"}), 400)
-    elif not isinstance(db_output, str):
-        return db_output
-    response_body = {
-        "status": 201,
-        "data": [{
-            "name": db_output
-        }]
-    }
-    return make_response(jsonify(response_body), 201)
+    return resource_handler('office', office)
 
 
 @office_api_v2.route("/offices", methods=['GET'])
