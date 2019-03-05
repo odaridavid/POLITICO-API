@@ -47,3 +47,42 @@ class Model(object):
             if 'office' not in resource_type:
                 return 'Party Exists'
             return 'Office Exists'
+
+    def get_resource(self, resource_type):
+        query = ''
+        results = []
+        if 'party' not in resource_type:
+            query = "SELECT * from offices;"
+            rows = self.execute_query(query)
+            for row in rows:
+                _id = row[0]
+                office_type = row[1]
+                office_name = row[2]
+                office = {
+                    "id": _id,
+                    "type": office_type,
+                    "name": office_name
+                }
+                results.append(office)
+        else:
+            query = "SELECT * from parties;"
+            rows = self.execute_query(query)
+            for row in rows:
+                _id = row[0]
+                name = row[1]
+                hq_address = row[2]
+                logo_url = row[3]
+                party = {
+                    "id": _id,
+                    "name": name,
+                    "hqAddress": hq_address,
+                    "logoUrl": logo_url
+                }
+                results.append(party)
+        return results
+
+    def execute_query(self, query):
+        cursor = self.db_conn.cursor()
+        cursor.execute(query)
+        self.db_conn.commit()
+        return cursor.fetchall()

@@ -16,7 +16,7 @@ def api_create_office():
 @office_api_v2.route("/offices", methods=['GET'])
 @jwt_required
 def api_get_offices():
-    offices = OfficesModelDb().get_all_offices()
+    offices = OfficesModelDb().get_resource('office')
     return make_response(jsonify({"status": 200, "data": offices}), 200)
 
 

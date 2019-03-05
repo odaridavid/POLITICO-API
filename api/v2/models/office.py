@@ -5,25 +5,6 @@ from . import Model
 
 class OfficesModelDb(Model):
 
-    def get_all_offices(self):
-        query = "SELECT * from offices;"
-        cursor = self.db_conn.cursor()
-        cursor.execute(query)
-        self.db_conn.commit()
-        rows = cursor.fetchall()
-        results = []
-        for row in rows:
-            _id = row[0]
-            office_type = row[1]
-            office_name = row[2]
-            office = {
-                "id": _id,
-                "type": office_type,
-                "name": office_name
-            }
-            results.append(office)
-        return results
-
     def edit_office(self, new_name, office_id):
         if isinstance(office_id, int):
             query = "UPDATE offices SET office_name = %s WHERE _id = %s;"
