@@ -12,7 +12,7 @@ def api_create_parties():
     if 'Requires Admin Privilege' not in check_user():
         party = request.get_json(force=True)
         if {'name', 'hqAddress', 'logoUrl'} <= set(party):
-            party_name = PartiesModelDb(party).create_party()
+            party_name = PartiesModelDb().create_party(party)
             if 'Party Exists' in party_name:
                 return make_response(jsonify({"status": 409, "error": "Party Already Exists"}), 409)
             elif 'Invalid Data' in party_name:
