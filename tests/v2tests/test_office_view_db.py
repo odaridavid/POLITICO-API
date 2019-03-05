@@ -142,3 +142,33 @@ class OfficeEndpointsTestCase(BaseTestCase):
         response = self.client.delete("api/v2/offices/1", headers=self.generate_token_admin())
         self.assertEqual(response.status_code, 404)
         self.assertEqual('Office Not Found', response.json['error'])
+
+    def test_create_office_with_non_admin_token(self):
+        response = self.client.post('api/v2/offices', data=json.dumps({
+            "type": "Health",
+            "name": "Minister for Health"
+        }), headers=self.generate_token())
+
+        self.assertEqual(response.status_code, 401, "Non Admin Shouldnt Register Candidate")
+        self.assertEqual(response.json['error'], 'Unauthorized Access,Requires Admin Rights')
+
+    def test_delete_office_with_non_admin_token(self):
+        self.client.post('api/v2/offices', data=json.dumps({
+            "name": "Government Steward",
+            "type": "Patrol"
+        }), headers=self.generate_token_admin())
+        response = self.client.delete("api/v2/offices/1", headers=self.generate_token())
+        self.assertEqual(response.status_code, 401, "Non Admin Shouldnt Register Candidate")
+        self.assertEqual(response.json['error'], 'Unauthorized Access,Requires Admin Rights')
+
+    def test_office_edited_with_non_admin(self):
+        """"Tests that offices are edited successfully"""
+        self.client.post('api/v2/offices', data=json.dumps({
+            "name": "Government Steward",
+            "type": "Patrol"
+        }), headers=self.generate_token_admin())
+        response = self.client.patch('api/v2/offices/{}/name'.format(1), data=json.dumps({
+            "name": "President"
+        }), headers=self.generate_token())
+        self.assertEqual(response.status_code, 401, "Non Admin Shouldnt Register Candidate")
+        self.assertEqual(response.json['error'], 'Unauthorized Access,Requires Admin Rights')
