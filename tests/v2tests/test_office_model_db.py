@@ -67,9 +67,9 @@ class OfficeModelDbTestCase(BaseTestCase):
 
     def test_delete_office_success(self):
         OfficesModelDb().create_resource('office', {"name": "Governor", "type": "Government"})
-        delete_office = OfficesModelDb().delete_office(office_id=1)
+        delete_office = OfficesModelDb().delete_resource('office', 1)
         self.assertEqual('Governor', delete_office[0][0])
 
     def test_delete_office_failure(self):
-        delete_office = OfficesModelDb().delete_office(office_id='e')
+        delete_office = OfficesModelDb().delete_resource('office', 'e')
         self.assertEqual('Invalid Id', delete_office)

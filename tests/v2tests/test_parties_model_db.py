@@ -113,10 +113,10 @@ class PartiesModelDbTestCase(BaseTestCase):
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
         })
-        delete_office = PartiesModelDb().delete_party(party_id=1)
+        delete_office = PartiesModelDb().delete_resource('party', 1)
         self.assertEqual('Party Name', delete_office[0][0])
 
     def test_delete_office_failure(self):
         """Tests User delete with wrong id"""
-        delete_office = PartiesModelDb().delete_party(party_id='e')
+        delete_office = PartiesModelDb().delete_resource('party', 'e')
         self.assertEqual('Invalid Id', delete_office)

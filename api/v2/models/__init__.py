@@ -47,27 +47,15 @@ class Model(object):
         self.db_conn = db_connect()
 
     def create_resource(self, resource_type, resource):
+        """Function to create resource"""
         if 'party' not in resource_type:
             validated = OfficeValidator(resource).all_checks()
         else:
             validated = PartyValidator(resource).all_checks()
         return self.insert_data(validated, resource_type)
 
-    def insert_data(self, resource, resource_type):
-        data, query, name = check_insert_data(resource, resource_type)
-        try:
-            if len(data) > 0:
-                cursor = self.db_conn.cursor()
-                cursor.execute(query, data)
-                self.db_conn.commit()
-                return name
-            return name
-        except psycopg2.IntegrityError:
-            if 'office' not in resource_type:
-                return 'Party Exists'
-            return 'Office Exists'
-
     def get_resource(self, resource_type):
+        """FUnction to get all data in resource"""
         results = []
         if 'party' not in resource_type:
             query = "SELECT * from offices;"
@@ -100,6 +88,7 @@ class Model(object):
         return results
 
     def edit_resource(self, resource_type, new_name, resource_id):
+        """Function to edit a resource"""
         if isinstance(resource_id, int):
             validated = check_edit_data(new_name)
             if 'Invalid Data' in validated:
@@ -108,8 +97,37 @@ class Model(object):
                 return self.edit_query_body('office', validated, new_name, resource_id)
             else:
                 return self.edit_query_body('party', validated, new_name, resource_id)
-
         return 'Invalid Id'
+
+    def delete_resource(self, resource_type, resource_id):
+        """Function to delete a resource"""
+        if isinstance(resource_id, int):
+            if 'party' not in resource_type:
+                query = """DELETE FROM offices WHERE _id=%s RETURNING office_name;"""
+            else:
+                query = """DELETE FROM parties WHERE _id=%s RETURNING party_name;"""
+            cursor = self.db_conn.cursor()
+            cursor.execute(query, (resource_id,))
+            self.db_conn.commit()
+            row = cursor.fetchall()
+            if len(row) == 0:
+                return 'Empty'
+            return row
+        return 'Invalid Id'
+
+    def insert_data(self, resource, resource_type):
+        data, query, name = check_insert_data(resource, resource_type)
+        try:
+            if len(data) > 0:
+                cursor = self.db_conn.cursor()
+                cursor.execute(query, data)
+                self.db_conn.commit()
+                return name
+            return name
+        except psycopg2.IntegrityError:
+            if 'office' not in resource_type:
+                return 'Party Exists'
+            return 'Office Exists'
 
     def edit_query_body(self, res_type, validated, new_name, resource_id):
         try:
@@ -120,11 +138,11 @@ class Model(object):
                     return 'Office Exists'
                 return 'Party Exists'
             self.execute_edit_query(query, new_name, resource_id)
+            return self.execute_check_with_db(confirm_query, resource_id)
         except psycopg2.IntegrityError:
             if 'office' in res_type:
                 return 'Office Exists'
             return 'Party Exists'
-        return self.execute_check_with_db(confirm_query, resource_id)
 
     def execute_query(self, query):
         cursor = self.db_conn.cursor()
