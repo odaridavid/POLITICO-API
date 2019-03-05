@@ -4,12 +4,12 @@ from api.v2.models.votes import VoteModel
 
 class VotesModelTestCase(BaseTestCase):
     def test_user_can_vote_successfully(self):
-        self.party.create_party({
+        self.party.create_resource('party', {
             "name": "Party Name",
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
         })
-        self.office.create_office({"type": "Transport", "name": "Permernent Secretary"})
+        self.office.create_resource('office', {"type": "Transport", "name": "Permernent Secretary"})
         self.user.user_sign_up({"firstname": "David",
                                 "lastname": "Odari",
                                 "othername": "Kiribwa",
@@ -24,12 +24,12 @@ class VotesModelTestCase(BaseTestCase):
         self.assertEqual(vote, [(1, 1, 1)])
 
     def test_user_cant_vote_twice_same_office(self):
-        self.party.create_party({
+        self.party.create_resource('party', {
             "name": "Party Name",
             "hqAddress": "Address",
             "logoUrl": "www.some.url.to.my.picture"
         })
-        self.office.create_office({"type": "Transport", "name": "Permernent Secretary"})
+        self.office.create_resource('office', {"type": "Transport", "name": "Permernent Secretary"})
         self.user.user_sign_up({"firstname": "David",
                                 "lastname": "Odari",
                                 "othername": "Kiribwa",

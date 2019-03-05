@@ -61,9 +61,9 @@ class ViewMethods:
         if 'Requires Admin Privilege' not in check_user():
             db_output = ''
             if 'party' not in self.resource_type and {'type', 'name'} <= set(self.resource):
-                db_output = OfficesModelDb().create_office(self.resource)
+                db_output = OfficesModelDb().create_resource(self.resource_type, self.resource)
             elif {'name', 'hqAddress', 'logoUrl'} <= set(self.resource):
-                db_output = PartiesModelDb().create_party(self.resource)
+                db_output = PartiesModelDb().create_resource(self.resource_type, self.resource)
             else:
                 return 'Missing Key'
             return check_created_resource(db_output, self.resource_type)

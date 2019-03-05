@@ -1,29 +1,8 @@
 from . import Model
 import psycopg2
-from api.validator import PartyValidator
 
 
 class PartiesModelDb(Model):
-
-    def create_party(self, party):
-        # Passed to validator
-        validated_party = PartyValidator(party).all_checks()
-        if 'Invalid' in validated_party:
-            return 'Invalid Data'
-        party_name = validated_party['name']
-        party_address = validated_party['hqAddress']
-        party_url = validated_party['logoUrl']
-        # Add Office to table
-        data = (party_name, party_address, party_url)
-        query = "INSERT INTO parties (party_name,hq_address,logo_url) " \
-                "VALUES(%s,%s,%s);"
-        try:
-            cursor = self.db_conn.cursor()
-            cursor.execute(query, data)
-            self.db_conn.commit()
-            return party_name
-        except psycopg2.IntegrityError:
-            return 'Party Exists'
 
     def get_all_parties(self):
         query = "SELECT * from parties;"
