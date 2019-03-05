@@ -42,7 +42,7 @@ def api_edit_office(offices_id):
 @jwt_required
 def api_specific_office_get(office_id):
     oid = id_conversion(office_id)
-    office = OfficesModelDb().get_specific_office(oid)
+    office = OfficesModelDb().get_specific_resource('office', oid)
     if isinstance(office, list) and len(office) >= 1:
         response_body = {
             "id": office[0][0],
@@ -58,7 +58,7 @@ def api_specific_office_get(office_id):
 def api_specific_office_delete(office_id):
     if 'Requires Admin Privilege' not in check_user():
         oid = id_conversion(office_id)
-        office = OfficesModelDb().delete_office(oid)
+        office = OfficesModelDb().delete_resource('office', oid)
         if isinstance(office, list):
             return make_response(jsonify({"status": 200, "message": "{} Deleted".format(office[0][0])}), 200)
         return make_response(jsonify({"status": 404, "error": "Office Not Found"}), 404)

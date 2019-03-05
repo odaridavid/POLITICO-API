@@ -44,7 +44,7 @@ def api_edit_party(party_id):
 @jwt_required
 def api_specific_party_get(party_id):
     oid = id_conversion(party_id)
-    party = PartiesModelDb().get_specific_party(party_id=oid)
+    party = PartiesModelDb().get_specific_resource('party', oid)
     if isinstance(party, list) and len(party) >= 1:
         print(party)
         response_body = {
@@ -62,7 +62,7 @@ def api_specific_party_get(party_id):
 def api_specific_party_delete(party_id):
     if 'Requires Admin Privilege' not in check_user():
         oid = id_conversion(party_id)
-        party = PartiesModelDb().delete_party(party_id=oid)
+        party = PartiesModelDb().delete_resource('party', oid)
         if isinstance(party, list):
             return make_response(jsonify({"status": 200, "message": "{} Deleted".format(party[0][0])}), 200)
         return make_response(jsonify({"status": 404, "error": "Party Not Found"}), 404)
