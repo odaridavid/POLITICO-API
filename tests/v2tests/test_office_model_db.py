@@ -31,27 +31,27 @@ class OfficeModelDbTestCase(BaseTestCase):
     def test_edit_office_edits_item_successfuly(self):
         """Tests user edits an item successfully"""
         OfficesModelDb().create_resource('office', {"name": "Governor", "type": "Government"})
-        edit_office = OfficesModelDb().edit_office('President', office_id=1)
+        edit_office = OfficesModelDb().edit_resource('office', 'President', 1)
         self.assertEqual('President', edit_office[0][2])
 
     def test_edit_office_cant_edit_invalid_data(self):
         """Tests user cant put invalid data while editing"""
         OfficesModelDb().create_resource('office', {"name": "Governor", "type": "Government"})
-        edit_office = OfficesModelDb().edit_office('P', office_id=1)
+        edit_office = OfficesModelDb().edit_resource('office', 'P', 1)
         self.assertEqual('Invalid Data', edit_office)
 
     def test_edit_office_cant_edit_existing_data(self):
         """Tests User cant input existing office name"""
         OfficesModelDb().create_resource('office', {"name": "Governor", "type": "Government"})
         OfficesModelDb().create_resource('office', {"name": "Assembly Speaker", "type": "Government"})
-        edit_office = OfficesModelDb().edit_office('Governor', office_id=2)
+        edit_office = OfficesModelDb().edit_resource('office', 'Governor', 2)
         self.assertEqual('Office Exists', edit_office)
 
     def test_edit_office_cant_edit_invalid_id(self):
         """Tests User cant input invalid id"""
         OfficesModelDb().create_resource('office', {"name": "Governor", "type": "Government"})
         OfficesModelDb().create_resource('office', {"name": "Assembly Speaker", "type": "Government"})
-        edit_office = OfficesModelDb().edit_office('Governor', office_id='t')
+        edit_office = OfficesModelDb().edit_resource('office', 'Governor', 't')
         self.assertEqual('Invalid Id', edit_office)
 
     def test_gets_specific_item_success(self):

@@ -27,7 +27,7 @@ def api_edit_office(offices_id):
         oid = id_conversion(offices_id)
         updated_office_data = request.get_json(force=True)
         if {'name'} <= set(updated_office_data):
-            model_result = OfficesModelDb().edit_office(updated_office_data['name'], oid)
+            model_result = OfficesModelDb().edit_resource('office', updated_office_data['name'], oid)
             if 'Invalid Id' in model_result or 'Invalid Data' in model_result:
                 return make_response(jsonify({"status": 400, "error": "Invalid Data ,Check id or data being updated"}),
                                      400)
