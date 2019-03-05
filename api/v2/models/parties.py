@@ -1,22 +1,13 @@
-from api.db_conn import db_connect
+from . import Model
 import psycopg2
 from api.validator import PartyValidator
 
 
-class PartiesModelDb:
-    """Parties Model Class"""
+class PartiesModelDb(Model):
 
-    def __init__(self, party=None, party_id=None):
-        # Setup connection to db
-        self.db_conn = db_connect()
-        # Party  object being worked on
-        self.party = party
-        self.party_id = party_id
-
-    def create_party(self):
-        """Function to create a party in db"""
+    def create_party(self, party):
         # Passed to validator
-        validated_party = PartyValidator(self.party).all_checks()
+        validated_party = PartyValidator(party).all_checks()
         if 'Invalid' in validated_party:
             return 'Invalid Data'
         party_name = validated_party['name']
@@ -56,8 +47,8 @@ class PartiesModelDb:
             results.append(party)
         return results
 
-    def edit_party(self, new_name):
-        if isinstance(self.party_id, int):
+    def edit_party(self, new_name, party_id):
+        if isinstance(party_id, int):
             query = "UPDATE parties SET party_name = %s WHERE _id = %s;"
             cursor = self.db_conn.cursor()
             if len(new_name) < 4 or isinstance(new_name, str) is False:
@@ -69,22 +60,21 @@ class PartiesModelDb:
                 row = cursor.fetchall()
                 if len(row) > 0:
                     return 'Party Exists'
-                cursor.execute(query, (new_name, self.party_id,))
+                cursor.execute(query, (new_name, party_id,))
                 self.db_conn.commit()
             except psycopg2.IntegrityError:
                 return 'Party Exists'
             query = "SELECT * FROM parties WHERE _id=%s;"
-            cursor.execute(query, (self.party_id,))
+            cursor.execute(query, (party_id,))
             party_row = cursor.fetchall()
             return party_row
         return 'Invalid Id'
 
-    def delete_party(self):
-        """Deletes a party from db"""
+    def delete_party(self, party_id):
         query = """DELETE FROM parties WHERE _id=%s RETURNING party_name;"""
         cursor = self.db_conn.cursor()
-        if isinstance(self.party_id, int):
-            cursor.execute(query, (self.party_id,))
+        if isinstance(party_id, int):
+            cursor.execute(query, (party_id,))
             self.db_conn.commit()
             office_row = cursor.fetchall()
             if len(office_row) == 0:
@@ -92,12 +82,11 @@ class PartiesModelDb:
             return office_row
         return 'Invalid Id'
 
-    def get_specific_party(self):
-        """Gets a specific party provided by id"""
+    def get_specific_party(self, party_id):
         query = "SELECT * FROM parties WHERE _id=%s;"
         cursor = self.db_conn.cursor()
-        if isinstance(self.party_id, int):
-            cursor.execute(query, (self.party_id,))
+        if isinstance(party_id, int):
+            cursor.execute(query, (party_id,))
             self.db_conn.commit()
             office_row = cursor.fetchall()
             return office_row

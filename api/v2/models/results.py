@@ -1,15 +1,12 @@
-from api.db_conn import db_connect
+from . import Model
 
 
-class ResultsModel:
-    def __init__(self, office_id):
-        self.office_id = office_id
-        self.db_conn = db_connect()
+class ResultsModel(Model):
 
-    def get_results(self):
+    def get_results(self, office_id):
         query = """SELECT candidate,COUNT(*) FROM votes WHERE office = %s GROUP BY candidate ;"""
         cursor = self.db_conn.cursor()
-        cursor.execute(query, (self.office_id,))
+        cursor.execute(query, (office_id,))
         self.db_conn.commit()
         tally = cursor.fetchall()
         if len(tally) < 1:

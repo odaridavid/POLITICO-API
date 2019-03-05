@@ -1,14 +1,11 @@
-from api.db_conn import db_connect
 from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
 from api.validator import UserValidator
 from flask_jwt_extended import create_access_token
+from . import Model
 
 
-class UserModelDb:
-    def __init__(self):
-        # Setup connection to db
-        self.db_conn = db_connect()
+class UserModelDb(Model):
 
     def user_sign_up(self, user):
         validated_user = UserValidator(user).all_checks()
@@ -28,7 +25,6 @@ class UserModelDb:
             admin_status = 'f'
         # Hash and salt Password -Salting adding random data to the input of a hash function to guarantee a unique output,
         password = generate_password_hash(validated_user['password'])
-        # Add User to table
         data = (firstname, lastname, othername, email, phone_number, passport_url, password, admin_status)
         query = "INSERT INTO users(firstname,lastname,othername,email,phone_number,passport_url,pass,is_admin) " \
                 "VALUES(%s,%s,%s,%s,%s,%s,%s,%s) RETURNING _id;"
@@ -45,7 +41,6 @@ class UserModelDb:
             return 'User Exists'
 
     def user_sign_in(self, user):
-        # User sign in
         email = user['email']
         password = user['password']
         query = """SELECT _id,pass FROM users WHERE email = %s;"""
